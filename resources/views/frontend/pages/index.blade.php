@@ -327,6 +327,50 @@
 
                 </div>
             </div>
+    </div>
+</section>
+
+<!-- About / Information & Management System Section -->
+<section class="relative bg-gradient-to-r from-gray-50 via-white to-gray-100 py-12 lg:py-16 overflow-hidden border-t border-gray-200/60">
+    <!-- Subtle Background Geometric Shape Accent -->
+    <div class="absolute inset-0 opacity-40 pointer-events-none bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-amber-500/5 to-transparent pointer-events-none"></div>
+
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            <!-- Left Text Content (7 cols on lg) -->
+            <div class="lg:col-span-7">
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-black tracking-wider text-[#7F1D1D] mb-2 drop-shadow-xs">
+                    MAHARAJA
+                </h2>
+                
+                <h3 class="italic text-[#991B1B] text-lg sm:text-xl lg:text-2xl font-medium tracking-wide mb-6">
+                    Lottery Information & Management System
+                </h3>
+                
+                <p class="text-[#7F1D1D] font-bold text-sm sm:text-base lg:text-[17px] leading-relaxed max-w-2xl">
+                    MAHARAJA - Lottery Information & Management System is a digital tool for Digital Transformation in State Lotteries Department. MAHARAJA is a Web enabled Cloud Based open solution for supply chain management activities of the lottery department. This provides end to end solution to the agents and public.
+                </p>
+
+                <div class="mt-6 flex flex-wrap items-center gap-4">
+                    <a href="#" class="inline-flex items-center gap-2 bg-[#991B1B] hover:bg-[#7F1D1D] text-white px-5 py-2.5 rounded-md font-semibold text-xs sm:text-sm transition shadow-md shadow-red-950/20 border border-red-500/30 group">
+                        Learn More 
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform text-[#FBBF24]"></i>
+                    </a>
+                    <a href="tel:8743978796" class="inline-flex items-center gap-2 text-[#7F1D1D] hover:text-[#991B1B] font-bold text-xs sm:text-sm px-3 py-2 transition">
+                        <i class="fa-solid fa-phone text-[#D97706]"></i> Agent Support Desk
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Image Content (5 cols on lg) -->
+            <div class="lg:col-span-5 flex justify-center lg:justify-end items-center">
+                <div class="relative group">
+                    <img src="{{ asset('img/agent-bg.png') }}" alt="Maharaja Lottery Agent & System" class="w-auto max-h-[320px] sm:max-h-[380px] lg:max-h-[440px] object-contain drop-shadow-xl transition-transform duration-500 group-hover:scale-105">
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
