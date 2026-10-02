@@ -1,182 +1,331 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-<!-- Hero Section -->
-<section class="relative min-h-[600px] lg:min-h-[700px] flex items-center pt-10 pb-32 lg:pb-40 bg-gray-900 overflow-hidden">
-    <!-- Background Image with Overlay -->
+<style>
+    @keyframes marquee-scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+    .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee-scroll 28s linear infinite;
+    }
+    .marquee-container:hover .marquee-track {
+        animation-play-state: paused;
+    }
+</style>
+
+<!-- Hero Section & Current Sessions Container -->
+<section class="relative min-h-[calc(100dvh-75px)] flex flex-col justify-between bg-zinc-900 overflow-hidden">
+    <!-- Background Image with Lowest Darkness Overlay -->
     <div class="absolute inset-0 z-0">
-        <img src="{{ asset('img/slide-1.jpg') }}" alt="Background" class="w-full h-full object-cover opacity-40">
-        <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent"></div>
+        <img src="{{ asset('img/slide-1.jpg') }}" alt="Background" class="w-full h-full object-cover opacity-95">
+        <!-- Minimal subtle darkness overlay for text readability -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/55 via-black/30 to-black/10"></div>
     </div>
 
-    <div class="container mx-auto px-4 lg:px-8 relative z-10 w-full">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <!-- Main Hero Content -->
+    <div class="container mx-auto px-4 lg:px-8 relative z-10 w-full flex-1 flex items-center py-6 lg:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
             
-            <!-- Left Content -->
-            <div class="text-white max-w-2xl">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="w-2 h-2 rounded-full bg-[#dca424]"></span>
-                    <span class="text-[#dca424] font-bold text-sm tracking-widest uppercase">Trusted Maharaja Lottery Assistance</span>
+            <!-- Left Content (7 cols on lg) -->
+            <div class="text-white max-w-2xl lg:col-span-7 drop-shadow-sm">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-[#EAB308] animate-pulse"></span>
+                    <span class="text-[#FBBF24] font-bold text-xs tracking-widest uppercase bg-black/40 px-2 py-0.5 rounded-sm backdrop-blur-xs">Trusted Maharaja Lottery Assistance</span>
                 </div>
                 
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif mb-6 leading-tight text-white">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-[54px] font-serif mb-4 lg:mb-5 leading-[1.15] text-white drop-shadow-md">
                     Maharaja Lottery<br>
                     <span class="text-white">Tickets, Results &</span><br>
-                    <span class="text-[#dca424]">Support</span>
+                    <span class="text-[#FBBF24]">Support</span>
                 </h2>
                 
-                <p class="text-gray-200 text-base md:text-lg mb-8 max-w-lg leading-relaxed">
+                <p class="text-white text-sm md:text-base mb-6 max-w-xl leading-relaxed drop-shadow-sm bg-black/25 p-3 rounded-lg backdrop-blur-xs border border-white/10">
                     Explore current ticket availability, follow verified draw updates and receive clear guidance for winner verification and prize claims.
                 </p>
                 
-                <div class="flex flex-wrap items-center gap-4 mb-10">
-                    <a href="#" class="bg-[#931c4b] hover:bg-[#7a163e] text-white px-6 py-3.5 rounded-md font-semibold transition flex items-center gap-2 shadow-lg group">
+                <div class="flex flex-wrap items-center gap-3 sm:gap-4 mb-6">
+                    <a href="#" class="bg-[#991B1B] hover:bg-[#7F1D1D] text-white px-5 py-2.5 sm:py-3 rounded-md font-semibold text-sm transition flex items-center gap-2 shadow-lg shadow-red-950/40 border border-red-400/30 group">
                         Book Tickets 
-                        <i class="fa-solid fa-arrow-right-long text-sm group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fa-solid fa-arrow-right-long text-xs group-hover:translate-x-1 transition-transform text-[#FBBF24]"></i>
                     </a>
-                    <a href="#" class="border border-white hover:bg-white/10 text-white px-6 py-3.5 rounded-md font-semibold transition flex items-center gap-2">
+                    <a href="#" class="bg-black/30 backdrop-blur-xs border border-white/80 hover:bg-white/20 text-white px-5 py-2.5 sm:py-3 rounded-md font-semibold text-sm transition flex items-center gap-2 shadow-sm">
                         View Results
                     </a>
-                    <a href="#" class="text-white hover:text-[#25D366] transition flex items-center gap-2 font-medium px-2 underline underline-offset-4 decoration-white/50">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Get WhatsApp Assistance
+                    <a href="#" class="text-white hover:text-[#25D366] transition flex items-center gap-2 font-medium text-xs sm:text-sm px-2 py-1 rounded-md bg-black/30 backdrop-blur-xs underline underline-offset-4 decoration-white/40">
+                        <i class="fa-brands fa-whatsapp text-base sm:text-lg text-[#25D366]"></i> Get WhatsApp Assistance
                     </a>
                 </div>
                 
-                <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-gray-300">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-[#dca424]"></i> Transparent booking support
+                <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm text-white font-medium">
+                    <div class="flex items-center gap-1.5 bg-black/35 px-2.5 py-1 rounded-md backdrop-blur-xs">
+                        <i class="fa-solid fa-check text-[#EAB308] text-xs"></i> Transparent booking support
                     </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-[#dca424]"></i> Verified result references
+                    <div class="flex items-center gap-1.5 bg-black/35 px-2.5 py-1 rounded-md backdrop-blur-xs">
+                        <i class="fa-solid fa-check text-[#EAB308] text-xs"></i> Verified result references
                     </div>
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-check text-[#dca424]"></i> Step-by-step claim guidance
+                    <div class="flex items-center gap-1.5 bg-black/35 px-2.5 py-1 rounded-md backdrop-blur-xs">
+                        <i class="fa-solid fa-check text-[#EAB308] text-xs"></i> Step-by-step claim guidance
                     </div>
                 </div>
             </div>
 
-            <!-- Right Content (Card) -->
-            <div class="hidden lg:flex justify-center items-center">
-                <div class="relative w-96 h-64 bg-[#931c4b] rounded-xl border-[6px] border-[#dca424] shadow-2xl p-6 flex flex-col justify-center items-center text-center transform rotate-2 hover:rotate-0 transition-transform duration-500">
+            <!-- Right Content (5 cols on lg) -->
+            <div class="hidden lg:flex justify-center items-center lg:col-span-5">
+                <div class="relative w-80 xl:w-96 h-56 xl:h-64 bg-linear-to-br from-[#7F1D1D]/95 via-[#991B1B]/95 to-[#450A0A]/95 backdrop-blur-xs rounded-xl border-[4px] border-[#EAB308] shadow-2xl p-6 flex flex-col justify-center items-center text-center transform hover:scale-[1.02] transition-transform duration-300">
                     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 rounded-lg"></div>
-                    <i class="fa-solid fa-crown text-6xl text-[#dca424] mb-4 drop-shadow-md"></i>
-                    <h3 class="text-3xl font-black text-white uppercase tracking-widest drop-shadow-md">Maharaja</h3>
-                    <h4 class="text-xl font-bold text-[#dca424] uppercase tracking-wider mt-1 drop-shadow-md">State Lottery</h4>
-                    <p class="text-white/80 text-sm mt-3 font-medium">Verified & Trusted</p>
+                    <i class="fa-solid fa-crown text-5xl xl:text-6xl text-[#FBBF24] mb-3 drop-shadow-md"></i>
+                    <h3 class="text-2xl xl:text-3xl font-black text-white uppercase tracking-widest drop-shadow-md">Maharaja</h3>
+                    <h4 class="text-lg xl:text-xl font-bold text-[#FDE047] uppercase tracking-wider mt-0.5 drop-shadow-md">State Lottery</h4>
+                    <p class="text-white/90 text-xs mt-2.5 font-medium">Verified & Trusted Support</p>
                 </div>
             </div>
 
         </div>
     </div>
-</section>
 
-<!-- Current Sessions (Below Section) -->
-<section class="relative z-20 -mt-16 md:-mt-20 container mx-auto px-4 lg:px-8 mb-20">
-    <div class="bg-white rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] flex flex-col md:flex-row overflow-hidden border border-gray-100">
-        
-        <!-- Left Banner -->
-        <div class="bg-[#931c4b] text-white p-6 md:w-56 shrink-0 flex md:flex-col items-center md:items-start justify-center md:justify-center gap-4 relative overflow-hidden">
-            <div class="absolute -right-4 -bottom-4 opacity-10">
-                <i class="fa-solid fa-ticket text-6xl"></i>
-            </div>
-            <div class="bg-white/20 p-3 rounded-lg backdrop-blur-sm z-10">
-                <i class="fa-solid fa-ticket-simple text-2xl text-[#dca424]"></i>
-            </div>
-            <div class="z-10">
-                <p class="text-[#dca424] text-xs font-bold uppercase tracking-wider mb-1">Live Lottery</p>
-                <h4 class="text-xl md:text-2xl font-bold leading-tight">Current<br class="hidden md:block"> Sessions</h4>
-            </div>
-        </div>
-
-        <!-- Scrollable Cards -->
-        <div class="flex-1 overflow-x-auto py-4 px-2 hide-scroll">
-            <div class="flex items-center min-w-max">
+    <!-- Current Sessions (Auto Smooth Scrolling Bar) -->
+    <div class="relative z-20 container mx-auto px-4 lg:px-8 pb-3 lg:pb-5">
+        <div class="bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.18)] flex flex-col md:flex-row overflow-hidden border border-amber-500/20 p-1.5 gap-1.5">
+            
+            <!-- Left Banner with Right Arrow Pointer -->
+            <div class="bg-linear-to-br from-[#7F1D1D] to-[#991B1B] text-white px-4 py-2.5 md:w-48 shrink-0 flex items-center gap-3 rounded-lg relative overflow-visible z-20 shadow-xs">
+                <!-- Arrow Tip Pointing Right -->
+                <div class="hidden md:block absolute top-1/2 -translate-y-1/2 -right-2 w-0 h-0 border-y-[7px] border-y-transparent border-l-[8px] border-l-[#991B1B] z-30"></div>
                 
-                <!-- Session 1 -->
-                <div class="group px-4 md:px-6 py-2 border-r border-gray-100 last:border-0 hover:bg-gray-50 transition cursor-pointer min-w-[280px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider group-hover:text-[#931c4b] transition">Samrudhi - Every Sunday</p>
-                        <i class="fa-solid fa-arrow-right text-gray-300 text-xs group-hover:text-[#dca424] transition"></i>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="bg-rose-50 text-[#931c4b] w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg group-hover:bg-[#931c4b] group-hover:text-white transition">
+                <div class="bg-white/15 p-2 rounded-lg backdrop-blur-sm shrink-0 flex items-center justify-center border border-amber-400/30">
+                    <i class="fa-solid fa-ticket text-lg text-[#FBBF24]"></i>
+                </div>
+                <div class="leading-tight">
+                    <p class="text-[#FDE047] text-[9px] font-bold uppercase tracking-wider">Live Lottery</p>
+                    <h4 class="text-sm md:text-base font-bold text-white">Current<br class="hidden md:block"> Sessions</h4>
+                </div>
+            </div>
+
+            <!-- Auto Scrolling Smooth Marquee Container -->
+            <div class="flex-1 overflow-hidden marquee-container relative flex items-center">
+                <div class="marquee-track flex items-center gap-2 py-0.5">
+                    
+                    <!-- Loop 1: Items 01 - 07 -->
+                    <!-- Card 01 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
                             01
                         </div>
-                        <div>
-                            <h5 class="font-bold text-gray-800 text-base group-hover:text-[#931c4b] transition">Samrudhi - Every Sunday</h5>
-                            <p class="text-sm font-medium text-gray-500 mt-0.5"><span class="text-[#931c4b] font-bold">₹50</span> <span class="text-xs">per ticket</span></p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Samrudhi - Sunday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Samrudhi - Sunday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Session 2 -->
-                <div class="group px-4 md:px-6 py-2 border-r border-gray-100 last:border-0 hover:bg-gray-50 transition cursor-pointer min-w-[280px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider group-hover:text-[#931c4b] transition">Bhagyathara - Every Monday</p>
-                        <i class="fa-solid fa-arrow-right text-gray-300 text-xs group-hover:text-[#dca424] transition"></i>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="bg-rose-50 text-[#931c4b] w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg group-hover:bg-[#931c4b] group-hover:text-white transition">
+                    <!-- Card 02 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
                             02
                         </div>
-                        <div>
-                            <h5 class="font-bold text-gray-800 text-base group-hover:text-[#931c4b] transition">Bhagyathara - Every Monday</h5>
-                            <p class="text-sm font-medium text-gray-500 mt-0.5"><span class="text-[#931c4b] font-bold">₹50</span> <span class="text-xs">per ticket</span></p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Bhagyathara - Monday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Bhagyathara - Monday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Session 3 -->
-                <div class="group px-4 md:px-6 py-2 border-r border-gray-100 last:border-0 hover:bg-gray-50 transition cursor-pointer min-w-[280px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider group-hover:text-[#931c4b] transition">Sthree Sakthi - Every Tuesday</p>
-                        <i class="fa-solid fa-arrow-right text-gray-300 text-xs group-hover:text-[#dca424] transition"></i>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="bg-rose-50 text-[#931c4b] w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg group-hover:bg-[#931c4b] group-hover:text-white transition">
+                    <!-- Card 03 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
                             03
                         </div>
-                        <div>
-                            <h5 class="font-bold text-gray-800 text-base group-hover:text-[#931c4b] transition">Sthree Sakthi - Every Tuesday</h5>
-                            <p class="text-sm font-medium text-gray-500 mt-0.5"><span class="text-[#931c4b] font-bold">₹50</span> <span class="text-xs">per ticket</span></p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Sthree Sakthi - Tuesday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Sthree Sakthi - Tuesday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Session 4 -->
-                <div class="group px-4 md:px-6 py-2 border-r border-gray-100 last:border-0 hover:bg-gray-50 transition cursor-pointer min-w-[280px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider group-hover:text-[#931c4b] transition">Dhanalekshmi - Wednesday</p>
-                        <i class="fa-solid fa-arrow-right text-gray-300 text-xs group-hover:text-[#dca424] transition"></i>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="bg-rose-50 text-[#931c4b] w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg group-hover:bg-[#931c4b] group-hover:text-white transition">
+                    <!-- Card 04 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
                             04
                         </div>
-                        <div>
-                            <h5 class="font-bold text-gray-800 text-base group-hover:text-[#931c4b] transition">Dhanalekshmi - Wednesday</h5>
-                            <p class="text-sm font-medium text-gray-500 mt-0.5"><span class="text-[#931c4b] font-bold">₹50</span> <span class="text-xs">per ticket</span></p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Dhanalekshmi - Wednesday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Dhanalekshmi - Wednesday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Session 5 -->
-                <div class="group px-4 md:px-6 py-2 border-r border-gray-100 last:border-0 hover:bg-gray-50 transition cursor-pointer min-w-[280px]">
-                    <div class="flex items-center justify-between mb-3">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider group-hover:text-[#931c4b] transition">Karunya Plus - Thursday</p>
-                        <i class="fa-solid fa-arrow-right text-gray-300 text-xs group-hover:text-[#dca424] transition"></i>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="bg-rose-50 text-[#931c4b] w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg group-hover:bg-[#931c4b] group-hover:text-white transition">
+                    <!-- Card 05 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
                             05
                         </div>
-                        <div>
-                            <h5 class="font-bold text-gray-800 text-base group-hover:text-[#931c4b] transition">Karunya Plus - Thursday</h5>
-                            <p class="text-sm font-medium text-gray-500 mt-0.5"><span class="text-[#931c4b] font-bold">₹50</span> <span class="text-xs">per ticket</span></p>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Karunya Plus - Thursday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Karunya Plus - Thursday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
                         </div>
                     </div>
-                </div>
 
+                    <!-- Card 06 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            06
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Suvarna - Friday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Suvarna - Friday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 07 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            07
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Karunya - Saturday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Karunya - Saturday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Loop 2: (Identical Duplicate for continuous infinite smooth loop) -->
+                    <!-- Card 01 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            01
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Samrudhi - Sunday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Samrudhi - Sunday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 02 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            02
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Bhagyathara - Monday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Bhagyathara - Monday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 03 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            03
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Sthree Sakthi - Tuesday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Sthree Sakthi - Tuesday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 04 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            04
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Dhanalekshmi - Wednesday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Dhanalekshmi - Wednesday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 05 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            05
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Karunya Plus - Thursday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Karunya Plus - Thursday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 06 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            06
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Suvarna - Friday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Suvarna - Friday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 07 -->
+                    <div class="bg-white rounded-lg border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#991B1B]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <div class="bg-[#fcedf2] text-[#991B1B] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#991B1B] group-hover:text-white transition shrink-0">
+                            07
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[8px] font-bold text-gray-400 uppercase tracking-wide truncate group-hover:text-[#991B1B] transition">Karunya - Saturday</p>
+                            <div class="flex items-center justify-between gap-1">
+                                <h5 class="font-bold text-gray-900 text-xs truncate group-hover:text-[#991B1B] transition">Karunya - Saturday</h5>
+                                <i class="fa-solid fa-arrow-right text-[9px] text-[#D97706] shrink-0"></i>
+                            </div>
+                            <p class="text-[10px] font-medium text-gray-500"><span class="text-[#991B1B] font-bold">₹50</span> per ticket</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
