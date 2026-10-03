@@ -30,42 +30,42 @@
                 </h1>
 
                 <p class="text-white/85 text-xs sm:text-sm lg:text-base max-w-2xl font-normal leading-relaxed">
-                    Provide accurate recipient information for lottery certificate issuance, SMS ticket dispatch, and prize claim authorization.
+                    Provide recipient details for lottery certificate generation, SMS ticket confirmation, and prize claim authorization.
                 </p>
             </div>
 
             <!-- Right Steps Stack (4 cols) -->
             <div class="lg:col-span-4 space-y-3">
                 <!-- Step 01 (Completed) -->
-                <a href="{{ route('ticket.booking', ['selected' => implode(',', $selectedTickets)]) }}" class="bg-white/5 hover:bg-white/10 backdrop-blur-xs rounded-2xl p-4 border border-white/15 flex items-center gap-4 transition group">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center font-serif font-bold text-lg text-emerald-300 shrink-0">
+                <a href="{{ route('ticket.booking', ['selected' => implode(',', $selectedTickets)]) }}" class="bg-white/5 hover:bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 sm:p-4 border border-white/15 flex items-center gap-4 transition group">
+                    <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center font-serif font-bold text-lg text-emerald-300 shrink-0">
                         <i class="fa-solid fa-check"></i>
                     </div>
                     <div>
                         <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-300 block">STEP ONE</span>
-                        <h4 class="text-base font-semibold text-white/90 group-hover:text-amber-200 transition">Select tickets</h4>
+                        <h4 class="text-sm sm:text-base font-semibold text-white/90 group-hover:text-amber-200 transition">Select tickets</h4>
                     </div>
                 </a>
 
                 <!-- Step 02 (Active) -->
-                <div class="bg-white/15 backdrop-blur-md rounded-2xl p-4 border-2 border-white/80 shadow-lg flex items-center gap-4 transition transform hover:scale-[1.01]">
-                    <div class="w-12 h-12 rounded-xl bg-white/20 border border-white/40 flex items-center justify-center font-serif font-black text-xl text-amber-300 shrink-0">
+                <div class="bg-white/15 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border-2 border-white/80 shadow-lg flex items-center gap-4 transition transform hover:scale-[1.01]">
+                    <div class="w-11 h-11 rounded-xl bg-white/20 border border-white/40 flex items-center justify-center font-serif font-black text-xl text-amber-300 shrink-0">
                         02
                     </div>
                     <div>
                         <span class="text-[10px] uppercase font-bold tracking-widest text-amber-200 block">STEP TWO</span>
-                        <h4 class="text-base font-bold text-white">Your details</h4>
+                        <h4 class="text-sm sm:text-base font-bold text-white">Your details</h4>
                     </div>
                 </div>
 
                 <!-- Step 03 (Inactive) -->
-                <div class="bg-white/5 backdrop-blur-xs rounded-2xl p-4 border border-white/10 flex items-center gap-4 opacity-75">
-                    <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center font-serif font-bold text-lg text-white/70 shrink-0">
+                <div class="bg-white/5 backdrop-blur-xs rounded-2xl p-3.5 sm:p-4 border border-white/10 flex items-center gap-4 opacity-75">
+                    <div class="w-11 h-11 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center font-serif font-bold text-lg text-white/70 shrink-0">
                         03
                     </div>
                     <div>
                         <span class="text-[10px] uppercase font-bold tracking-widest text-white/60 block">STEP THREE</span>
-                        <h4 class="text-base font-semibold text-white/90">Payment review</h4>
+                        <h4 class="text-sm sm:text-base font-semibold text-white/90">Payment review</h4>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
 <div class="h-1.5 w-full bg-gradient-to-r from-[#D97706] via-[#F59E0A] to-[#D97706]"></div>
 
 <!-- Main Form Section -->
-<section class="bg-[#FAFAFA] py-10 lg:py-16 min-h-screen">
+<section class="bg-[#F8F9FA] py-10 lg:py-16 min-h-screen">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         
         <form action="{{ route('qr.show') }}" method="POST" id="customer-form">
@@ -87,12 +87,12 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
                 
-                <!-- Left Column: Customer Information (7-8 cols) -->
-                <div class="lg:col-span-7 xl:col-span-8 bg-white rounded-3xl shadow-sm border border-stone-200/80 p-6 sm:p-10 space-y-6">
+                <!-- Left Column: Customer Information (7 cols on lg, 8 on xl) -->
+                <div class="lg:col-span-7 xl:col-span-7 bg-white rounded-3xl shadow-sm border border-stone-200/90 p-6 sm:p-9 space-y-6">
                     
                     <!-- Form Header -->
                     <div class="flex items-start gap-4 pb-4 border-b border-stone-100">
-                        <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-[#7F1D1D] text-xl shrink-0">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-50 to-amber-50 border border-red-100 flex items-center justify-center text-[#7F1D1D] text-xl shrink-0 shadow-2xs">
                             <i class="fa-solid fa-address-card"></i>
                         </div>
                         <div>
@@ -103,7 +103,7 @@
                                 Tell us who is booking
                             </h2>
                             <p class="text-stone-500 text-xs sm:text-sm mt-0.5">
-                                All fields are required. Use details that match your payment account.
+                                All fields are required. Enter accurate recipient contact details.
                             </p>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                         <!-- Full Name -->
                         <div class="space-y-1.5">
                             <label for="full_name" class="block text-xs font-bold text-stone-700">
-                                Full name
+                                Full name <span class="text-red-500">*</span>
                             </label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-xs">
@@ -131,7 +131,7 @@
                             <!-- Email -->
                             <div class="space-y-1.5">
                                 <label for="email" class="block text-xs font-bold text-stone-700">
-                                    Email address
+                                    Email address <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-xs">
@@ -146,7 +146,7 @@
                             <!-- Mobile -->
                             <div class="space-y-1.5">
                                 <label for="mobile" class="block text-xs font-bold text-stone-700">
-                                    Mobile number
+                                    Mobile number <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-xs">
@@ -164,17 +164,17 @@
                             <!-- State -->
                             <div class="space-y-1.5">
                                 <label for="state" class="block text-xs font-bold text-stone-700">
-                                    State
+                                    State <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-xs">
                                         <i class="fa-solid fa-landmark"></i>
                                     </div>
                                     <select name="state" id="state" required
-                                        class="w-full pl-9 pr-8 py-3 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7F1D1D]/20 focus:border-[#7F1D1D] transition appearance-none">
+                                        class="w-full pl-9 pr-8 py-3 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7F1D1D]/20 focus:border-[#7F1D1D] transition appearance-none cursor-pointer">
                                         <option value="" disabled {{ session('customer_state') ? '' : 'selected' }}>Choose State</option>
                                         @foreach($indianStates as $st)
-                                            <option value="{{ $st }}" {{ (session('customer_state') == $st || $st === 'Kerala') ? 'selected' : '' }}>
+                                            <option value="{{ $st }}" {{ (session('customer_state') == $st || (!session('customer_state') && $st === 'Kerala')) ? 'selected' : '' }}>
                                                 {{ $st }}
                                             </option>
                                         @endforeach
@@ -188,7 +188,7 @@
                             <!-- City -->
                             <div class="space-y-1.5">
                                 <label for="city" class="block text-xs font-bold text-stone-700">
-                                    City
+                                    City <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 text-xs">
@@ -205,19 +205,19 @@
 
                     <!-- Privacy / Security Note -->
                     <div class="bg-stone-50 border border-stone-200/80 rounded-2xl p-4 flex items-start gap-3">
-                        <div class="text-[#7F1D1D] text-base mt-0.5 shrink-0">
-                            <i class="fa-solid fa-lock"></i>
+                        <div class="w-8 h-8 rounded-xl bg-[#7F1D1D]/10 text-[#7F1D1D] flex items-center justify-center text-sm shrink-0">
+                            <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <div class="text-xs text-stone-600">
                             <span class="font-bold text-stone-800 block">Your information is protected</span>
-                            Details are used only to process this booking and provide ticket support.
+                            Details are strictly encrypted and used solely for ticket registration and official winner verification.
                         </div>
                     </div>
 
                     <!-- Submit CTA Button -->
                     <div>
                         <button type="submit" 
-                            class="w-full bg-[#7F1D1D] hover:bg-[#601211] text-white py-4 px-6 rounded-2xl font-bold text-sm sm:text-base shadow-lg shadow-red-950/20 hover:shadow-xl transition-all duration-200 transform hover:scale-[1.01] flex items-center justify-center gap-2">
+                            class="w-full bg-gradient-to-r from-[#7F1D1D] via-[#991B1B] to-[#7F1D1D] hover:from-[#601211] hover:to-[#601211] text-white py-4 px-6 rounded-2xl font-bold text-sm sm:text-base shadow-lg shadow-red-950/20 hover:shadow-xl transition-all duration-200 transform hover:scale-[1.01] flex items-center justify-center gap-2.5">
                             <span>Continue to payment review</span>
                             <i class="fa-solid fa-arrow-right text-xs"></i>
                         </button>
@@ -225,85 +225,127 @@
 
                 </div>
 
-                <!-- Right Column: Booking Summary Card (4-5 cols) -->
-                <div class="lg:col-span-5 xl:col-span-4 sticky top-24">
-                    <div class="bg-[#601211] rounded-3xl shadow-xl overflow-hidden border border-red-900/40 text-white">
+                <!-- Right Column: Elevated Luxury Booking Summary Card (5 cols on lg/xl) -->
+                <div class="lg:col-span-5 xl:col-span-5 sticky top-24">
+                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-stone-200/90 transition-all hover:shadow-2xl">
                         
-                        <!-- Header -->
-                        <div class="p-6 bg-gradient-to-b from-[#7F1D1D] to-[#601211] border-b border-red-800/60 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-[#FBBF24] text-lg shrink-0">
-                                <i class="fa-solid fa-receipt"></i>
-                            </div>
-                            <div>
-                                <span class="text-[10px] uppercase font-bold tracking-widest text-amber-300 block">BOOKING SUMMARY</span>
-                                <h3 class="text-lg font-serif font-black text-white">Your selection</h3>
+                        <!-- Luxury Maroon Header with Gold Foil Styling -->
+                        <div class="p-5 sm:p-6 bg-gradient-to-br from-[#601211] via-[#7F1D1D] to-[#450A0A] text-white relative overflow-hidden">
+                            <!-- Subtle Background Motif -->
+                            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:10px_10px] pointer-events-none"></div>
+                            <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-[#F59E0A]/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                            <div class="relative z-10 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-2xl bg-white/10 border border-[#F59E0A]/40 flex items-center justify-center text-[#FBBF24] text-lg shrink-0 shadow-inner">
+                                        <i class="fa-solid fa-ticket-simple"></i>
+                                    </div>
+                                    <div>
+                                        <div class="inline-flex items-center gap-1.5 text-[9px] uppercase font-extrabold tracking-widest text-amber-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-[#F59E0A] animate-pulse"></span>
+                                            BOOKING SUMMARY
+                                        </div>
+                                        <h3 class="text-xl font-serif font-black text-white tracking-wide">
+                                            Your selection
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div class="px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-amber-300 font-mono font-bold text-xs">
+                                    {{ count($selectedTickets) }}x
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Card Body (White Content) -->
-                        <div class="bg-white p-6 text-stone-800 space-y-5">
+                        <!-- Card Body Content -->
+                        <div class="p-5 sm:p-6 space-y-5">
                             
-                            <!-- Active Draw Item -->
-                            <div class="bg-stone-50 rounded-2xl p-4 border border-stone-200/80 flex items-center justify-between gap-3">
-                                <div class="flex items-center gap-2.5 min-w-0">
-                                    <div class="w-7 h-7 rounded-lg bg-rose-100 text-[#7F1D1D] flex items-center justify-center text-xs shrink-0 font-bold">
-                                        <i class="fa-solid fa-ticket-simple"></i>
+                            <!-- Active Draw Ribbon Box -->
+                            <div class="bg-gradient-to-br from-stone-50 to-amber-50/30 rounded-2xl p-4 border border-stone-200/80 flex items-center justify-between gap-3 shadow-2xs">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-9 h-9 rounded-xl bg-[#7F1D1D] text-amber-300 flex items-center justify-center text-sm shrink-0 shadow-xs">
+                                        <i class="fa-solid fa-crown"></i>
                                     </div>
                                     <div class="truncate">
-                                        <h5 class="text-xs font-bold text-stone-900 truncate">Samrudhi - Every Sunday</h5>
+                                        <h5 class="text-xs sm:text-sm font-black text-stone-900 truncate">Samrudhi - Every Sunday</h5>
+                                        <p class="text-[11px] text-stone-500 font-medium">Weekly Draw • Sunday 3:00 PM</p>
                                     </div>
                                 </div>
-                                <span class="text-xs font-bold text-[#7F1D1D] shrink-0">
-                                    {{ count($selectedTickets) }} x INR 50
-                                </span>
-                            </div>
-
-                            <!-- Selected Tickets Badges -->
-                            <div>
-                                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block mb-2">
-                                    Selected Ticket Numbers ({{ count($selectedTickets) }})
-                                </span>
-                                <div class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
-                                    @foreach($selectedTickets as $t)
-                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-100 text-stone-800 font-mono text-xs font-bold border border-stone-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#7F1D1D]"></span>
-                                            {{ $t }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <hr class="border-stone-100">
-
-                            <!-- Total Summary Row -->
-                            <div class="space-y-2">
-                                <div class="flex justify-between text-xs text-stone-600 font-medium">
-                                    <span>Total tickets</span>
-                                    <span class="font-bold text-stone-900">{{ count($selectedTickets) }}</span>
-                                </div>
-                                <div class="flex justify-between items-baseline pt-1">
-                                    <span class="text-sm font-bold text-stone-800">Total amount</span>
-                                    <span class="text-2xl font-serif font-black text-[#7F1D1D]">
-                                        INR {{ count($selectedTickets) * 50 }}
+                                <div class="text-right shrink-0">
+                                    <span class="inline-block px-2 py-0.5 rounded-md bg-[#7F1D1D]/10 text-[#7F1D1D] font-bold text-xs">
+                                        {{ count($selectedTickets) }} × ₹50
                                     </span>
                                 </div>
                             </div>
 
-                            <!-- Change Selected Tickets Link -->
-                            <div class="pt-2 text-center">
+                            <!-- Selected Tickets Chips Grid -->
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-extrabold text-stone-500 uppercase tracking-widest">
+                                        SELECTED TICKET NUMBERS ({{ count($selectedTickets) }})
+                                    </span>
+                                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                                        ✓ Reserved
+                                    </span>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-2 max-h-40 overflow-y-auto pr-1 py-1">
+                                    @foreach($selectedTickets as $t)
+                                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-50 hover:bg-white text-stone-800 font-mono text-xs font-black border border-stone-200 shadow-2xs transition transform hover:scale-[1.03]">
+                                            <span class="w-2 h-2 rounded-full bg-[#7F1D1D]"></span>
+                                            <span>{{ $t }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Itemized Breakdown Box -->
+                            <div class="bg-stone-50/80 rounded-2xl p-4 border border-stone-200 space-y-2.5">
+                                
+                                <div class="flex justify-between items-center text-xs text-stone-600 font-medium">
+                                    <span>Tickets Subtotal ({{ count($selectedTickets) }} × ₹50)</span>
+                                    <span class="font-bold text-stone-900 font-mono">₹{{ count($selectedTickets) * 50 }}.00</span>
+                                </div>
+
+                                <div class="flex justify-between items-center text-xs text-stone-600 font-medium">
+                                    <span>Instant SMS Verification &amp; PDF</span>
+                                    <span class="text-emerald-700 font-bold text-[11px] bg-emerald-100/60 px-2 py-0.5 rounded-md">FREE</span>
+                                </div>
+
+                                <div class="flex justify-between items-center text-xs text-stone-600 font-medium">
+                                    <span>Govt. Regulated Draw Pool</span>
+                                    <span class="text-emerald-700 font-bold text-[11px] bg-emerald-100/60 px-2 py-0.5 rounded-md">INCLUDED</span>
+                                </div>
+
+                                <div class="border-t border-dashed border-stone-300 pt-2.5 flex justify-between items-baseline">
+                                    <div>
+                                        <span class="text-xs sm:text-sm font-black text-stone-900 block">Total Amount Payable</span>
+                                        <span class="text-[10px] text-stone-400 font-medium">All taxes &amp; fees included</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-2xl sm:text-3xl font-serif font-black text-[#7F1D1D] tracking-tight">
+                                            INR {{ count($selectedTickets) * 50 }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Change Selected Tickets Button -->
+                            <div class="text-center pt-1">
                                 <a href="{{ route('ticket.booking', ['selected' => implode(',', $selectedTickets)]) }}" 
-                                    class="inline-flex items-center gap-1.5 text-xs font-bold text-[#7F1D1D] hover:text-[#550C16] hover:underline transition">
-                                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                                    class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs transition border border-stone-200/80 shadow-2xs group">
+                                    <i class="fa-solid fa-arrow-left text-[10px] group-hover:-translate-x-0.5 transition-transform text-[#7F1D1D]"></i>
                                     <span>Change selected tickets</span>
                                 </a>
                             </div>
 
                         </div>
 
-                        <!-- Footer Note -->
-                        <div class="p-4 bg-[#550C16] text-amber-200/90 text-[11px] text-center font-medium flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-clock text-amber-400 text-xs"></i>
-                            <span>Tickets are reserved after this form is submitted successfully.</span>
+                        <!-- Footer Note (Secure & Certified) -->
+                        <div class="p-3.5 bg-[#450A0A] text-amber-200/90 text-[11px] text-center font-medium flex items-center justify-center gap-2 border-t border-red-950">
+                            <i class="fa-solid fa-clock text-amber-400 text-xs animate-pulse"></i>
+                            <span>Tickets are temporarily held for 15 minutes during checkout.</span>
                         </div>
 
                     </div>
