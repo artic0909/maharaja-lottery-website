@@ -462,4 +462,143 @@
     </div>
 </section>
 
+<!-- Popular Services Section -->
+<section class="relative bg-gradient-to-b from-[#FFFDF8] via-[#FFFBEB]/50 to-[#FEF3C7]/30 py-14 lg:py-20 overflow-hidden border-t border-amber-200/60">
+    <!-- Repeating Lottery Motif Background Pattern -->
+    <div class="absolute inset-0 pointer-events-none opacity-85" style="background-image: url('{{ asset('img/lottery-pattern.svg') }}'); background-repeat: repeat; background-size: 140px 140px;"></div>
+    
+    <!-- Subtle Golden & Wine Radial Glows for Depth -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-[#F59E0A]/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-[#7F1E1D]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-10 lg:mb-14">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-black tracking-wider text-[#7F1E1D] uppercase drop-shadow-xs">
+                POPULAR SERVICES
+            </h2>
+            <div class="w-20 h-1 bg-[#F59E0A] mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <!-- Services 4-Column Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6 xl:gap-8 max-w-7xl mx-auto">
+            
+            <!-- Service 1: Ticket Booking Support -->
+            <div class="relative bg-gradient-to-b from-[#7F1E1D] via-[#8E1B1A] to-[#5C1110] rounded-xl p-6 sm:p-7 text-white shadow-xl flex flex-col justify-between items-center text-center overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 border border-[#F59E0A]/25 hover:border-[#F59E0A]/60 hover:shadow-2xl hover:shadow-red-950/40">
+                <!-- Faceted Lighting Overlay -->
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/15 via-transparent to-black/30 pointer-events-none"></div>
+                
+                <!-- Number -->
+                <span class="absolute top-3.5 left-4 text-xs font-black text-[#F59E0A] tracking-widest">01</span>
+
+                <div class="w-full flex flex-col items-center">
+                    <!-- Icon Circle -->
+                    <div class="w-14 h-14 rounded-full bg-[#FFFBEB] text-[#7F1E1D] border-2 border-[#F59E0A]/40 flex items-center justify-center text-xl shadow-md mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-ticket-simple"></i>
+                    </div>
+
+                    <h3 class="text-base sm:text-lg font-bold text-white mb-2.5 tracking-wide">
+                        Ticket Booking Support
+                    </h3>
+
+                    <p class="text-xs sm:text-[13px] text-white/90 leading-relaxed mb-6 font-normal min-h-[52px]">
+                        Get assistance for available Kerala weekly lottery schemes and booking confirmation.
+                    </p>
+                </div>
+
+                <a href="#" class="inline-flex items-center justify-center bg-[#F59E0A] hover:bg-[#EAB308] text-[#5C1110] font-black text-xs px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-amber-300/60 transform group-hover:scale-105">
+                    Ticket Booking
+                </a>
+            </div>
+
+            <!-- Service 2: Result Verification -->
+            <div class="relative bg-gradient-to-b from-[#7F1E1D] via-[#8E1B1A] to-[#5C1110] rounded-xl p-6 sm:p-7 text-white shadow-xl flex flex-col justify-between items-center text-center overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 border border-[#F59E0A]/25 hover:border-[#F59E0A]/60 hover:shadow-2xl hover:shadow-red-950/40">
+                <!-- Faceted Lighting Overlay -->
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/15 via-transparent to-black/30 pointer-events-none"></div>
+                
+                <!-- Number -->
+                <span class="absolute top-3.5 left-4 text-xs font-black text-[#F59E0A] tracking-widest">02</span>
+
+                <div class="w-full flex flex-col items-center">
+                    <!-- Icon Circle -->
+                    <div class="w-14 h-14 rounded-full bg-[#FFFBEB] text-[#7F1E1D] border-2 border-[#F59E0A]/40 flex items-center justify-center text-xl shadow-md mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+
+                    <h3 class="text-base sm:text-lg font-bold text-white mb-2.5 tracking-wide">
+                        Result Verification
+                    </h3>
+
+                    <p class="text-xs sm:text-[13px] text-white/90 leading-relaxed mb-6 font-normal min-h-[52px]">
+                        Check recent draw numbers and continue to winner status verification in a few clicks.
+                    </p>
+                </div>
+
+                <a href="#" class="inline-flex items-center justify-center bg-[#F59E0A] hover:bg-[#EAB308] text-[#5C1110] font-black text-xs px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-amber-300/60 transform group-hover:scale-105">
+                    Check results
+                </a>
+            </div>
+
+            <!-- Service 3: Prize Claim Guidance -->
+            <div class="relative bg-gradient-to-b from-[#7F1E1D] via-[#8E1B1A] to-[#5C1110] rounded-xl p-6 sm:p-7 text-white shadow-xl flex flex-col justify-between items-center text-center overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 border border-[#F59E0A]/25 hover:border-[#F59E0A]/60 hover:shadow-2xl hover:shadow-red-950/40">
+                <!-- Faceted Lighting Overlay -->
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/15 via-transparent to-black/30 pointer-events-none"></div>
+                
+                <!-- Number -->
+                <span class="absolute top-3.5 left-4 text-xs font-black text-[#F59E0A] tracking-widest">03</span>
+
+                <div class="w-full flex flex-col items-center">
+                    <!-- Icon Circle -->
+                    <div class="w-14 h-14 rounded-full bg-[#FFFBEB] text-[#7F1E1D] border-2 border-[#F59E0A]/40 flex items-center justify-center text-xl shadow-md mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    </div>
+
+                    <h3 class="text-base sm:text-lg font-bold text-white mb-2.5 tracking-wide">
+                        Prize Claim Guidance
+                    </h3>
+
+                    <p class="text-xs sm:text-[13px] text-white/90 leading-relaxed mb-6 font-normal min-h-[52px]">
+                        Understand ID, PAN, bank details and original ticket requirements before submitting a claim.
+                    </p>
+                </div>
+
+                <a href="#" class="inline-flex items-center justify-center bg-[#F59E0A] hover:bg-[#EAB308] text-[#5C1110] font-black text-xs px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-amber-300/60 transform group-hover:scale-105">
+                    Get support
+                </a>
+            </div>
+
+            <!-- Service 4: Customer Help Desk -->
+            <div class="relative bg-gradient-to-b from-[#7F1E1D] via-[#8E1B1A] to-[#5C1110] rounded-xl p-6 sm:p-7 text-white shadow-xl flex flex-col justify-between items-center text-center overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 border border-[#F59E0A]/25 hover:border-[#F59E0A]/60 hover:shadow-2xl hover:shadow-red-950/40">
+                <!-- Faceted Lighting Overlay -->
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/15 via-transparent to-black/30 pointer-events-none"></div>
+                
+                <!-- Number -->
+                <span class="absolute top-3.5 left-4 text-xs font-black text-[#F59E0A] tracking-widest">04</span>
+
+                <div class="w-full flex flex-col items-center">
+                    <!-- Icon Circle -->
+                    <div class="w-14 h-14 rounded-full bg-[#FFFBEB] text-[#7F1E1D] border-2 border-[#F59E0A]/40 flex items-center justify-center text-xl shadow-md mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+
+                    <h3 class="text-base sm:text-lg font-bold text-white mb-2.5 tracking-wide">
+                        Customer Help Desk
+                    </h3>
+
+                    <p class="text-xs sm:text-[13px] text-white/90 leading-relaxed mb-6 font-normal min-h-[52px]">
+                        Contact our support team for ticket, draw, claim, complaint or documentation questions.
+                    </p>
+                </div>
+
+                <a href="#" class="inline-flex items-center justify-center bg-[#F59E0A] hover:bg-[#EAB308] text-[#5C1110] font-black text-xs px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-amber-300/60 transform group-hover:scale-105">
+                    Contact desk
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 @endsection

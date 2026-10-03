@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+    <!-- Lottery Ball with 7 -->
+    <g opacity="0.07" stroke="#7F1E1D" stroke-width="1.5" fill="none">
+        <circle cx="30" cy="30" r="16" />
+        <circle cx="30" cy="30" r="11" stroke-dasharray="2 2" />
+        <path d="M26 25 L34 25 L29 36" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+    <!-- Lottery Ticket Outline -->
+    <g opacity="0.06" stroke="#F59E0A" stroke-width="1.2" fill="none">
+        <rect x="75" y="15" width="32" height="20" rx="3" transform="rotate(15 75 15)" />
+        <line x1="88" y1="13" x2="88" y2="35" stroke-dasharray="2 2" />
+        <circle cx="79" cy="24" r="2" fill="#F59E0A" />
+        <circle cx="97" cy="27" r="2" fill="#F59E0A" />
+    </g>
+
+    <!-- Star / Sparkle Motif -->
+    <g opacity="0.08" fill="#F59E0A">
+        <polygon points="95,75 97,81 103,83 97,85 95,91 93,85 87,83 93,81" />
+    </g>
+
+    <!-- Crown / Maharaja Royal Motif -->
+    <g opacity="0.06" stroke="#7F1E1D" stroke-width="1.2" fill="none">
+        <path d="M20 90 L23 78 L31 84 L39 76 L47 84 L55 78 L58 90 Z" />
+        <circle cx="23" cy="76" r="1.5" fill="#7F1E1D" />
+        <circle cx="39" cy="74" r="1.5" fill="#7F1E1D" />
+        <circle cx="55" cy="76" r="1.5" fill="#7F1E1D" />
+    </g>
+
+    <!-- Gold Coin Motif -->
+    <g opacity="0.06" stroke="#F59E0A" stroke-width="1.2" fill="none">
+        <circle cx="80" cy="100" r="10" />
+        <circle cx="80" cy="100" r="7" />
+        <text x="80" y="104" font-family="serif" font-size="9" font-weight="bold" fill="#F59E0A" text-anchor="middle" stroke="none">₹</text>
+    </g>
+
+    <!-- Small Star Sparkles -->
+    <g opacity="0.09" fill="#7F1E1D">
+        <polygon points="20,15 21,18 24,19 21,20 20,23 19,20 16,19 19,18" />
+        <polygon points="65,55 66,58 69,59 66,60 65,63 64,60 61,59 64,58" />
+    </g>
+</svg>
