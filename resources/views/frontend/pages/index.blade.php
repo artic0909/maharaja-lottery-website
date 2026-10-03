@@ -391,7 +391,7 @@
                         Welcome To
                     </span>
                     <h2 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-white tracking-wide mt-1 drop-shadow-md">
-                        Kerala State Lotteries
+                        Maharaja Lotteries
                     </h2>
                 </div>
 
@@ -503,7 +503,7 @@
                     </h3>
 
                     <p class="text-xs sm:text-[13px] text-white/90 leading-relaxed mb-6 font-normal min-h-[52px]">
-                        Get assistance for available Kerala weekly lottery schemes and booking confirmation.
+                        Get assistance for available Maharaja weekly lottery schemes and booking confirmation.
                     </p>
                 </div>
 
@@ -601,7 +601,7 @@
     </div>
 </section>
 
-<!-- Recent Kerala Lottery Results Section (Auto-Scrolling Marquee) -->
+<!-- Recent Maharaja Lottery Results Section (Auto-Scrolling Marquee) -->
 <section class="relative bg-gradient-to-b from-[#1C0507] via-[#26070B] to-[#150305] py-14 lg:py-20 overflow-hidden border-t border-[#7F1E1D]/50 shadow-inner">
     <!-- Subtle Ambient Glows -->
     <div class="absolute -top-24 left-1/4 w-96 h-96 bg-[#7F1E1D]/25 rounded-full blur-3xl pointer-events-none"></div>
@@ -618,11 +618,11 @@
 
         <!-- Section Heading -->
         <h2 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-white tracking-wide">
-            Recent Kerala Lottery <span class="text-[#F59E0A]">Results</span>
+            Recent Maharaja Lottery <span class="text-[#F59E0A]">Results</span>
         </h2>
         
         <p class="text-white/70 text-xs sm:text-sm mt-2 mb-8 sm:mb-10 max-w-xl font-normal">
-            Latest draws published on the official Kerala LOTIS result board.
+            Latest draws published on the official Maharaja LOTIS result board.
         </p>
 
         @php
@@ -745,7 +745,7 @@
                     Weekly Draw <span class="text-[#7F1E1D]">Schedule</span>
                 </h2>
                 <p class="text-gray-600 text-xs sm:text-sm mt-2 max-w-xl font-normal">
-                    Plan your week with the latest Kerala State Lotteries draw calendar.
+                    Plan your week with the latest Maharaja Lotteries draw calendar.
                 </p>
             </div>
 
@@ -933,7 +933,7 @@
             <!-- Left Large Feature Card (7 cols on lg) -->
             <div class="lg:col-span-7">
                 <div class="relative w-full h-[220px] sm:h-[280px] lg:h-[304px] rounded-xl overflow-hidden shadow-xl group border border-white/15 bg-black/30">
-                    <img src="{{ asset('img/event-1.jpg') }}" alt="Latest Kerala Lottery Event" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="{{ asset('img/event-1.jpg') }}" alt="Latest Maharaja Lottery Event" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/15 pointer-events-none"></div>
                     
                     <!-- Tag Badge -->

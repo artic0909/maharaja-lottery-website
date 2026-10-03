@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'frontend.pages.index')->name('home');
+Route::view('/winner-list', 'frontend.pages.winnerlist')->name('winnerlist');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
