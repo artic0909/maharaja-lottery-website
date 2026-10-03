@@ -375,4 +375,91 @@
     </div>
 </section>
 
+<!-- Welcome / State Lotteries Overview Section -->
+<section class="relative bg-cover bg-center py-16 lg:py-24 text-white overflow-hidden shadow-inner" style="background-image: url('{{ asset('img/kerala-lottery-bg.jpg') }}');">
+    <!-- Overlay for optimal contrast and readability -->
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-sky-950/50 to-slate-900/40 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-black/20 pointer-events-none"></div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            
+            <!-- Left Info Content (7 cols on lg) -->
+            <div class="lg:col-span-7 space-y-4">
+                <div>
+                    <span class="block text-sm sm:text-base font-medium text-white/90 tracking-wider font-sans">
+                        Welcome To
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-white tracking-wide mt-1 drop-shadow-md">
+                        Kerala State Lotteries
+                    </h2>
+                </div>
+
+                <div class="border-l-[3px] border-white/80 pl-4 sm:pl-6 py-1 my-6">
+                    <p class="text-xs sm:text-sm lg:text-[15px] leading-relaxed text-white/95 font-normal drop-shadow-sm max-w-2xl">
+                        Kerala, the Gods own country, added another first to its cap in 1967, when a Department was setup in the Government sector for the first time in India for the conduct of paper Lotteries . It was late Shri. P. K. Kunju Sahib, who envisaged this idea for the generation of revenue through the sale of lotteries and for providing a stable source of income to the poor and needy belonging to the marginalized section of society.
+                    </p>
+                </div>
+
+                <div class="pt-2">
+                    <a href="#" class="inline-flex items-center justify-center px-6 py-2.5 border-2 border-[#F59E0B] text-white font-medium text-xs sm:text-sm hover:bg-[#F59E0B] hover:text-slate-950 transition-all duration-300 shadow-md backdrop-blur-xs bg-black/25">
+                        Read More
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Officials / Dignitaries Grid (5 cols on lg) -->
+            <div class="lg:col-span-5 flex flex-col items-center justify-center">
+                <div class="w-full max-w-md space-y-6">
+                    
+                    <!-- Top / Chief Minister & Minister for Finance -->
+                    <div class="flex flex-col items-center text-center group">
+                        <div class="bg-white p-1 rounded-xl shadow-2xl border border-white/60 w-28 h-32 sm:w-32 sm:h-36 overflow-hidden transform transition duration-300 group-hover:scale-105 group-hover:shadow-amber-400/20">
+                            <img src="{{ asset('img/satheesan.jpg') }}" alt="Shri. V D Satheesan" class="w-full h-full object-cover object-top rounded-lg">
+                        </div>
+                        <h4 class="mt-2.5 text-xs sm:text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] tracking-wide">
+                            Shri. V D Satheesan
+                        </h4>
+                        <p class="text-[11px] sm:text-xs text-amber-200 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] max-w-[240px]">
+                            Hon'ble Chief Minister &amp; Minister for Finance
+                        </p>
+                    </div>
+
+                    <!-- Bottom Row / Secretary & Director -->
+                    <div class="grid grid-cols-2 gap-4 sm:gap-6 pt-1">
+                        
+                        <!-- Secretary -->
+                        <div class="flex flex-col items-center text-center group">
+                            <div class="bg-white p-1 rounded-xl shadow-2xl border border-white/60 w-28 h-32 sm:w-32 sm:h-36 overflow-hidden transform transition duration-300 group-hover:scale-105 group-hover:shadow-amber-400/20">
+                                <img src="{{ asset('img/jyothilal.jpg') }}" alt="Shri. K R Jyothilal IAS" class="w-full h-full object-cover object-top rounded-lg">
+                            </div>
+                            <h4 class="mt-2.5 text-xs sm:text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] tracking-wide">
+                                Shri. K R Jyothilal IAS
+                            </h4>
+                            <p class="text-[11px] sm:text-xs text-amber-200 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] max-w-[190px]">
+                                Addl.Chief Secretary, Taxes Department
+                            </p>
+                        </div>
+
+                        <!-- Director -->
+                        <div class="flex flex-col items-center text-center group">
+                            <div class="bg-white p-1 rounded-xl shadow-2xl border border-white/60 w-28 h-32 sm:w-32 sm:h-36 overflow-hidden transform transition duration-300 group-hover:scale-105 group-hover:shadow-amber-400/20">
+                                <img src="{{ asset('img/anju.jpg') }}" alt="Anju K. S. IAS" class="w-full h-full object-cover object-top rounded-lg">
+                            </div>
+                            <h4 class="mt-2.5 text-xs sm:text-sm font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] tracking-wide">
+                                Anju K. S. IAS
+                            </h4>
+                            <p class="text-[11px] sm:text-xs text-amber-200 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] max-w-[190px]">
+                                Director, Lotteries Department
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 @endsection
