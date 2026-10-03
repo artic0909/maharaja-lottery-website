@@ -64,27 +64,27 @@
                 </h4>
                 <ul class="space-y-2 text-xs text-stone-600 font-medium">
                     <li>
-                        <a href="#" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
+                        <a href="{{ route('home') }}" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
                             <span class="text-[#F59E0A] opacity-0 group-hover/link:opacity-100 transition-opacity text-[10px]">&rsaquo;</span>
-                            Terms &amp; Conditions
+                            Home
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
+                        <a href="{{ route('about') }}" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
                             <span class="text-[#F59E0A] opacity-0 group-hover/link:opacity-100 transition-opacity text-[10px]">&rsaquo;</span>
-                            Privacy Policy
+                            About Us
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
+                        <a href="{{ route('winnerlist') }}" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
                             <span class="text-[#F59E0A] opacity-0 group-hover/link:opacity-100 transition-opacity text-[10px]">&rsaquo;</span>
-                            Contact Us
+                            Winner List &amp; Results
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
+                        <a href="{{ route('contact') }}" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
                             <span class="text-[#F59E0A] opacity-0 group-hover/link:opacity-100 transition-opacity text-[10px]">&rsaquo;</span>
-                            FAQs
+                            Contact &amp; Support
                         </a>
                     </li>
                 </ul>

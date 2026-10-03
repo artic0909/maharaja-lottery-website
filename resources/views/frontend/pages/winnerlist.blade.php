@@ -81,39 +81,41 @@
 
 <!-- Quick Verification Floating Search Card -->
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-8 sm:-mt-10">
-    <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-2xl border border-stone-200/90 flex flex-col lg:flex-row items-center justify-between gap-6 max-w-6xl mx-auto">
+    <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-2xl border border-stone-200/90 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-5 sm:gap-6 max-w-6xl mx-auto">
         
         <!-- Left Info -->
-        <div class="flex items-center gap-4 w-full lg:w-auto">
-            <div class="w-12 h-12 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-[#7F1E1D] text-lg shrink-0 shadow-2xs">
+        <div class="flex items-center gap-3.5 sm:gap-4 w-full lg:w-auto">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center text-[#7F1E1D] text-base sm:text-lg shrink-0 shadow-2xs">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div>
                 <span class="block text-[10px] font-extrabold text-[#7F1E1D] uppercase tracking-wider font-sans mb-0.5">
                     QUICK VERIFICATION
                 </span>
-                <h3 class="text-base sm:text-lg font-serif font-bold text-stone-900 tracking-wide">
+                <h3 class="text-sm sm:text-base lg:text-lg font-serif font-bold text-stone-900 tracking-wide">
                     Check your ticket status
                 </h3>
-                <p class="text-xs text-stone-500 font-normal">
+                <p class="text-[11px] sm:text-xs text-stone-500 font-normal">
                     Enter the ticket number printed on your booking.
                 </p>
             </div>
         </div>
 
         <!-- Right Form Input -->
-        <div class="w-full lg:w-auto lg:min-w-[420px]">
+        <div class="w-full lg:w-auto lg:min-w-[400px]">
             <form action="#" method="GET" class="w-full">
                 <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1.5">
                     TICKET NUMBER
                 </label>
-                <div class="flex items-center border border-stone-300 rounded-xl overflow-hidden focus-within:border-[#7F1E1D] focus-within:ring-2 focus-within:ring-[#7F1E1D]/20 shadow-xs bg-white transition-all">
-                    <span class="pl-3.5 text-stone-400">
-                        <i class="fa-solid fa-ticket-simple text-[#7F1E1D]"></i>
-                    </span>
-                    <input type="text" name="ticket_number" placeholder="Example: NR 428719" class="w-full px-3 py-2.5 text-xs sm:text-sm text-stone-800 placeholder-stone-400 bg-transparent outline-none font-medium">
-                    <button type="submit" class="bg-[#7F1E1D] hover:bg-[#991B1B] text-white px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors shrink-0">
-                        Continue
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center border border-stone-300 rounded-xl overflow-hidden focus-within:border-[#7F1E1D] focus-within:ring-2 focus-within:ring-[#7F1E1D]/20 shadow-xs bg-white transition-all">
+                    <div class="flex items-center flex-1 min-w-0">
+                        <span class="pl-3.5 text-stone-400">
+                            <i class="fa-solid fa-ticket-simple text-[#7F1E1D]"></i>
+                        </span>
+                        <input type="text" name="ticket_number" placeholder="Example: NR 428719" class="w-full px-3 py-2.5 text-xs sm:text-sm text-stone-800 placeholder-stone-400 bg-transparent outline-none font-medium min-w-0">
+                    </div>
+                    <button type="submit" class="bg-[#7F1E1D] hover:bg-[#991B1B] text-white px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-colors shrink-0">
+                        <span>Continue</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>
