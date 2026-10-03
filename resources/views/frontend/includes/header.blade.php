@@ -21,7 +21,7 @@
             <a href="{{ route('home') }}" class="px-3 py-1 rounded-md {{ request()->routeIs('home') ? 'bg-[#991B1B] text-amber-300 font-semibold shadow-inner' : 'hover:bg-white/10 text-gray-100 hover:text-white font-medium' }} text-xs lg:text-sm transition">Home</a>
             <a href="#" class="px-3 py-1 rounded-md hover:bg-white/10 text-gray-100 hover:text-white font-medium text-xs lg:text-sm transition">About</a>
             <a href="{{ route('winnerlist') }}" class="px-3 py-1 rounded-md {{ request()->routeIs('winnerlist') ? 'bg-[#991B1B] text-amber-300 font-semibold shadow-inner' : 'hover:bg-white/10 text-gray-100 hover:text-white font-medium' }} text-xs lg:text-sm transition">Winner List</a>
-            <a href="#" class="px-3 py-1 rounded-md hover:bg-white/10 text-gray-100 hover:text-white font-medium text-xs lg:text-sm transition">Contact</a>
+            <a href="{{ route('contact') }}" class="px-3 py-1 rounded-md {{ request()->routeIs('contact') ? 'bg-[#991B1B] text-amber-300 font-semibold shadow-inner' : 'hover:bg-white/10 text-gray-100 hover:text-white font-medium' }} text-xs lg:text-sm transition">Contact</a>
         </nav>
 
         <!-- Actions -->
