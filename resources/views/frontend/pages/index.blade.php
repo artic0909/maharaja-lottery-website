@@ -51,7 +51,7 @@
                 </p>
                 
                 <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 mb-6">
-                    <a href="{{ route('contact') }}" class="bg-[#991B1B] hover:bg-[#7F1D1D] text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-md font-semibold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-red-950/40 border border-red-400/30 group">
+                    <a href="{{ route('ticket.booking') }}" class="bg-[#991B1B] hover:bg-[#7F1D1D] text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-md font-semibold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-red-950/40 border border-red-400/30 group">
                         Book Tickets 
                         <i class="fa-solid fa-arrow-right-long text-xs group-hover:translate-x-1 transition-transform text-[#FBBF24]"></i>
                     </a>

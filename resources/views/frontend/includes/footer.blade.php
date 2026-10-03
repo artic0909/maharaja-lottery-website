@@ -70,6 +70,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('ticket.booking') }}" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
+                            <span class="text-[#F59E0A] opacity-0 group-hover/link:opacity-100 transition-opacity text-[10px]">&rsaquo;</span>
+                            Ticket Booking
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('about') }}" class="hover:text-[#7F1E1D] transition-all duration-200 inline-flex items-center gap-1.5 hover:translate-x-1 group/link">
                             <span class="text-[#F59E0A] opacity-0 group-hover/link:opacity-100 transition-opacity text-[10px]">&rsaquo;</span>
                             About Us

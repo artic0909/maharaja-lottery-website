@@ -21,7 +21,7 @@
 
         <!-- Desktop Actions -->
         <div class="hidden md:flex items-center space-x-2.5">
-            <a href="{{ route('contact') }}" class="bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white px-4 py-2 rounded-full font-bold text-xs transition-all shadow-md shadow-emerald-950/20 border border-emerald-400/40 flex items-center gap-2 hover:scale-105 transform">
+            <a href="{{ route('ticket.booking') }}" class="bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white px-4 py-2 rounded-full font-bold text-xs transition-all shadow-md shadow-emerald-950/20 border border-emerald-400/40 flex items-center gap-2 hover:scale-105 transform">
                 <i class="fa-solid fa-ticket-simple text-[11px] text-emerald-200"></i>
                 <span>Ticket Booking</span>
             </a>
@@ -60,7 +60,7 @@
 
         <!-- Mobile Action Buttons (Polished Luxury CTA Cards) -->
         <div class="pt-3 border-t border-red-800/40 grid grid-cols-2 gap-3">
-            <a href="{{ route('contact') }}" class="group relative overflow-hidden bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white py-3 px-3 rounded-xl font-bold text-xs text-center shadow-lg shadow-black/25 flex items-center justify-center gap-2 border border-emerald-400/40 active:scale-95 transition-all">
+            <a href="{{ route('ticket.booking') }}" class="group relative overflow-hidden bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white py-3 px-3 rounded-xl font-bold text-xs text-center shadow-lg shadow-black/25 flex items-center justify-center gap-2 border border-emerald-400/40 active:scale-95 transition-all">
                 <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
                     <i class="fa-solid fa-ticket-simple text-[11px] text-white"></i>
                 </span>
