@@ -641,10 +641,6 @@
 
         <!-- Auto Scrolling Track Container inside container -->
         <div class="relative w-full overflow-hidden marquee-container py-3">
-            <!-- Smooth Edge Fade Masks -->
-            <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-[#1C0507] to-transparent z-20 pointer-events-none"></div>
-            <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-[#1C0507] to-transparent z-20 pointer-events-none"></div>
-
             <div class="marquee-track flex gap-5 sm:gap-6">
                 <!-- First Loop Set -->
                 @foreach($drawResults as $res)

@@ -21,13 +21,13 @@
 
         <!-- Desktop Actions -->
         <div class="hidden md:flex items-center space-x-2.5">
-            <a href="{{ route('contact') }}" class="bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white px-3.5 py-1.5 rounded-full font-semibold text-xs transition shadow-sm border border-emerald-400/30 flex items-center gap-1.5">
-                <i class="fa-solid fa-ticket-simple text-[10px]"></i>
-                Ticket Booking
+            <a href="{{ route('contact') }}" class="bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white px-4 py-2 rounded-full font-bold text-xs transition-all shadow-md shadow-emerald-950/20 border border-emerald-400/40 flex items-center gap-2 hover:scale-105 transform">
+                <i class="fa-solid fa-ticket-simple text-[11px] text-emerald-200"></i>
+                <span>Ticket Booking</span>
             </a>
-            <a href="{{ route('winnerlist') }}" class="bg-[#991B1B] hover:bg-[#B91C1C] text-white px-3.5 py-1.5 rounded-full font-semibold text-xs transition shadow-sm border border-rose-400/30 flex items-center gap-1.5">
-                <i class="fa-solid fa-shield-check text-[10px] text-[#F59E0A]"></i>
-                Get Status
+            <a href="{{ route('winnerlist') }}" class="bg-gradient-to-r from-[#F59E0A] via-[#FBBF24] to-[#F59E0A] hover:from-[#D97706] hover:to-[#F59E0A] text-[#5C1110] px-4 py-2 rounded-full font-black text-xs transition-all shadow-md shadow-black/20 border border-amber-300/80 flex items-center gap-2 hover:scale-105 transform">
+                <i class="fa-solid fa-shield-check text-[11px] text-[#5C1110]"></i>
+                <span>Get Status</span>
             </a>
         </div>
 
@@ -37,7 +37,7 @@
         </button>
     </div>
 
-        <!-- Mobile Slide-down Navigation Drawer -->
+    <!-- Mobile Slide-down Navigation Drawer -->
     <div id="mobile-menu" class="hidden md:hidden bg-[#601211] border-t border-red-800/60 px-4 py-4 space-y-3 transition-all duration-300 shadow-2xl">
         <nav class="flex flex-col space-y-1">
             <a href="{{ route('home') }}" class="px-3.5 py-2.5 rounded-lg {{ request()->routeIs('home') ? 'bg-[#991B1B] text-amber-300 font-bold' : 'text-gray-100 hover:bg-white/10 hover:text-white font-medium' }} text-sm transition flex items-center justify-between">
@@ -58,15 +58,19 @@
             </a>
         </nav>
 
-        <!-- Mobile Action Buttons -->
-        <div class="pt-3 border-t border-red-800/40 grid grid-cols-2 gap-2.5">
-            <a href="{{ route('contact') }}" class="bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white py-2.5 px-3 rounded-xl font-bold text-xs text-center shadow-sm flex items-center justify-center gap-1.5 transition">
-                <i class="fa-solid fa-ticket-simple text-[10px]"></i>
-                <span class="truncate">Ticket Booking</span>
+        <!-- Mobile Action Buttons (Polished Luxury CTA Cards) -->
+        <div class="pt-3 border-t border-red-800/40 grid grid-cols-2 gap-3">
+            <a href="{{ route('contact') }}" class="group relative overflow-hidden bg-gradient-to-r from-[#15803D] to-[#16A34A] hover:from-[#166534] hover:to-[#15803D] text-white py-3 px-3 rounded-xl font-bold text-xs text-center shadow-lg shadow-black/25 flex items-center justify-center gap-2 border border-emerald-400/40 active:scale-95 transition-all">
+                <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-ticket-simple text-[11px] text-white"></i>
+                </span>
+                <span class="tracking-wide truncate">Ticket Booking</span>
             </a>
-            <a href="{{ route('winnerlist') }}" class="bg-[#991B1B] hover:bg-[#B91C1C] text-white py-2.5 px-3 rounded-xl font-bold text-xs text-center shadow-sm border border-rose-400/30 flex items-center justify-center gap-1.5 transition">
-                <i class="fa-solid fa-shield-check text-[10px] text-[#F59E0A]"></i>
-                <span class="truncate">Get Status</span>
+            <a href="{{ route('winnerlist') }}" class="group relative overflow-hidden bg-gradient-to-r from-[#F59E0A] via-[#FBBF24] to-[#F59E0A] hover:from-[#D97706] hover:to-[#F59E0A] text-[#5C1110] py-3 px-3 rounded-xl font-black text-xs text-center shadow-lg shadow-black/25 flex items-center justify-center gap-2 border border-amber-300/80 active:scale-95 transition-all">
+                <span class="w-6 h-6 rounded-lg bg-[#5C1110]/15 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-shield-check text-[11px] text-[#5C1110]"></i>
+                </span>
+                <span class="tracking-wide truncate">Get Status</span>
             </a>
         </div>
     </div>
