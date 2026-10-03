@@ -898,26 +898,26 @@
 </section>
 
 <!-- Our Photos & Videos (Gallery Section) -->
-<section class="relative bg-gradient-to-br from-[#7F1E1D] via-[#8E1B1A] to-[#5C1110] py-14 lg:py-20 overflow-hidden text-white border-t border-[#F59E0A]/20 shadow-inner">
+<section class="relative bg-gradient-to-br from-[#7F1E1D] via-[#8E1B1A] to-[#5C1110] py-8 lg:py-12 overflow-hidden text-white border-t border-[#F59E0A]/20 shadow-inner">
     <!-- Subtle Theme Texture Pattern -->
     <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: url('{{ asset('img/lottery-pattern.svg') }}'); background-repeat: repeat; background-size: 140px 140px;"></div>
     
     <!-- Ambient Glows -->
-    <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#F59E0A]/10 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-black/40 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -top-32 -left-32 w-80 h-80 bg-[#F59E0A]/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-black/40 rounded-full blur-3xl pointer-events-none"></div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <!-- Header Row -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 lg:mb-12">
+        <!-- Header Row (Compact Spacing) -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-2 sm:gap-4 mb-5 lg:mb-6">
             <div>
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="w-5 h-0.5 bg-[#F59E0A]"></span>
-                    <span class="text-[#F59E0A] font-extrabold text-[11px] sm:text-xs uppercase tracking-widest font-sans">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="w-4 h-0.5 bg-[#F59E0A]"></span>
+                    <span class="text-[#F59E0A] font-extrabold text-[10px] sm:text-[11px] uppercase tracking-widest font-sans">
                         Gallery
                     </span>
                 </div>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-white tracking-wide">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-white tracking-wide">
                     Our Photos &amp; Videos
                 </h2>
             </div>
@@ -927,18 +927,18 @@
             </p>
         </div>
 
-        <!-- Gallery Grid (1 Large Left Feature + 2x2 Right Grid) -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+        <!-- Gallery Grid (Compact Heights & Reduced Gaps) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
             
             <!-- Left Large Feature Card (7 cols on lg) -->
             <div class="lg:col-span-7">
-                <div class="relative w-full h-[320px] sm:h-[400px] lg:h-full min-h-[350px] rounded-2xl overflow-hidden shadow-2xl group border border-white/15 bg-black/30">
+                <div class="relative w-full h-[220px] sm:h-[280px] lg:h-[304px] rounded-xl overflow-hidden shadow-xl group border border-white/15 bg-black/30">
                     <img src="{{ asset('img/event-1.jpg') }}" alt="Latest Kerala Lottery Event" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/15 pointer-events-none"></div>
                     
                     <!-- Tag Badge -->
-                    <div class="absolute bottom-4 left-4 z-10">
-                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-xs font-semibold px-4 py-1.5 rounded-full border border-white/20 shadow-md">
+                    <div class="absolute bottom-3 left-3 z-10">
+                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full border border-white/20 shadow-md">
                             Latest Event
                         </span>
                     </div>
@@ -946,47 +946,47 @@
             </div>
 
             <!-- Right 2x2 Cards Grid (5 cols on lg) -->
-            <div class="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-5">
+            <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
                 
                 <!-- Card 1: Events -->
-                <div class="relative h-44 sm:h-48 lg:h-52 rounded-2xl overflow-hidden shadow-xl group border border-white/15 bg-black/30">
+                <div class="relative h-[105px] sm:h-[135px] lg:h-[144px] rounded-xl overflow-hidden shadow-md group border border-white/15 bg-black/30">
                     <img src="{{ asset('img/event-2.jpg') }}" alt="Lottery Events" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-3 left-3 z-10">
-                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full border border-white/20 shadow-sm">
+                    <div class="absolute bottom-2.5 left-2.5 z-10">
+                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-white/20 shadow-sm">
                             Events
                         </span>
                     </div>
                 </div>
 
                 <!-- Card 2: Updates -->
-                <div class="relative h-44 sm:h-48 lg:h-52 rounded-2xl overflow-hidden shadow-xl group border border-white/15 bg-black/30">
+                <div class="relative h-[105px] sm:h-[135px] lg:h-[144px] rounded-xl overflow-hidden shadow-md group border border-white/15 bg-black/30">
                     <img src="{{ asset('img/event-3.jpg') }}" alt="Prize Distribution Updates" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-3 left-3 z-10">
-                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full border border-white/20 shadow-sm">
+                    <div class="absolute bottom-2.5 left-2.5 z-10">
+                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-white/20 shadow-sm">
                             Updates
                         </span>
                     </div>
                 </div>
 
                 <!-- Card 3: Activities -->
-                <div class="relative h-44 sm:h-48 lg:h-52 rounded-2xl overflow-hidden shadow-xl group border border-white/15 bg-black/30">
+                <div class="relative h-[105px] sm:h-[135px] lg:h-[144px] rounded-xl overflow-hidden shadow-md group border border-white/15 bg-black/30">
                     <img src="{{ asset('img/event-4.jpg') }}" alt="Lottery Draw Activities" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-3 left-3 z-10">
-                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full border border-white/20 shadow-sm">
+                    <div class="absolute bottom-2.5 left-2.5 z-10">
+                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-white/20 shadow-sm">
                             Activities
                         </span>
                     </div>
                 </div>
 
                 <!-- Card 4: Highlights -->
-                <div class="relative h-44 sm:h-48 lg:h-52 rounded-2xl overflow-hidden shadow-xl group border border-white/15 bg-black/30">
+                <div class="relative h-[105px] sm:h-[135px] lg:h-[144px] rounded-xl overflow-hidden shadow-md group border border-white/15 bg-black/30">
                     <img src="{{ asset('img/event-5.jpg') }}" alt="Ceremony Highlights" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none"></div>
-                    <div class="absolute bottom-3 left-3 z-10">
-                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[11px] font-semibold px-3 py-1 rounded-full border border-white/20 shadow-sm">
+                    <div class="absolute bottom-2.5 left-2.5 z-10">
+                        <span class="inline-flex items-center bg-black/65 backdrop-blur-md text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-white/20 shadow-sm">
                             Highlights
                         </span>
                     </div>
@@ -997,8 +997,8 @@
         </div>
 
         <!-- View Full Gallery CTA Button -->
-        <div class="text-center mt-10 sm:mt-12">
-            <a href="#" class="inline-flex items-center justify-center gap-2 bg-[#F59E0A] hover:bg-[#FBBF24] text-[#5C1110] font-black text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+        <div class="text-center mt-6 sm:mt-8">
+            <a href="#" class="inline-flex items-center justify-center gap-2 bg-[#F59E0A] hover:bg-[#FBBF24] text-[#5C1110] font-black text-xs sm:text-sm px-6 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 View Full Gallery
                 <i class="fa-solid fa-arrow-right text-xs"></i>
             </a>
