@@ -13,7 +13,7 @@
                 <i class="fa-brands fa-facebook-f text-[10px]"></i>
             </a>
             <a href="#" class="w-5 h-5 md:w-5.5 md:h-5.5 bg-[#7F1D1D] text-[#FBBF24] rounded-full flex items-center justify-center hover:bg-[#991B1B] transition shadow-xs">
-                <i class="fa-brands fa-x-twitter text-[10px]"></i>
+                <i class="fa-brands fa-twitter text-[10px]"></i>
             </a>
             <a href="#" class="w-5 h-5 md:w-5.5 md:h-5.5 bg-[#7F1D1D] text-[#FBBF24] rounded-full flex items-center justify-center hover:bg-[#991B1B] transition shadow-xs">
                 <i class="fa-brands fa-instagram text-[10px]"></i>

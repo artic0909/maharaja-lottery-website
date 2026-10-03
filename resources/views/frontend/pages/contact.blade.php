@@ -5,8 +5,10 @@
 <!-- Contact Support Desk Hero Banner -->
 <section class="relative bg-gradient-to-br from-[#0F382C] via-[#14532D] to-[#0A261E] text-white pt-14 pb-20 lg:pt-16 lg:pb-24 overflow-hidden shadow-inner">
     <!-- Big Stylized Watermark Background -->
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.06] select-none text-white font-serif font-black text-6xl sm:text-8xl md:text-9xl tracking-widest uppercase">
-       ₹ LOTTERY SUPPORT ₹
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0 select-none">
+        <span class="text-white font-serif font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-[0.25em] uppercase opacity-[0.045] whitespace-nowrap transform -rotate-1">
+            LOTTERY SUPPORT
+        </span>
     </div>
     
     <!-- Subtle Pattern & Ambient Glows -->
