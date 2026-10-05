@@ -2,24 +2,24 @@
 
 @section('content')
 <!-- Background Backdrop Container -->
-<section class="min-h-[calc(100vh-80px)] bg-gradient-to-br from-[#4A0A0A] via-[#601211] to-[#2B0505] py-4 sm:py-8 px-3 sm:px-6 lg:px-8 flex items-center justify-center relative overflow-hidden">
+<section class="min-h-[calc(100vh-80px)] bg-gradient-to-br from-[#040A1A] via-[#071533] to-[#040A1A] py-4 sm:py-8 px-3 sm:px-6 lg:px-8 flex items-center justify-center relative overflow-hidden">
     
     <!-- Stylized Background Effects -->
     <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: url('{{ asset('img/lottery-pattern.svg') }}'); background-repeat: repeat; background-size: 140px 140px;"></div>
-    <div class="absolute -top-32 -left-32 w-80 h-80 bg-[#F59E0A]/15 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -top-32 -left-32 w-80 h-80 bg-[#DFB755]/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-[#0F2356]/40 rounded-full blur-3xl pointer-events-none"></div>
 
     <!-- Main Payment Modal Card -->
-    <div class="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-stone-200/90 z-10 transition-all">
+    <div class="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-[#DFB755]/30 z-10 transition-all">
         
-        <!-- Modal Top Maroon Header (Compact) -->
-        <div class="bg-gradient-to-r from-[#601211] via-[#7F1D1D] to-[#601211] text-white px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between border-b border-red-900/40">
+        <!-- Modal Top Royal Navy Header (Compact) -->
+        <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#0B193E] text-white px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between border-b border-[#DFB755]/30">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-[#FBBF24] text-sm shrink-0">
+                <div class="w-8 h-8 rounded-lg bg-white/10 border border-[#DFB755]/30 flex items-center justify-center text-[#DFB755] text-sm shrink-0">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div>
-                    <span class="text-[8px] sm:text-[9px] uppercase font-extrabold tracking-widest text-amber-300 block leading-tight">SECURE PAYMENT</span>
+                    <span class="text-[8px] sm:text-[9px] uppercase font-extrabold tracking-widest text-[#DFB755] block leading-tight">SECURE PAYMENT</span>
                     <h2 class="text-sm sm:text-base font-serif font-black text-white leading-tight">Complete your booking</h2>
                 </div>
             </div>
@@ -50,29 +50,29 @@
             <!-- Amount Payable (4 cols) -->
             <div class="col-span-4 pl-1 sm:pl-2 text-right">
                 <span class="block text-[8px] sm:text-[9px] uppercase font-bold text-stone-400 tracking-wider">AMOUNT PAYABLE</span>
-                <span class="text-xs sm:text-sm font-black text-[#7F1D1D]">INR {{ $totalAmount }}</span>
+                <span class="text-xs sm:text-sm font-black text-[#0B193E]">INR {{ $totalAmount }}</span>
             </div>
         </div>
 
         <!-- Previous Form Data / Customer & Selection Summary Banner (Compact & Polished) -->
-        <div class="bg-amber-50/60 border-b border-amber-200/60 px-4 py-2 text-xs">
+        <div class="bg-[#0B193E]/5 border-b border-[#DFB755]/20 px-4 py-2 text-xs">
             <div class="flex items-center justify-between cursor-pointer" onclick="toggleDetails()" id="details-toggle-btn">
                 <div class="flex items-center gap-2 truncate">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#7F1D1D]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#0B193E]"></span>
                     <span class="font-bold text-stone-800 truncate">{{ $customer['name'] }}</span>
                     <span class="text-stone-400 text-[10px]">•</span>
                     <span class="text-stone-600 font-mono text-[11px] truncate">{{ $customer['mobile'] }}</span>
                     <span class="text-stone-400 text-[10px]">•</span>
                     <span class="text-stone-600 text-[11px] truncate">{{ $customer['city'] }}, {{ $customer['state'] }}</span>
                 </div>
-                <div class="flex items-center gap-1 text-[11px] font-bold text-[#7F1D1D] shrink-0 ml-2">
+                <div class="flex items-center gap-1 text-[11px] font-bold text-[#0B193E] shrink-0 ml-2">
                     <span id="details-toggle-text">View details</span>
                     <i id="details-toggle-icon" class="fa-solid fa-chevron-down text-[9px] transition-transform"></i>
                 </div>
             </div>
 
             <!-- Collapsible Detail Info -->
-            <div id="customer-details-collapsible" class="hidden pt-2 mt-1.5 border-t border-amber-200/50 space-y-1.5">
+            <div id="customer-details-collapsible" class="hidden pt-2 mt-1.5 border-t border-[#DFB755]/20 space-y-1.5">
                 <div class="grid grid-cols-2 gap-2 text-[11px]">
                     <div>
                         <span class="text-stone-400 block text-[9px] uppercase font-semibold">Email:</span>
@@ -87,7 +87,7 @@
                     <span class="text-stone-400 block text-[9px] uppercase font-semibold mb-1">Selected Numbers:</span>
                     <div class="flex flex-wrap gap-1">
                         @foreach($selectedTickets as $t)
-                            <span class="px-1.5 py-0.5 rounded bg-white text-stone-800 font-mono text-[10px] font-bold border border-amber-300/80">
+                            <span class="px-1.5 py-0.5 rounded bg-white text-stone-800 font-mono text-[10px] font-bold border border-[#DFB755]/40">
                                 {{ $t }}
                             </span>
                         @endforeach
@@ -102,8 +102,8 @@
             <!-- Stepper Progress (Compact) -->
             <div class="flex items-center justify-center gap-2">
                 <div class="flex items-center gap-1.5">
-                    <span class="w-5 h-5 rounded-full bg-[#7F1D1D] text-white flex items-center justify-center text-[10px] font-bold shadow-2xs">1</span>
-                    <span class="text-xs font-bold text-[#7F1D1D]">Pay</span>
+                    <span class="w-5 h-5 rounded-full bg-[#071533] text-[#F3D068] border border-[#DFB755] flex items-center justify-center text-[10px] font-bold shadow-2xs">1</span>
+                    <span class="text-xs font-bold text-[#071533]">Pay</span>
                 </div>
                 <div class="w-10 h-0.5 bg-stone-200"></div>
                 <div class="flex items-center gap-1.5 opacity-60 cursor-pointer hover:opacity-100 transition" onclick="goToStep2()">
@@ -114,7 +114,7 @@
 
             <!-- Title & Subtitle -->
             <div class="text-center space-y-0.5">
-                <span class="text-[9px] uppercase font-extrabold tracking-widest text-[#7F1D1D] block">
+                <span class="text-[9px] uppercase font-extrabold tracking-widest text-[#0B193E] block">
                     SCAN AND PAY
                 </span>
                 <h3 class="text-lg sm:text-xl font-serif font-black text-stone-900 leading-tight">
@@ -124,7 +124,7 @@
 
             <!-- QR Code Card Container (Reduced Size) -->
             <div class="flex justify-center">
-                <div class="relative p-2.5 bg-white rounded-2xl border-2 border-stone-200/90 shadow-md group hover:border-[#7F1D1D]/40 transition-all">
+                <div class="relative p-2.5 bg-white rounded-2xl border-2 border-[#DFB755]/40 shadow-md group hover:border-[#DFB755] transition-all">
                     <!-- Dynamic UPI QR Code (160x160) -->
                     <img id="upi-qrcode" 
                         src="https://api.qrserver.com/v1/create-qr-code/?size=165x165&data={{ urlencode($upiUrl) }}&margin=2" 
@@ -135,8 +135,8 @@
                     
                     <!-- Center Overlay Icon / Crown -->
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="w-7 h-7 rounded-full bg-white shadow border border-amber-400/60 flex items-center justify-center text-[#7F1D1D] text-xs">
-                            <i class="fa-solid fa-crown text-[#F59E0A]"></i>
+                        <div class="w-7 h-7 rounded-full bg-[#071533] shadow border border-[#DFB755] flex items-center justify-center text-[#DFB755] text-xs">
+                            <i class="fa-solid fa-crown text-[#DFB755]"></i>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                 </span>
 
                 <!-- 3 Hand Pointing Icons -->
-                <div class="flex justify-around px-8 text-[#7F1D1D] text-xs opacity-75">
+                <div class="flex justify-around px-8 text-[#DFB755] text-xs opacity-85">
                     <i class="fa-solid fa-hand-point-down"></i>
                     <i class="fa-solid fa-hand-point-down"></i>
                     <i class="fa-solid fa-hand-point-down"></i>
@@ -205,14 +205,14 @@
             <div class="space-y-2 pt-0.5">
                 <!-- Open UPI App Primary Button -->
                 <a href="{{ $upiUrl }}" 
-                    class="w-full bg-[#7F1D1D] hover:bg-[#601211] text-white py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm shadow hover:shadow-md transition-all flex items-center justify-center gap-2 transform active:scale-98">
+                    class="w-full bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] py-2.5 px-4 rounded-xl font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 transform active:scale-98">
                     <i class="fa-solid fa-mobile-screen-button text-xs"></i>
                     <span>Open UPI app</span>
                 </a>
 
                 <!-- Next Step Button: I have completed the payment -->
                 <button type="button" onclick="goToStep2()" 
-                    class="w-full bg-white hover:bg-stone-50 text-[#7F1D1D] border-2 border-[#7F1D1D] py-2.5 px-4 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 group hover:shadow-sm">
+                    class="w-full bg-white hover:bg-stone-50 text-[#071533] border-2 border-[#071533] py-2.5 px-4 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-2 group hover:shadow-sm">
                     <span>I have completed the payment</span>
                     <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
                 </button>
@@ -231,14 +231,14 @@
                 </div>
                 <div class="w-10 h-0.5 bg-emerald-400"></div>
                 <div class="flex items-center gap-1.5">
-                    <span class="w-5 h-5 rounded-full bg-[#7F1D1D] text-white flex items-center justify-center text-[10px] font-bold shadow-2xs">2</span>
-                    <span class="text-xs font-bold text-[#7F1D1D]">Upload receipt</span>
+                    <span class="w-5 h-5 rounded-full bg-[#071533] text-[#F3D068] border border-[#DFB755] flex items-center justify-center text-[10px] font-bold shadow-2xs">2</span>
+                    <span class="text-xs font-bold text-[#071533]">Upload receipt</span>
                 </div>
             </div>
 
             <!-- Header -->
             <div class="text-center space-y-0.5">
-                <span class="text-[9px] uppercase font-extrabold tracking-widest text-[#7F1D1D] block">
+                <span class="text-[9px] uppercase font-extrabold tracking-widest text-[#0B193E] block">
                     FINAL VERIFICATION
                 </span>
                 <h3 class="text-lg sm:text-xl font-serif font-black text-stone-900">
@@ -262,7 +262,7 @@
                             <i class="fa-solid fa-hashtag"></i>
                         </div>
                         <input type="text" id="utr_number" required placeholder="e.g. 427819283741" maxlength="16"
-                            class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-mono text-stone-800 placeholder-stone-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7F1D1D]/20 focus:border-[#7F1D1D] transition">
+                            class="w-full pl-8 pr-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-mono text-stone-800 placeholder-stone-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0B193E]/20 focus:border-[#0B193E] transition">
                     </div>
                 </div>
 
@@ -271,7 +271,7 @@
                     <label class="block text-xs font-bold text-stone-700">
                         Payment Screenshot (Optional)
                     </label>
-                    <div class="border-2 border-dashed border-stone-300 hover:border-[#7F1D1D] rounded-xl p-3 text-center cursor-pointer bg-stone-50 transition" onclick="document.getElementById('receipt-file').click()">
+                    <div class="border-2 border-dashed border-stone-300 hover:border-[#0B193E] rounded-xl p-3 text-center cursor-pointer bg-stone-50 transition" onclick="document.getElementById('receipt-file').click()">
                         <input type="file" id="receipt-file" accept="image/*" class="hidden" onchange="handleFileSelect(this)">
                         <div id="upload-prompt" class="space-y-0.5">
                             <i class="fa-solid fa-cloud-arrow-up text-lg text-stone-400"></i>
@@ -305,7 +305,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit" id="submit-verification-btn"
-                    class="w-full bg-[#7F1D1D] hover:bg-[#601211] text-white py-3 px-4 rounded-xl font-bold text-xs sm:text-sm shadow hover:shadow-md transition-all flex items-center justify-center gap-2">
+                    class="w-full bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] py-3 px-4 rounded-xl font-black text-xs sm:text-sm shadow-lg shadow-gold-500/20 hover:shadow-xl transition-all flex items-center justify-center gap-2">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>Submit &amp; Confirm Booking</span>
                 </button>
@@ -330,7 +330,7 @@
                     </p>
                 </div>
                 <div class="pt-2">
-                    <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-[#7F1D1D] text-white px-5 py-2 rounded-xl text-xs font-bold shadow hover:bg-[#601211] transition">
+                    <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-[#071533] text-[#F3D068] border border-[#DFB755] px-5 py-2 rounded-xl text-xs font-bold shadow hover:bg-[#0B193E] transition">
                         <span>Return to Home</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
@@ -407,3 +407,4 @@
     }
 </script>
 @endsection
+
