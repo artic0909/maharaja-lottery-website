@@ -24,7 +24,13 @@
 <section class="relative min-h-auto lg:min-h-[calc(100dvh-75px)] flex flex-col justify-between bg-zinc-900 overflow-hidden pt-4 sm:pt-6 lg:pt-0">
     <!-- Background Image with Lowest Darkness Overlay -->
     <div class="absolute inset-0 z-0">
-        <img src="{{ asset('img/slide-1.jpg') }}" alt="Background" class="w-full h-full object-cover opacity-95">
+        @php
+            $heroBanner = setting('hero_banner_image');
+            $heroBannerSrc = ($heroBanner && file_exists(public_path($heroBanner))) 
+                ? asset($heroBanner) 
+                : asset('img/slide-1.jpg');
+        @endphp
+        <img src="{{ $heroBannerSrc }}" alt="Maharaja Lottery Banner" class="w-full h-full object-cover opacity-95">
         <!-- Minimal subtle darkness overlay for text readability -->
         <div class="absolute inset-0 bg-gradient-to-r from-black/55 via-black/30 to-black/10"></div>
     </div>
@@ -41,13 +47,12 @@
                 </div>
                 
                 <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-[54px] font-serif mb-4 lg:mb-5 leading-[1.15] text-white drop-shadow-md">
-                    Maharaja Lottery<br>
-                    <span class="text-white">Tickets, Results &</span><br>
-                    <span class="text-[#F5D77F]">Support</span>
+                    {{ setting('hero_title', 'Maharaja Lottery') }}<br>
+                    <span class="text-[#F5D77F]">{{ setting('hero_subtitle', 'Tickets, Results & Support') }}</span>
                 </h2>
                 
                 <p class="text-white text-xs sm:text-sm md:text-base mb-6 max-w-xl leading-relaxed drop-shadow-sm bg-black/25 p-3 rounded-lg backdrop-blur-xs border border-white/10">
-                    Explore current ticket availability, follow verified draw updates and receive clear guidance for winner verification and prize claims.
+                    {{ setting('hero_description', 'Explore current ticket availability, follow verified draw updates and receive clear guidance for winner verification and prize claims.') }}
                 </p>
                 
                 <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 mb-6">
@@ -59,7 +64,7 @@
                     <a href="{{ route('winnerlist') }}" class="bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B8860B] hover:to-[#DFB755] text-[#071533] px-4 sm:px-5 py-2.5 sm:py-3 rounded-md font-black text-xs sm:text-sm transition flex items-center gap-2 shadow-md border border-[#FFE8A2]/80">
                         View Results
                     </a>
-                    <a href="https://wa.me/918743978796" target="_blank" class="text-white hover:text-[#25D366] transition flex items-center gap-2 font-medium text-xs sm:text-sm px-2 py-1 rounded-md bg-black/30 backdrop-blur-xs underline underline-offset-4 decoration-white/40">
+                    <a href="{{ setting('social_whatsapp', 'https://wa.me/918743978796') }}" target="_blank" class="text-white hover:text-[#25D366] transition flex items-center gap-2 font-medium text-xs sm:text-sm px-2 py-1 rounded-md bg-black/30 backdrop-blur-xs underline underline-offset-4 decoration-white/40">
                         <i class="fa-brands fa-whatsapp text-base sm:text-lg text-[#25D366]"></i> Get WhatsApp Assistance
                     </a>
                 </div>
@@ -84,7 +89,7 @@
                     <i class="fa-solid fa-crown text-5xl xl:text-6xl text-[#F5D77F] mb-3 drop-shadow-md"></i>
                     <h3 class="text-2xl xl:text-3xl font-black text-white uppercase tracking-widest drop-shadow-md">Maharaja</h3>
                     <h4 class="text-lg xl:text-xl font-bold text-[#F5D77F] uppercase tracking-wider mt-0.5 drop-shadow-md">State Lottery</h4>
-                    <p class="text-white/90 text-xs mt-2.5 font-medium">Verified & Trusted Support</p>
+                    <p class="text-white/90 text-xs mt-2.5 font-medium">Verified &amp; Trusted Support</p>
                 </div>
             </div>
 

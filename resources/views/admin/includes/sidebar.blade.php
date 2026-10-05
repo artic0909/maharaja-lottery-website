@@ -108,9 +108,14 @@
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
                 <div class="flex items-center gap-3">
                     <i class="fa-brands fa-whatsapp text-sm text-[#25D366]"></i>
-                    <span>WhatsApp Desk</span>
+            <!-- Settings & Profile -->
+            <a href="{{ route('admin.settings.index') }}"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('admin.settings.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-gear text-sm {{ request()->routeIs('admin.settings.*') ? 'text-[#DFB755]' : 'text-stone-400' }}"></i>
+                    <span>Profile &amp; Settings</span>
                 </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-stone-400"></i>
+                <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.settings.*') ? 'inline-block' : 'hidden' }}"></span>
             </a>
         </div>
 

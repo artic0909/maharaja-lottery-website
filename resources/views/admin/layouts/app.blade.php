@@ -102,6 +102,10 @@
                                         <i class="fa-solid fa-gauge-high text-xs text-[#DFB755]"></i>
                                         <span>Dashboard</span>
                                     </a>
+                                    <a href="{{ route('admin.settings.index') }}" class="flex items-center gap-2.5 px-4 py-2 text-xs text-stone-300 hover:text-white hover:bg-white/10 transition">
+                                        <i class="fa-solid fa-gear text-xs text-[#DFB755]"></i>
+                                        <span>Settings &amp; Profile</span>
+                                    </a>
                                     <a href="{{ route('ticket.booking') }}" target="_blank" class="flex items-center gap-2.5 px-4 py-2 text-xs text-stone-300 hover:text-white hover:bg-white/10 transition">
                                         <i class="fa-solid fa-ticket text-xs text-[#DFB755]"></i>
                                         <span>Live Ticket Board</span>

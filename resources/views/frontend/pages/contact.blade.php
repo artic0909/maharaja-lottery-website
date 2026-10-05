@@ -64,7 +64,7 @@
                     </p>
                 </div>
                 
-                <a href="https://wa.me/918743978796" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#16A34A] hover:bg-[#15803D] text-white py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-300 shadow-md shadow-emerald-900/10">
+                <a href="{{ setting('social_whatsapp', 'https://wa.me/918743978796') }}" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#16A34A] hover:bg-[#15803D] text-white py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-300 shadow-md shadow-emerald-900/10">
                     <i class="fa-brands fa-whatsapp text-sm"></i>
                     Chat Now
                 </a>
@@ -86,9 +86,9 @@
                     </p>
                 </div>
                 
-                <a href="tel:8743978796" class="inline-flex items-center justify-center gap-2 bg-[#0B193E] hover:bg-[#071533] text-white py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-300 shadow-md shadow-black/15 border border-[#DFB755]/30">
+                <a href="tel:{{ preg_replace('/[^0-9+]/', '', setting('contact_mobile', '8743978796')) }}" class="inline-flex items-center justify-center gap-2 bg-[#0B193E] hover:bg-[#071533] text-white py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-300 shadow-md shadow-black/15 border border-[#DFB755]/30">
                     <i class="fa-solid fa-phone text-xs text-[#DFB755]"></i>
-                    8743978796
+                    {{ setting('contact_mobile', '8743978796') }}
                 </a>
             </div>
 
@@ -108,9 +108,9 @@
                     </p>
                 </div>
                 
-                <a href="mailto:support@keralalotteriesgov.com" class="inline-flex items-center justify-center gap-2 border-2 border-[#0B193E] text-[#0B193E] hover:bg-[#0B193E] hover:text-white py-2.5 sm:py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-300">
+                <a href="mailto:{{ setting('contact_email', 'support@keralalotteriesgov.com') }}" class="inline-flex items-center justify-center gap-2 border-2 border-[#0B193E] text-[#0B193E] hover:bg-[#0B193E] hover:text-white py-2.5 sm:py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-300">
                     <i class="fa-solid fa-envelope text-xs"></i>
-                    support@keralalotteriesgov.com
+                    {{ setting('contact_email', 'support@keralalotteriesgov.com') }}
                 </a>
             </div>
 

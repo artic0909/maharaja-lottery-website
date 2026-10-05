@@ -49,8 +49,7 @@
                     <div class="flex items-start gap-2 text-xs text-slate-600 leading-relaxed font-medium group/pin">
                         <i class="fa-solid fa-location-dot text-[#0B193E] text-xs mt-0.5 shrink-0 group-hover/pin:animate-bounce"></i>
                         <div>
-                            <span>Vikas Bhavan P.O., Thiruvananthapuram</span><br>
-                            <span class="text-[#0B193E] font-semibold">Kerala - 695033.</span>
+                            <span>{{ setting('contact_address', 'Lottery Directorate Complex, Vikas Bhavan, Thiruvananthapuram, Kerala 695033') }}</span>
                         </div>
                     </div>
                 </div>
@@ -104,15 +103,15 @@
                 </h4>
                 <div class="space-y-2.5 text-xs text-slate-600 font-medium">
                     <div>
-                        <a href="tel:8743978796" class="inline-flex items-center gap-2 text-slate-800 hover:text-[#0B193E] font-bold transition-all px-2.5 py-1 -ml-2.5 rounded-lg hover:bg-slate-100 group/item">
+                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', setting('contact_mobile', '+91 87439 78796')) }}" class="inline-flex items-center gap-2 text-slate-800 hover:text-[#0B193E] font-bold transition-all px-2.5 py-1 -ml-2.5 rounded-lg hover:bg-slate-100 group/item">
                             <i class="fa-solid fa-phone text-[#DFB755] text-xs group-hover/item:rotate-12 transition-transform"></i>
-                            8743978796
+                            {{ setting('contact_mobile', '+91 87439 78796') }}
                         </a>
                     </div>
                     <div>
-                        <a href="mailto:support@keralalotteriesgov.com" class="inline-flex items-center gap-2 text-slate-700 hover:text-[#0B193E] font-medium transition-all px-2.5 py-1 -ml-2.5 rounded-lg hover:bg-slate-100 group/item">
+                        <a href="mailto:{{ setting('contact_email', 'support@maharajalottery.com') }}" class="inline-flex items-center gap-2 text-slate-700 hover:text-[#0B193E] font-medium transition-all px-2.5 py-1 -ml-2.5 rounded-lg hover:bg-slate-100 group/item">
                             <i class="fa-solid fa-envelope text-[#DFB755] text-xs group-hover/item:scale-110 transition-transform"></i>
-                            support@keralalotteriesgov.com
+                            {{ setting('contact_email', 'support@maharajalottery.com') }}
                         </a>
                     </div>
                 </div>
