@@ -78,17 +78,17 @@
 
                         <!-- Admin User Dropdown Trigger -->
                         <div class="relative" id="user-dropdown-container">
-                            <button type="button" onclick="toggleUserDropdown()" class="flex items-center gap-2.5 p-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-[#DFB755]/30 transition group">
-                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#C59B27] to-[#F3D068] text-[#071533] font-black flex items-center justify-center text-xs shadow-sm">
-                                    MA
+                            <button type="button" onclick="toggleUserDropdown()" class="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-[#040A1A] hover:bg-white/5 border border-[#DFB755]/30 transition group shadow-sm">
+                                <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#DFB755] to-[#C59B27] text-[#040A1A] font-black flex items-center justify-center text-xs shadow-sm">
+                                    <i class="fa-solid fa-user text-[11px]"></i>
                                 </div>
-                                <div class="hidden sm:block text-left pr-1 leading-tight">
-                                    <h4 class="text-xs font-bold text-white group-hover:text-[#DFB755] transition truncate max-w-[120px]">
-                                        {{ auth()->user()->name ?? 'Master Admin' }}
+                                <div class="text-left pr-1 leading-none">
+                                    <span class="text-[8px] uppercase tracking-widest text-[#DFB755] font-extrabold block">ADMINISTRATOR</span>
+                                    <h4 class="text-xs font-bold text-white group-hover:text-[#F3D068] transition truncate">
+                                        {{ auth()->user()->name ?? 'admin' }}
                                     </h4>
-                                    <span class="text-[10px] text-[#DFB755] font-semibold">Superadmin</span>
                                 </div>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-stone-400 group-hover:text-white transition hidden sm:block"></i>
+                                <i class="fa-solid fa-chevron-down text-[9px] text-stone-400 group-hover:text-white transition"></i>
                             </button>
 
                             <!-- Dropdown Menu -->

@@ -14,7 +14,7 @@
             </div>
             <div class="min-w-0">
                 <h2 class="text-base font-serif font-black text-white tracking-wider truncate">MAHARAJA</h2>
-                <p class="text-[9px] uppercase font-extrabold tracking-widest text-[#DFB755]">Admin Suite</p>
+                <p class="text-[9px] uppercase font-extrabold tracking-widest text-[#DFB755]">Admin Panel</p>
             </div>
         </div>
 
@@ -34,12 +34,11 @@
                 <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.dashboard') ? 'inline-block' : 'hidden' }}"></span>
             </a>
 
-            <!-- Live Bookings & Verification -->
-            <a href="#recent-bookings-section" 
+                        <a href="#recent-bookings-section" 
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-receipt text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
-                    <span>Ticket Bookings</span>
+                    <span>Ticket Management</span>
                 </div>
                 <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-[#F3D068] font-bold text-[10px] border border-amber-500/30">
                     7 Pending
@@ -103,11 +102,8 @@
                 <span class="text-[10px] text-stone-400">3.8k</span>
             </a>
 
-            <!-- WhatsApp Support Logs -->
-            <a href="https://wa.me/918743978796" target="_blank"
-                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
-                <div class="flex items-center gap-3">
-                    <i class="fa-brands fa-whatsapp text-sm text-[#25D366]"></i>
+
+
             <!-- Settings & Profile -->
             <a href="{{ route('admin.settings.index') }}"
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition {{ request()->routeIs('admin.settings.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
