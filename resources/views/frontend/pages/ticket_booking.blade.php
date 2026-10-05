@@ -27,7 +27,7 @@
                 </div>
 
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold text-white tracking-tight leading-[1.15]">
-                    Choose Your Kerala<br class="hidden sm:inline"> Lottery Ticket
+                    Book Your<br class="hidden sm:inline"> Maharaja Lottery Ticket
                 </h1>
 
                 <p class="text-white/85 text-xs sm:text-sm lg:text-base max-w-2xl font-normal leading-relaxed">
