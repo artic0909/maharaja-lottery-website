@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
 
+// Frontend Pages
 Route::view('/', 'frontend.pages.index')->name('home');
 Route::view('/about', 'frontend.pages.about')->name('about');
 Route::view('/winner-list', 'frontend.pages.winnerlist')->name('winnerlist');
@@ -14,9 +15,8 @@ Route::match(['get', 'post'], '/payment-form', [BookingController::class, 'payme
 Route::match(['get', 'post'], '/qr-payment', [BookingController::class, 'qrShow'])->name('qr.show');
 Route::match(['get', 'post'], '/qrshow', [BookingController::class, 'qrShow']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
-});
+// General Auth aliases (redirect to admin)
+Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
+Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))->name('dashboard');
 
 require __DIR__.'/settings.php';
-
