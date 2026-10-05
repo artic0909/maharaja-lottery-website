@@ -31,23 +31,8 @@
                 </h1>
 
                 <p class="text-white/85 text-xs sm:text-sm lg:text-base max-w-2xl font-normal leading-relaxed">
-                    Select your lucky ticket numbers from the active lottery schemes below. You can pick tickets from multiple categories in a single order.
+                    Choose your desired ticket numbers from any lottery scheme below. You can select tickets from any category and proceed to checkout.
                 </p>
-
-                <!-- Category Quick Navigation Pills -->
-                <div class="flex flex-wrap items-center gap-2.5 pt-2">
-                    <span class="text-[11px] uppercase font-bold text-[#DFB755] tracking-wider block sm:inline">
-                        Jump to Scheme:
-                    </span>
-                    @foreach($categoriesWithTickets as $cat)
-                        <a href="#cat-{{ $cat['slug'] }}" 
-                            class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-[#DFB755] hover:text-[#071533] border border-white/20 text-xs font-bold transition shadow-xs flex items-center gap-1.5">
-                            <i class="fa-solid fa-ticket text-[10px]"></i>
-                            <span>{{ $cat['name'] }}</span>
-                            <span class="text-[10px] opacity-80">({{ $cat['price'] }})</span>
-                        </a>
-                    @endforeach
-                </div>
             </div>
 
             <!-- Right Step Progress Indicator -->
@@ -93,16 +78,25 @@
 <!-- Gold Accent Bar -->
 <div class="h-1.5 w-full bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27]"></div>
 
-<!-- Main Content Area: All Categories Shown Next by Next -->
-<section class="bg-[#F8FAFC] py-10 lg:py-16 min-h-screen pb-32">
+@if(session('error'))
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <div class="bg-amber-500/10 border border-amber-500/40 text-amber-900 px-4 py-3 rounded-xl text-sm font-semibold flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+            <span>{{ session('error') }}</span>
+        </div>
+    </div>
+@endif
+
+<!-- Main Content Area: All Categories Shown Stacked One After Another -->
+<section class="bg-[#F8FAFC] py-10 lg:py-16 min-h-screen pb-36">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         @foreach($categoriesWithTickets as $index => $cat)
-            <!-- Category Block (Next by Next) -->
-            <div id="cat-{{ $cat['slug'] }}" class="bg-white rounded-3xl shadow-md border border-stone-200/90 p-5 sm:p-8 space-y-6 scroll-mt-24 transition-all">
+            <!-- Category Section Container -->
+            <div id="cat-{{ $cat['slug'] }}" class="bg-white rounded-3xl shadow-md border border-stone-200/90 p-5 sm:p-8 space-y-6 transition-all">
                 
                 <!-- Category Royal Navy Header Banner -->
-                <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#040A1A] rounded-2xl p-6 sm:p-8 text-white text-center shadow-lg relative overflow-hidden border border-[#DFB755]/30">
+                <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#040A1A] rounded-2xl p-6 sm:p-8 text-white text-center shadow-lg relative overflow-hidden border border-[#DFB755]/35">
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none"></div>
                     
                     <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#DFB755]/15 border border-[#DFB755]/30 text-[#DFB755] text-2xl mb-3 shadow-inner">
@@ -113,80 +107,67 @@
                         {{ $cat['name'] }}
                     </h2>
                     
-                    <p class="text-[#F3D068] font-black text-sm sm:text-base mt-1">
+                    <p class="text-[#F3D068] font-black text-sm sm:text-base mt-1 font-mono">
                         {{ $cat['price'] }} per ticket
                     </p>
-                    <p class="text-white/70 text-[11px] sm:text-xs font-mono mt-0.5">
-                        Official Directorate Draw &bull; Sample Code: <span class="text-white font-bold">{{ $cat['sample_code'] }}</span>
+                    <p class="text-stone-300 text-[11px] sm:text-xs font-mono mt-0.5">
+                        Official Directorate Draw &bull; Sample Code: <span class="text-[#F3D068] font-bold">{{ $cat['sample_code'] }}</span>
                     </p>
-
-                    <!-- 3 Prize Tier Cards Row -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mt-6">
-                        @foreach(array_slice($cat['prizes'], 0, 3) as $pIdx => $prize)
-                            <div class="bg-[#0B193E]/95 backdrop-blur-sm rounded-xl p-3.5 sm:p-4 text-white shadow-sm flex items-center gap-3.5 border border-[#DFB755]/25 text-left">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black flex items-center justify-center text-sm shrink-0 shadow-sm">
-                                    {{ $pIdx + 1 }}
-                                </div>
-                                <div class="min-w-0">
-                                    <span class="block text-[9px] uppercase font-extrabold text-[#DFB755] tracking-wider">
-                                        {{ $prize['label'] ?? (($pIdx + 1) . 'th') }} PRIZE
-                                    </span>
-                                    <h5 class="text-sm sm:text-base font-extrabold text-white">{{ $prize['amount'] }}</h5>
-                                    <span class="inline-flex items-center gap-1 text-[10px] text-white/70 mt-0.5">
-                                        <i class="fa-solid fa-ticket-simple text-[9px] text-[#DFB755]"></i> {{ $prize['winners'] ?? '1 Lucky Ticket' }}
-                                    </span>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
                 </div>
 
-                <!-- Control Bar: Search & Quick Picks for this Category -->
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-2 border-b border-stone-100 pb-4">
+                <!-- 3 Prize Cards Row (Maharaja Luxury Navy & Gold) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                    @foreach(array_slice($cat['prizes'] ?? [], 0, 3) as $pIdx => $prize)
+                        <div class="bg-[#071533] rounded-2xl p-4 shadow-sm border border-[#DFB755]/25 flex items-center gap-3.5 text-left hover:border-[#DFB755] transition">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#040A1A] font-black flex items-center justify-center text-sm shrink-0 shadow-sm">
+                                {{ $pIdx + 1 }}
+                            </div>
+                            <div class="min-w-0">
+                                <span class="block text-[9px] uppercase font-extrabold text-[#DFB755] tracking-wider">
+                                    {{ $prize['label'] ?? (($pIdx + 1) . 'th') }} PRIZE
+                                </span>
+                                <h5 class="text-sm sm:text-base font-black text-white">{{ $prize['amount'] }}</h5>
+                                <span class="inline-flex items-center gap-1 text-[10px] text-[#F3D068] mt-0.5 bg-[#040A1A] px-2 py-0.5 rounded-full border border-[#DFB755]/30">
+                                    <i class="fa-solid fa-ticket-simple text-[9px] text-[#DFB755]"></i> {{ $prize['winners'] ?? '1 lucky ticket' }}
+                                </span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Control Bar: Search & Status Legend -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-b border-stone-100 pb-4">
                     
                     <!-- Search Input -->
-                    <div class="relative w-full lg:w-80">
+                    <div class="relative w-full sm:w-80">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-xs"></i>
-                        <input type="text" onkeyup="searchCategoryTickets('{{ $cat['slug'] }}', this.value)" placeholder="Search ticket number (e.g. {{ $cat['sample_code'] }})" 
+                        <input type="text" onkeyup="filterSchemeTickets('{{ $cat['slug'] }}', this.value)" placeholder="Search ticket number (e.g. {{ $cat['sample_code'] }})" 
                             class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#0B193E]/30 focus:border-[#0B193E] transition">
                     </div>
 
-                    <!-- Right Controls: Quick Picks & Legend -->
-                    <div class="flex flex-wrap items-center gap-4 text-xs">
-                        
-                        <!-- Quick Pick Buttons -->
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-stone-400 text-xs font-semibold">Quick pick:</span>
-                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 1)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">1</button>
-                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 3)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">3</button>
-                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 5)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">5</button>
-                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 10)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">10</button>
-                            <button type="button" onclick="clearCategorySelection('{{ $cat['slug'] }}')" class="text-rose-600 hover:text-rose-800 font-bold text-xs ml-1 transition">Clear</button>
-                        </div>
-
-                        <!-- Status Legend -->
-                        <div class="flex items-center gap-3 text-[11px] text-stone-500 border-l border-stone-200 pl-4">
-                            <span class="flex items-center gap-1">
-                                <span class="w-2.5 h-2.5 rounded-sm border border-stone-300 bg-white"></span> Available
+                    <!-- Right Controls: Status Legend & Count -->
+                    <div class="flex items-center gap-4 text-xs">
+                        <div class="flex items-center gap-3 text-[11px] text-stone-600">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded-sm border border-stone-300 bg-white"></span> Available
                             </span>
-                            <span class="flex items-center gap-1 font-bold text-stone-800">
-                                <span class="w-2.5 h-2.5 rounded-sm bg-[#071533] border border-[#DFB755]"></span> Selected
+                            <span class="flex items-center gap-1.5 font-bold text-[#071533]">
+                                <span class="w-3 h-3 rounded-sm bg-[#071533] border border-[#DFB755]"></span> Selected
                             </span>
-                            <span class="flex items-center gap-1">
-                                <span class="w-2.5 h-2.5 rounded-sm bg-stone-100 border border-stone-200"></span> Reserved
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-3 h-3 rounded-sm bg-stone-100 border border-stone-200"></span> Reserved
                             </span>
                         </div>
 
                         <!-- Ticket Count Badge -->
-                        <span class="bg-stone-100 text-stone-600 font-bold text-[10px] px-2.5 py-1 rounded-full">
-                            {{ count($cat['tickets']) }} tickets displayed
+                        <span class="text-[#071533] font-bold text-[11px] font-mono border-l border-stone-200 pl-3">
+                            {{ count($cat['tickets']) }} tickets
                         </span>
-
                     </div>
                 </div>
 
-                <!-- 8 Columns Responsive Ticket Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-2.5" id="grid-{{ $cat['slug'] }}">
+                <!-- Complete Ticket Grid (11 Columns Desktop) -->
+                <div class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-11 xl:grid-cols-11 gap-2 sm:gap-2.5" id="grid-{{ $cat['slug'] }}">
                     @foreach($cat['tickets'] as $ticket)
                         @php
                             $isSelected = in_array($ticket['number'], $selectedTickets);
@@ -195,17 +176,15 @@
                         
                         <button type="button" 
                             data-ticket="{{ $ticket['number'] }}"
-                            data-category="{{ $cat['slug'] }}"
                             data-price="{{ $ticket['price'] }}"
                             data-reserved="{{ $isReserved ? 'true' : 'false' }}"
-                            onclick="toggleTicket(this)"
-                            class="ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative {{ $isReserved ? 'bg-stone-50 border-stone-200/60 text-stone-300 cursor-not-allowed' : ($isSelected ? 'bg-[#040A1A] text-[#F3D068] border-[#DFB755] shadow-md transform scale-[1.02] ring-1 ring-[#DFB755]' : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#0B193E]') }}"
+                            class="ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative cursor-pointer {{ $isReserved ? 'bg-stone-50 border-stone-200/60 text-stone-300 cursor-not-allowed opacity-60' : ($isSelected ? 'bg-[#040A1A] text-[#F3D068] border-2 border-[#DFB755] ring-2 ring-[#DFB755]/40 shadow-md transform scale-[1.02]' : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755]') }}"
                             {{ $isReserved ? 'disabled' : '' }}>
                             
                             <span>{{ $ticket['number'] }}</span>
 
                             @if($isSelected)
-                                <span class="selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs">
+                                <span class="selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs pointer-events-none">
                                     <i class="fa-solid fa-check"></i>
                                 </span>
                             @endif
@@ -219,7 +198,7 @@
     </div>
 </section>
 
-<!-- Floating Live Checkout Action Bar (Always Visible at Bottom) -->
+<!-- Floating Live Checkout Action Bar (Maharaja Navy & Gold) -->
 <div id="checkout-dock" class="fixed bottom-0 inset-x-0 z-40 bg-[#040A1A]/95 backdrop-blur-md border-t-2 border-[#DFB755] shadow-2xl p-4 transition-all">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         
@@ -231,15 +210,15 @@
             <div>
                 <div class="flex items-center gap-2">
                     <span id="selected-count" class="text-white font-black text-sm sm:text-base font-serif">
-                        {{ count($selectedTickets) }} Tickets Selected
+                        0 Tickets Selected
                     </span>
                     <span class="text-stone-400 text-xs hidden sm:inline">&bull;</span>
                     <span id="total-price" class="text-[#F3D068] font-black text-sm sm:text-base font-mono">
-                        Total: Calculate...
+                        Total: ₹0
                     </span>
                 </div>
                 <p id="selected-list-preview" class="text-stone-400 text-[11px] font-mono truncate max-w-[280px] sm:max-w-md">
-                    {{ implode(', ', $selectedTickets) }}
+                    Click any ticket above to select
                 </p>
             </div>
         </div>
@@ -247,10 +226,10 @@
         <!-- Right: Submit Form / Continue Button -->
         <form action="{{ route('payment.form') }}" method="POST" id="booking-checkout-form" class="w-full sm:w-auto">
             @csrf
-            <input type="hidden" name="tickets" id="form-tickets-input" value="{{ implode(',', $selectedTickets) }}">
+            <input type="hidden" name="tickets" id="form-tickets-input" value="">
             
-            <button type="submit" id="checkout-btn" 
-                class="w-full sm:w-auto min-w-[240px] bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] font-serif font-black text-sm py-3 px-8 rounded-xl shadow-lg border border-[#FFE8A2]/80 flex items-center justify-center gap-2 transition transform hover:scale-[1.02]">
+            <button type="submit" id="checkout-btn" disabled
+                class="w-full sm:w-auto min-w-[240px] bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] font-serif font-black text-sm py-3 px-8 rounded-xl shadow-lg border border-[#FFE8A2]/80 flex items-center justify-center gap-2 transition transform opacity-50 cursor-not-allowed">
                 <span>Proceed to Customer Details</span>
                 <i class="fa-solid fa-arrow-right text-xs"></i>
             </button>
@@ -259,110 +238,55 @@
     </div>
 </div>
 
-@push('scripts')
+<!-- JavaScript for Ticket Selection & Dock Updates -->
 <script>
-    let selectedTicketsSet = new Set({!! json_encode($selectedTickets) !!});
-    
-    // Map ticket number to price
-    const ticketPriceMap = {};
-    document.querySelectorAll('.ticket-btn').forEach(btn => {
-        const num = btn.getAttribute('data-ticket');
-        const price = parseInt(btn.getAttribute('data-price') || '40', 10);
-        if (num) ticketPriceMap[num] = price;
-    });
+    // Selected tickets set
+    window.selectedTicketsSet = new Set({!! json_encode($selectedTickets ?? []) !!});
+    window.ticketPriceMap = {};
 
-    function toggleTicket(btn) {
+    // Map all ticket prices across all schemes
+    function initTicketPriceMap() {
+        document.querySelectorAll('.ticket-btn').forEach(btn => {
+            const num = btn.getAttribute('data-ticket');
+            const price = parseInt(btn.getAttribute('data-price') || '40', 10);
+            if (num) window.ticketPriceMap[num] = price;
+        });
+    }
+
+    // Toggle Ticket Handler
+    window.toggleTicket = function(btn) {
+        if (!btn) return;
         const ticketNum = btn.getAttribute('data-ticket');
         const isReserved = btn.getAttribute('data-reserved') === 'true';
-        if (isReserved) return;
+        if (isReserved || !ticketNum) return;
 
-        if (selectedTicketsSet.has(ticketNum)) {
-            selectedTicketsSet.delete(ticketNum);
-            btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#0B193E]";
+        if (window.selectedTicketsSet.has(ticketNum)) {
+            window.selectedTicketsSet.delete(ticketNum);
+            btn.className = "ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755] cursor-pointer";
             const indicator = btn.querySelector('.selected-indicator');
             if (indicator) indicator.remove();
         } else {
-            selectedTicketsSet.add(ticketNum);
-            btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-[#040A1A] text-[#F3D068] border-[#DFB755] shadow-md transform scale-[1.02] ring-1 ring-[#DFB755]";
+            window.selectedTicketsSet.add(ticketNum);
+            btn.className = "ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative bg-[#040A1A] text-[#F3D068] border-2 border-[#DFB755] ring-2 ring-[#DFB755]/40 shadow-md transform scale-[1.02] cursor-pointer";
             if (!btn.querySelector('.selected-indicator')) {
                 const badge = document.createElement('span');
-                badge.className = "selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs";
+                badge.className = "selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs pointer-events-none";
                 badge.innerHTML = '<i class="fa-solid fa-check"></i>';
                 btn.appendChild(badge);
             }
         }
 
-        updateCheckoutDock();
-    }
+        window.updateCheckoutDock();
+    };
 
-    function quickPickCategory(catSlug, count) {
-        const grid = document.getElementById('grid-' + catSlug);
-        if (!grid) return;
-
-        const availableButtons = Array.from(grid.querySelectorAll('.ticket-btn')).filter(btn => {
-            return btn.getAttribute('data-reserved') !== 'true';
-        });
-
-        // Pick random available buttons
-        const shuffled = availableButtons.sort(() => 0.5 - Math.random());
-        const selectedSlice = shuffled.slice(0, count);
-
-        selectedSlice.forEach(btn => {
-            const ticketNum = btn.getAttribute('data-ticket');
-            if (!selectedTicketsSet.has(ticketNum)) {
-                selectedTicketsSet.add(ticketNum);
-                btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-[#040A1A] text-[#F3D068] border-[#DFB755] shadow-md transform scale-[1.02] ring-1 ring-[#DFB755]";
-                if (!btn.querySelector('.selected-indicator')) {
-                    const badge = document.createElement('span');
-                    badge.className = "selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs";
-                    badge.innerHTML = '<i class="fa-solid fa-check"></i>';
-                    btn.appendChild(badge);
-                }
-            }
-        });
-
-        updateCheckoutDock();
-    }
-
-    function clearCategorySelection(catSlug) {
-        const grid = document.getElementById('grid-' + catSlug);
-        if (!grid) return;
-
-        grid.querySelectorAll('.ticket-btn').forEach(btn => {
-            const ticketNum = btn.getAttribute('data-ticket');
-            if (selectedTicketsSet.has(ticketNum)) {
-                selectedTicketsSet.delete(ticketNum);
-                btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#0B193E]";
-                const indicator = btn.querySelector('.selected-indicator');
-                if (indicator) indicator.remove();
-            }
-        });
-
-        updateCheckoutDock();
-    }
-
-    function searchCategoryTickets(catSlug, query) {
-        const grid = document.getElementById('grid-' + catSlug);
-        if (!grid) return;
-
-        const q = query.trim().toUpperCase();
-        grid.querySelectorAll('.ticket-btn').forEach(btn => {
-            const num = btn.getAttribute('data-ticket');
-            if (!q || num.includes(q)) {
-                btn.style.display = '';
-            } else {
-                btn.style.display = 'none';
-            }
-        });
-    }
-
-    function updateCheckoutDock() {
-        const ticketsArr = Array.from(selectedTicketsSet);
+    // Update Floating Checkout Dock
+    window.updateCheckoutDock = function() {
+        const ticketsArr = Array.from(window.selectedTicketsSet);
         const count = ticketsArr.length;
         
         let total = 0;
         ticketsArr.forEach(t => {
-            total += (ticketPriceMap[t] || 40);
+            total += (window.ticketPriceMap[t] || 40);
         });
 
         const countEl = document.getElementById('selected-count');
@@ -373,22 +297,67 @@
 
         if (countEl) countEl.textContent = count + ' Ticket' + (count === 1 ? '' : 's') + ' Selected';
         if (priceEl) priceEl.textContent = 'Total: ₹' + total.toLocaleString('en-IN');
-        if (previewEl) previewEl.textContent = count > 0 ? ticketsArr.join(', ') : 'No tickets selected yet';
+        if (previewEl) previewEl.textContent = count > 0 ? ticketsArr.join(', ') : 'Click any ticket above to select';
         if (inputEl) inputEl.value = ticketsArr.join(',');
 
         if (checkoutBtn) {
             if (count === 0) {
                 checkoutBtn.disabled = true;
                 checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                checkoutBtn.classList.remove('hover:scale-[1.02]', 'cursor-pointer');
             } else {
                 checkoutBtn.disabled = false;
                 checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                checkoutBtn.classList.add('hover:scale-[1.02]', 'cursor-pointer');
             }
         }
+    };
+
+    // Live search within category
+    window.filterSchemeTickets = function(catSlug, query) {
+        const grid = document.getElementById('grid-' + catSlug);
+        if (!grid) return;
+
+        const q = (query || '').trim().toUpperCase();
+        grid.querySelectorAll('.ticket-btn').forEach(btn => {
+            const num = btn.getAttribute('data-ticket');
+            if (!q || (num && num.includes(q))) {
+                btn.style.display = '';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+    };
+
+    // Single click delegation on document to prevent double-firing
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.ticket-btn');
+        if (!btn) return;
+        e.preventDefault();
+        window.toggleTicket(btn);
+    });
+
+    // Form submit check
+    const checkoutForm = document.getElementById('booking-checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function(e) {
+            if (window.selectedTicketsSet.size === 0) {
+                e.preventDefault();
+                alert('Please select at least one ticket before proceeding.');
+            }
+        });
     }
 
-    // Initialize on page load
-    updateCheckoutDock();
+    // Initialize on ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            initTicketPriceMap();
+            window.updateCheckoutDock();
+        });
+    } else {
+        initTicketPriceMap();
+        window.updateCheckoutDock();
+    }
 </script>
-@endpush
 @endsection
+

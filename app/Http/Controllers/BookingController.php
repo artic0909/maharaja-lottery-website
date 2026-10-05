@@ -19,7 +19,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Display the ticket booking view with all categories rendered next by next.
+     * Display all lottery categories stacked one by one with no pagination and no auto-select.
      */
     public function ticketBooking(Request $request)
     {
@@ -31,7 +31,11 @@ class BookingController extends Controller
             $series = strtoupper($cat['series'] ?? 'MH');
             $sampleCode = $cat['code'] ?? ($series . '784563');
 
-            $reservedNumbers = [$series . '100004', $series . '100005', $series . '100012', $series . '100021'];
+            $reservedNumbers = [
+                $series . '100004', $series . '100005', $series . '100012', 
+                $series . '100021', $series . '100045', $series . '100053',
+                $series . '100064', $series . '100085'
+            ];
 
             $tickets = [];
             // Sample main ticket code
@@ -42,8 +46,8 @@ class BookingController extends Controller
                 'series' => $series,
             ];
 
-            // Series ticket numbers
-            for ($i = 100001; $i <= 100055; $i++) {
+            // Generate ticket grid (e.g. 70 tickets per scheme directly visible)
+            for ($i = 100000; $i <= 100069; $i++) {
                 $numStr = $series . $i;
                 if ($numStr !== $sampleCode) {
                     $tickets[] = [
@@ -60,9 +64,10 @@ class BookingController extends Controller
             $categoriesWithTickets[] = $cat;
         }
 
-        $selectedTickets = $request->input('selected', session('selected_tickets', ['MH784563', 'MH100006', 'MH100007']));
+        // Auto-choose is OFF: Default is empty array []
+        $selectedTickets = $request->input('selected', session('selected_tickets', []));
         if (is_string($selectedTickets)) {
-            $selectedTickets = array_filter(explode(',', $selectedTickets));
+            $selectedTickets = array_values(array_filter(explode(',', $selectedTickets)));
         }
 
         return view('frontend.pages.ticket_booking', compact('categoriesWithTickets', 'selectedTickets'));
@@ -74,7 +79,7 @@ class BookingController extends Controller
     public function paymentForm(Request $request)
     {
         $categories = $this->getActiveCategories();
-        $rawTickets = $request->input('tickets', session('selected_tickets', 'MH784563,MH100006,MH100007'));
+        $rawTickets = $request->input('tickets', session('selected_tickets', []));
         
         if (is_array($rawTickets)) {
             $selectedTickets = array_values(array_filter($rawTickets));
@@ -83,12 +88,11 @@ class BookingController extends Controller
         }
 
         if (empty($selectedTickets)) {
-            $selectedTickets = ['MH784563', 'MH100006', 'MH100007'];
+            return redirect()->route('ticket.booking')->with('error', 'Please click and choose at least one ticket to proceed.');
         }
 
         session(['selected_tickets' => $selectedTickets]);
 
-        // Calculate total amount based on ticket prefixes and category prices
         $totalAmount = 0;
         $ticketBreakdown = [];
 
@@ -141,7 +145,7 @@ class BookingController extends Controller
     public function qrShow(Request $request)
     {
         $categories = $this->getActiveCategories();
-        $rawTickets = $request->input('tickets', session('selected_tickets', 'MH784563,MH100006,MH100007'));
+        $rawTickets = $request->input('tickets', session('selected_tickets', []));
         
         if (is_array($rawTickets)) {
             $selectedTickets = array_values(array_filter($rawTickets));
@@ -150,7 +154,7 @@ class BookingController extends Controller
         }
 
         if (empty($selectedTickets)) {
-            $selectedTickets = ['MH784563', 'MH100006', 'MH100007'];
+            return redirect()->route('ticket.booking')->with('error', 'Please choose at least one ticket to proceed.');
         }
 
         session(['selected_tickets' => $selectedTickets]);

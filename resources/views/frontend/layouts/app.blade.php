@@ -34,5 +34,6 @@
 
     @include('frontend.includes.footer')
     @include('frontend.includes.script')
+    @stack('scripts')
 </body>
 </html>
