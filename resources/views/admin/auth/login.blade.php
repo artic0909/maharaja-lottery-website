@@ -95,8 +95,8 @@
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <input type="email" name="email" id="email" required autofocus
-                            value="{{ old('email', 'admin@mail.com') }}"
-                            placeholder="admin@mail.com"
+                            value="{{ old('email') }}"
+                            placeholder="name@example.com"
                             class="w-full pl-10 pr-4 py-3 rounded-xl bg-[#040A1A]/80 border border-stone-700/80 text-sm text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-[#DFB755]/40 focus:border-[#DFB755] transition">
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <input type="password" name="password" id="password" required
-                            value="12345678"
+                            value=""
                             placeholder="••••••••"
                             class="w-full pl-10 pr-10 py-3 rounded-xl bg-[#040A1A]/80 border border-stone-700/80 text-sm text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-[#DFB755]/40 focus:border-[#DFB755] transition font-mono">
                         <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-[#DFB755] transition text-xs">
@@ -125,7 +125,7 @@
                 <!-- Remember Me & Info -->
                 <div class="flex items-center justify-between text-xs pt-1">
                     <label class="flex items-center gap-2 cursor-pointer select-none text-stone-300">
-                        <input type="checkbox" name="remember" value="1" checked
+                        <input type="checkbox" name="remember" value="1"
                             class="w-4 h-4 rounded bg-[#040A1A] border-stone-700 text-[#DFB755] focus:ring-0 focus:ring-offset-0 cursor-pointer accent-[#DFB755]">
                         <span>Keep me signed in</span>
                     </label>
@@ -142,30 +142,8 @@
                 </div>
             </form>
 
-            <!-- Quick Auto-Fill Demo Credentials Card -->
-            <div class="bg-[#040A1A]/90 border border-[#DFB755]/20 rounded-2xl p-3.5 text-xs text-stone-300 space-y-2">
-                <div class="flex items-center justify-between">
-                    <span class="font-bold text-[#DFB755] flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
-                        <i class="fa-solid fa-key text-[10px]"></i> Master Credentials
-                    </span>
-                    <button type="button" onclick="fillDemoCredentials()" class="text-[10px] font-bold text-[#F3D068] hover:underline bg-[#DFB755]/10 px-2 py-0.5 rounded border border-[#DFB755]/30">
-                        Auto-fill
-                    </button>
-                </div>
-                <div class="grid grid-cols-2 gap-2 text-[11px] font-mono text-stone-400 bg-black/40 p-2 rounded-lg border border-white/5">
-                    <div>
-                        <span class="block text-[9px] text-stone-500 uppercase font-sans">Email:</span>
-                        <span class="text-white font-bold select-all">admin@mail.com</span>
-                    </div>
-                    <div>
-                        <span class="block text-[9px] text-stone-500 uppercase font-sans">Password:</span>
-                        <span class="text-white font-bold select-all">12345678</span>
-                    </div>
-                </div>
-            </div>
-
             <!-- Footer Return Link -->
-            <div class="text-center pt-1 border-t border-[#DFB755]/10">
+            <div class="text-center pt-2 border-t border-[#DFB755]/10">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 text-xs text-stone-400 hover:text-[#DFB755] transition">
                     <i class="fa-solid fa-arrow-left text-[10px]"></i>
                     <span>Return to Public Website</span>
@@ -193,11 +171,6 @@
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
             }
-        }
-
-        function fillDemoCredentials() {
-            document.getElementById('email').value = 'admin@mail.com';
-            document.getElementById('password').value = '12345678';
         }
     </script>
 </body>
