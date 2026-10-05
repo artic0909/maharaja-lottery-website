@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TicketPriceChartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/', fn () => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Ticket Management & Price Chart Schemes
+    Route::get('/tickets', [TicketPriceChartController::class, 'index'])->name('tickets.index');
+    Route::post('/tickets', [TicketPriceChartController::class, 'store'])->name('tickets.store');
+    Route::delete('/tickets/{id}', [TicketPriceChartController::class, 'destroy'])->name('tickets.destroy');
+    Route::post('/tickets/delete/{id}', [TicketPriceChartController::class, 'destroy'])->name('tickets.delete');
 
     // Admin Settings & Profile
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');

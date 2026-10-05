@@ -34,15 +34,14 @@
                 <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.dashboard') ? 'inline-block' : 'hidden' }}"></span>
             </a>
 
-                        <a href="#recent-bookings-section" 
-                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
+            <!-- Ticket Management / Price Chart -->
+            <a href="{{ route('admin.tickets.index') }}" 
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.tickets.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-receipt text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
-                    <span>Ticket Management</span>
+                    <i class="fa-solid fa-money-check-dollar text-sm {{ request()->routeIs('admin.tickets.*') ? 'text-[#DFB755]' : 'text-stone-400 group-hover:text-[#DFB755]' }}"></i>
+                    <span>Ticket Price Chart</span>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-[#F3D068] font-bold text-[10px] border border-amber-500/30">
-                    7 Pending
-                </span>
+                <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.tickets.*') ? 'inline-block' : 'hidden' }}"></span>
             </a>
 
             <!-- Lottery Schemes & Draws -->

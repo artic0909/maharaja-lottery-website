@@ -2,61 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\TicketPriceChartController;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
     /**
-     * Display the ticket booking and selection view.
+     * Get active categories from ticket charts controller.
+     */
+    public function getActiveCategories(): array
+    {
+        $controller = new TicketPriceChartController();
+        $charts = $controller->getCharts();
+        $active = array_filter($charts, fn($c) => ($c['status'] ?? '') === 'Active');
+        return !empty($active) ? array_values($active) : $charts;
+    }
+
+    /**
+     * Display the ticket booking view with all categories rendered next by next.
      */
     public function ticketBooking(Request $request)
     {
-        $activeDraw = [
-            'name' => 'Samrudhi - Every Sunday',
-            'schedule' => 'Every Sunday 3:00 PM',
-            'ticket_price' => 50,
-            'currency' => 'INR',
-            'prizes' => [
-                [
-                    'rank' => 1,
-                    'title' => 'FIRST PRIZE',
-                    'amount' => 'INR 1 Crore',
-                    'winners' => '1 lucky ticket'
-                ],
-                [
-                    'rank' => 2,
-                    'title' => 'SECOND PRIZE',
-                    'amount' => 'INR 75 Lakh',
-                    'winners' => '1 winner'
-                ],
-                [
-                    'rank' => 3,
-                    'title' => 'THIRD PRIZE',
-                    'amount' => 'INR 15 Lakh',
-                    'winners' => '12 winners'
-                ]
-            ]
-        ];
+        $categories = $this->getActiveCategories();
+        $categoriesWithTickets = [];
 
-        // Generate sample available lottery ticket numbers (SM series)
-        $tickets = [];
-        $reservedNumbers = ['SM100004', 'SM100005', 'SM100012', 'SM100021', 'SM100045', 'SM100068', 'SM100085'];
-        
-        for ($i = 100000; $i <= 100119; $i++) {
-            $numStr = 'SM' . $i;
+        foreach ($categories as $cat) {
+            $ticketPrice = $cat['price_num'] ?? 40;
+            $series = strtoupper($cat['series'] ?? 'MH');
+            $sampleCode = $cat['code'] ?? ($series . '784563');
+
+            $reservedNumbers = [$series . '100004', $series . '100005', $series . '100012', $series . '100021'];
+
+            $tickets = [];
+            // Sample main ticket code
             $tickets[] = [
-                'number' => $numStr,
-                'status' => in_array($numStr, $reservedNumbers) ? 'reserved' : 'available',
-                'price' => 50,
+                'number' => $sampleCode,
+                'status' => 'available',
+                'price' => $ticketPrice,
+                'series' => $series,
             ];
+
+            // Series ticket numbers
+            for ($i = 100001; $i <= 100055; $i++) {
+                $numStr = $series . $i;
+                if ($numStr !== $sampleCode) {
+                    $tickets[] = [
+                        'number' => $numStr,
+                        'status' => in_array($numStr, $reservedNumbers) ? 'reserved' : 'available',
+                        'price' => $ticketPrice,
+                        'series' => $series,
+                    ];
+                }
+            }
+
+            $cat['tickets'] = $tickets;
+            $cat['sample_code'] = $sampleCode;
+            $categoriesWithTickets[] = $cat;
         }
 
-        $selectedTickets = $request->input('selected', session('selected_tickets', ['SM100006', 'SM100007', 'SM100018']));
+        $selectedTickets = $request->input('selected', session('selected_tickets', ['MH784563', 'MH100006', 'MH100007']));
         if (is_string($selectedTickets)) {
             $selectedTickets = array_filter(explode(',', $selectedTickets));
         }
 
-        return view('frontend.pages.ticket_booking', compact('activeDraw', 'tickets', 'selectedTickets'));
+        return view('frontend.pages.ticket_booking', compact('categoriesWithTickets', 'selectedTickets'));
     }
 
     /**
@@ -64,7 +73,8 @@ class BookingController extends Controller
      */
     public function paymentForm(Request $request)
     {
-        $rawTickets = $request->input('tickets', session('selected_tickets', 'SM100006,SM100007,SM100018'));
+        $categories = $this->getActiveCategories();
+        $rawTickets = $request->input('tickets', session('selected_tickets', 'MH784563,MH100006,MH100007'));
         
         if (is_array($rawTickets)) {
             $selectedTickets = array_values(array_filter($rawTickets));
@@ -73,20 +83,45 @@ class BookingController extends Controller
         }
 
         if (empty($selectedTickets)) {
-            $selectedTickets = ['SM100006', 'SM100007', 'SM100018'];
+            $selectedTickets = ['MH784563', 'MH100006', 'MH100007'];
         }
 
         session(['selected_tickets' => $selectedTickets]);
 
-        $ticketPrice = 50;
+        // Calculate total amount based on ticket prefixes and category prices
+        $totalAmount = 0;
+        $ticketBreakdown = [];
+
+        foreach ($selectedTickets as $t) {
+            $matchedPrice = 40;
+            $matchedCategory = 'Maharaja 500';
+
+            foreach ($categories as $cat) {
+                $series = strtoupper($cat['series'] ?? '');
+                $code = strtoupper($cat['code'] ?? '');
+                if ((!empty($series) && str_starts_with(strtoupper($t), $series)) || $t === $code) {
+                    $matchedPrice = $cat['price_num'] ?? 40;
+                    $matchedCategory = $cat['name'];
+                    break;
+                }
+            }
+
+            $totalAmount += $matchedPrice;
+            $ticketBreakdown[] = [
+                'number' => $t,
+                'category' => $matchedCategory,
+                'price' => $matchedPrice,
+            ];
+        }
+
         $totalTickets = count($selectedTickets);
-        $totalAmount = $totalTickets * $ticketPrice;
 
         $draw = [
-            'name' => 'Samrudhi - Every Sunday',
-            'price_per_ticket' => $ticketPrice,
+            'name' => $ticketBreakdown[0]['category'] ?? 'Maharaja Lottery',
+            'price_per_ticket' => count($ticketBreakdown) > 0 ? $ticketBreakdown[0]['price'] : 40,
             'total_tickets' => $totalTickets,
             'total_amount' => $totalAmount,
+            'breakdown' => $ticketBreakdown,
         ];
 
         $indianStates = [
@@ -105,7 +140,8 @@ class BookingController extends Controller
      */
     public function qrShow(Request $request)
     {
-        $rawTickets = $request->input('tickets', session('selected_tickets', 'SM100006,SM100007,SM100018'));
+        $categories = $this->getActiveCategories();
+        $rawTickets = $request->input('tickets', session('selected_tickets', 'MH784563,MH100006,MH100007'));
         
         if (is_array($rawTickets)) {
             $selectedTickets = array_values(array_filter($rawTickets));
@@ -114,14 +150,26 @@ class BookingController extends Controller
         }
 
         if (empty($selectedTickets)) {
-            $selectedTickets = ['SM100006', 'SM100007', 'SM100018'];
+            $selectedTickets = ['MH784563', 'MH100006', 'MH100007'];
         }
 
         session(['selected_tickets' => $selectedTickets]);
 
-        $ticketPrice = 50;
+        $totalAmount = 0;
+        foreach ($selectedTickets as $t) {
+            $matchedPrice = 40;
+            foreach ($categories as $cat) {
+                $series = strtoupper($cat['series'] ?? '');
+                $code = strtoupper($cat['code'] ?? '');
+                if ((!empty($series) && str_starts_with(strtoupper($t), $series)) || $t === $code) {
+                    $matchedPrice = $cat['price_num'] ?? 40;
+                    break;
+                }
+            }
+            $totalAmount += $matchedPrice;
+        }
+
         $totalTickets = count($selectedTickets);
-        $totalAmount = $totalTickets * $ticketPrice;
 
         // Generate or retrieve booking reference
         $bookingRef = $request->input('booking_ref', session('booking_ref', 'BK' . date('YmdHis') . strtoupper(substr(md5(uniqid('', true)), 0, 6))));
@@ -143,7 +191,7 @@ class BookingController extends Controller
             'customer_city' => $customer['city'],
         ]);
 
-        $activeDraw = 'Samrudhi - Every Sunday';
+        $activeDraw = 'Maharaja Lottery Schemes';
         $upiId = '9288309113@mairtel';
         $payeeName = 'Maharaja Lottery';
         $upiNote = 'Booking ' . $bookingRef;

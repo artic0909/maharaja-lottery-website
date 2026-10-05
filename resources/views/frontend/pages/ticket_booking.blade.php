@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Hero / Header Section -->
-<section class="relative bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] text-white pt-10 pb-16 lg:pt-14 lg:pb-20 overflow-hidden shadow-inner border-b border-[#DFB755]/20">
+<section class="relative bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] text-white pt-10 pb-12 lg:pt-14 lg:pb-16 overflow-hidden shadow-inner border-b border-[#DFB755]/20">
     <!-- Stylized Watermark Background -->
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0 select-none">
         <span class="text-white font-serif font-black text-6xl sm:text-8xl md:text-9xl tracking-[0.25em] uppercase opacity-[0.035] whitespace-nowrap">
@@ -17,61 +17,40 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            <!-- Left Header Content (8 cols) -->
+            <!-- Left Header Content -->
             <div class="lg:col-span-8 space-y-4">
                 <div class="inline-flex items-center gap-2">
-                    <i class="fa-solid fa-location-dot text-[#DFB755] text-xs"></i>
+                    <i class="fa-solid fa-crown text-[#DFB755] text-xs"></i>
                     <span class="text-[#DFB755] font-extrabold text-[11px] sm:text-xs uppercase tracking-widest font-sans">
-                        GUIDED TICKET RESERVATION
+                        OFFICIAL TICKET RESERVATION DESK
                     </span>
                 </div>
 
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold text-white tracking-tight leading-[1.15]">
-                    Book Your<br class="hidden sm:inline"> Maharaja Lottery Ticket
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight leading-[1.15]">
+                    Book Your<br class="hidden sm:inline"> Maharaja Lottery Tickets
                 </h1>
 
                 <p class="text-white/85 text-xs sm:text-sm lg:text-base max-w-2xl font-normal leading-relaxed">
-                    Select an available number, review the live price and continue to the secure registration step.
+                    Select your lucky ticket numbers from the active lottery schemes below. You can pick tickets from multiple categories in a single order.
                 </p>
 
-                <!-- 3 Stat Pills -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                    <!-- Stat 1: Active Draw -->
-                    <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md rounded-xl p-3 sm:p-3.5 border border-white/15 flex items-center gap-3 transition">
-                        <div class="w-9 h-9 rounded-lg bg-[#040A1A]/80 border border-[#DFB755]/30 flex items-center justify-center text-[#DFB755] text-base shrink-0">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <span class="block text-[9px] uppercase font-bold tracking-wider text-[#DFB755]">ACTIVE DRAW</span>
-                            <h4 class="text-xs sm:text-sm font-bold text-white truncate">Samrudhi - Every Sunday</h4>
-                        </div>
-                    </div>
-
-                    <!-- Stat 2: First Prize -->
-                    <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md rounded-xl p-3 sm:p-3.5 border border-white/15 flex items-center gap-3 transition">
-                        <div class="w-9 h-9 rounded-lg bg-[#040A1A]/80 border border-[#DFB755]/30 flex items-center justify-center text-[#DFB755] text-base shrink-0">
-                            <i class="fa-solid fa-trophy"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <span class="block text-[9px] uppercase font-bold tracking-wider text-[#DFB755]">FIRST PRIZE</span>
-                            <h4 class="text-xs sm:text-sm font-bold text-white">INR 1 Crore</h4>
-                        </div>
-                    </div>
-
-                    <!-- Stat 3: Ticket Price -->
-                    <div class="bg-white/10 hover:bg-white/15 backdrop-blur-md rounded-xl p-3 sm:p-3.5 border border-white/15 flex items-center gap-3 transition">
-                        <div class="w-9 h-9 rounded-lg bg-[#040A1A]/80 border border-[#DFB755]/30 flex items-center justify-center text-[#DFB755] text-base shrink-0">
-                            <i class="fa-solid fa-indian-rupee-sign"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <span class="block text-[9px] uppercase font-bold tracking-wider text-[#DFB755]">TICKET PRICE</span>
-                            <h4 class="text-xs sm:text-sm font-bold text-white">INR 50</h4>
-                        </div>
-                    </div>
+                <!-- Category Quick Navigation Pills -->
+                <div class="flex flex-wrap items-center gap-2.5 pt-2">
+                    <span class="text-[11px] uppercase font-bold text-[#DFB755] tracking-wider block sm:inline">
+                        Jump to Scheme:
+                    </span>
+                    @foreach($categoriesWithTickets as $cat)
+                        <a href="#cat-{{ $cat['slug'] }}" 
+                            class="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-[#DFB755] hover:text-[#071533] border border-white/20 text-xs font-bold transition shadow-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-ticket text-[10px]"></i>
+                            <span>{{ $cat['name'] }}</span>
+                            <span class="text-[10px] opacity-80">({{ $cat['price'] }})</span>
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
-            <!-- Right Steps Stack (4 cols) -->
+            <!-- Right Step Progress Indicator -->
             <div class="lg:col-span-4 space-y-3">
                 <!-- Step 01 (Active) -->
                 <div class="bg-white/15 backdrop-blur-md rounded-2xl p-4 border-2 border-[#DFB755] shadow-lg flex items-center gap-4 transition transform hover:scale-[1.01]">
@@ -85,7 +64,7 @@
                 </div>
 
                 <!-- Step 02 (Inactive) -->
-                <div class="bg-white/5 backdrop-blur-xs rounded-2xl p-4 border border-white/10 flex items-center gap-4 opacity-75 hover:opacity-90 transition">
+                <div class="bg-white/5 backdrop-blur-xs rounded-2xl p-4 border border-white/10 flex items-center gap-4 opacity-75">
                     <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center font-serif font-bold text-lg text-white/70 shrink-0">
                         02
                     </div>
@@ -96,7 +75,7 @@
                 </div>
 
                 <!-- Step 03 (Inactive) -->
-                <div class="bg-white/5 backdrop-blur-xs rounded-2xl p-4 border border-white/10 flex items-center gap-4 opacity-75 hover:opacity-90 transition">
+                <div class="bg-white/5 backdrop-blur-xs rounded-2xl p-4 border border-white/10 flex items-center gap-4 opacity-75">
                     <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center font-serif font-bold text-lg text-white/70 shrink-0">
                         03
                     </div>
@@ -114,325 +93,302 @@
 <!-- Gold Accent Bar -->
 <div class="h-1.5 w-full bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27]"></div>
 
-<!-- Main Ticket Selection Section -->
-<section class="bg-[#F8FAFC] py-10 lg:py-16 min-h-screen">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Main Content Area: All Categories Shown Next by Next -->
+<section class="bg-[#F8FAFC] py-10 lg:py-16 min-h-screen pb-32">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        <!-- Live Availability Header -->
-        <div class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-                <span class="text-[#0B193E] font-extrabold text-[11px] sm:text-xs uppercase tracking-widest block mb-1">
-                    LIVE AVAILABILITY
-                </span>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-stone-900 tracking-tight">
-                    Select your ticket numbers
-                </h2>
-                <p class="text-stone-600 text-xs sm:text-sm mt-1">
-                    Tap any available number to add or remove it from your selection.
-                </p>
-            </div>
-
-            <!-- Series Quick Filter -->
-            <div class="flex items-center gap-2">
-                <span class="text-stone-400 text-xs font-semibold">Series:</span>
-                <button type="button" onclick="filterSeries('all')" id="btn-series-all" class="px-3 py-1.5 rounded-lg bg-[#071533] text-[#F3D068] font-bold text-xs shadow-xs transition">All</button>
-                <button type="button" onclick="filterSeries('SM1000')" id="btn-series-sm" class="px-3 py-1.5 rounded-lg bg-white border border-stone-200 text-stone-700 hover:border-[#0B193E] font-bold text-xs shadow-2xs transition">SM-100</button>
-                <button type="button" onclick="filterSeries('SM1001')" id="btn-series-sm2" class="px-3 py-1.5 rounded-lg bg-white border border-stone-200 text-stone-700 hover:border-[#0B193E] font-bold text-xs shadow-2xs transition">SM-101</button>
-            </div>
-        </div>
-
-        <!-- Main Card Container -->
-        <div class="bg-white rounded-3xl shadow-sm border border-stone-200/80 p-5 sm:p-8 space-y-6">
-            
-            <!-- Royal Navy Draw Banner -->
-            <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#040A1A] rounded-2xl p-6 sm:p-8 text-white text-center shadow-md relative overflow-hidden border border-[#DFB755]/30">
-                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none"></div>
+        @foreach($categoriesWithTickets as $index => $cat)
+            <!-- Category Block (Next by Next) -->
+            <div id="cat-{{ $cat['slug'] }}" class="bg-white rounded-3xl shadow-md border border-stone-200/90 p-5 sm:p-8 space-y-6 scroll-mt-24 transition-all">
                 
-                <div class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#DFB755]/15 border border-[#DFB755]/30 text-[#DFB755] text-xl mb-3 shadow-inner">
-                    <i class="fa-solid fa-crown"></i>
+                <!-- Category Royal Navy Header Banner -->
+                <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#040A1A] rounded-2xl p-6 sm:p-8 text-white text-center shadow-lg relative overflow-hidden border border-[#DFB755]/30">
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none"></div>
+                    
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#DFB755]/15 border border-[#DFB755]/30 text-[#DFB755] text-2xl mb-3 shadow-inner">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-black text-white tracking-wide">
+                        {{ $cat['name'] }}
+                    </h2>
+                    
+                    <p class="text-[#F3D068] font-black text-sm sm:text-base mt-1">
+                        {{ $cat['price'] }} per ticket
+                    </p>
+                    <p class="text-white/70 text-[11px] sm:text-xs font-mono mt-0.5">
+                        Official Directorate Draw &bull; Sample Code: <span class="text-white font-bold">{{ $cat['sample_code'] }}</span>
+                    </p>
+
+                    <!-- 3 Prize Tier Cards Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mt-6">
+                        @foreach(array_slice($cat['prizes'], 0, 3) as $pIdx => $prize)
+                            <div class="bg-[#0B193E]/95 backdrop-blur-sm rounded-xl p-3.5 sm:p-4 text-white shadow-sm flex items-center gap-3.5 border border-[#DFB755]/25 text-left">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black flex items-center justify-center text-sm shrink-0 shadow-sm">
+                                    {{ $pIdx + 1 }}
+                                </div>
+                                <div class="min-w-0">
+                                    <span class="block text-[9px] uppercase font-extrabold text-[#DFB755] tracking-wider">
+                                        {{ $prize['label'] ?? (($pIdx + 1) . 'th') }} PRIZE
+                                    </span>
+                                    <h5 class="text-sm sm:text-base font-extrabold text-white">{{ $prize['amount'] }}</h5>
+                                    <span class="inline-flex items-center gap-1 text-[10px] text-white/70 mt-0.5">
+                                        <i class="fa-solid fa-ticket-simple text-[9px] text-[#DFB755]"></i> {{ $prize['winners'] ?? '1 Lucky Ticket' }}
+                                    </span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-                
-                <h3 class="text-2xl sm:text-3xl font-serif font-black text-white tracking-wide">
-                    Samrudhi - Every Sunday
-                </h3>
-                
-                <p class="text-[#F3D068] font-bold text-xs sm:text-sm mt-1">
-                    INR 50 per ticket
-                </p>
-                <p class="text-white/70 text-[11px] sm:text-xs">
-                    Official Directorate Draw • Weekly Jackpot
-                </p>
 
-                <!-- 3 Prize Tier Cards Row -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mt-6">
-                    <!-- 1st Prize -->
-                    <div class="bg-[#0B193E]/90 backdrop-blur-sm rounded-xl p-3.5 sm:p-4 text-white shadow-sm flex items-center gap-3.5 border border-[#DFB755]/20 text-left">
-                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black flex items-center justify-center text-sm shrink-0 shadow-sm">
-                            1
+                <!-- Control Bar: Search & Quick Picks for this Category -->
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-2 border-b border-stone-100 pb-4">
+                    
+                    <!-- Search Input -->
+                    <div class="relative w-full lg:w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-xs"></i>
+                        <input type="text" onkeyup="searchCategoryTickets('{{ $cat['slug'] }}', this.value)" placeholder="Search ticket number (e.g. {{ $cat['sample_code'] }})" 
+                            class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#0B193E]/30 focus:border-[#0B193E] transition">
+                    </div>
+
+                    <!-- Right Controls: Quick Picks & Legend -->
+                    <div class="flex flex-wrap items-center gap-4 text-xs">
+                        
+                        <!-- Quick Pick Buttons -->
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-stone-400 text-xs font-semibold">Quick pick:</span>
+                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 1)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">1</button>
+                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 3)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">3</button>
+                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 5)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">5</button>
+                            <button type="button" onclick="quickPickCategory('{{ $cat['slug'] }}', 10)" class="w-7 h-7 rounded-lg bg-stone-100 hover:bg-[#0B193E] hover:text-white text-stone-700 font-bold text-xs flex items-center justify-center transition">10</button>
+                            <button type="button" onclick="clearCategorySelection('{{ $cat['slug'] }}')" class="text-rose-600 hover:text-rose-800 font-bold text-xs ml-1 transition">Clear</button>
                         </div>
-                        <div class="min-w-0">
-                            <span class="block text-[9px] uppercase font-bold text-[#DFB755] tracking-wider">FIRST PRIZE</span>
-                            <h5 class="text-xs sm:text-sm font-extrabold text-white">INR 1 Crore</h5>
-                            <span class="inline-flex items-center gap-1 text-[10px] text-white/70 mt-0.5">
-                                <i class="fa-solid fa-ticket-simple text-[9px] text-[#DFB755]"></i> 1 lucky ticket
+
+                        <!-- Status Legend -->
+                        <div class="flex items-center gap-3 text-[11px] text-stone-500 border-l border-stone-200 pl-4">
+                            <span class="flex items-center gap-1">
+                                <span class="w-2.5 h-2.5 rounded-sm border border-stone-300 bg-white"></span> Available
+                            </span>
+                            <span class="flex items-center gap-1 font-bold text-stone-800">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-[#071533] border border-[#DFB755]"></span> Selected
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="w-2.5 h-2.5 rounded-sm bg-stone-100 border border-stone-200"></span> Reserved
                             </span>
                         </div>
-                    </div>
 
-                    <!-- 2nd Prize -->
-                    <div class="bg-[#0B193E]/90 backdrop-blur-sm rounded-xl p-3.5 sm:p-4 text-white shadow-sm flex items-center gap-3.5 border border-[#DFB755]/20 text-left">
-                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black flex items-center justify-center text-sm shrink-0 shadow-sm">
-                            2
-                        </div>
-                        <div class="min-w-0">
-                            <span class="block text-[9px] uppercase font-bold text-[#DFB755] tracking-wider">SECOND PRIZE</span>
-                            <h5 class="text-xs sm:text-sm font-extrabold text-white">INR 75 Lakh</h5>
-                            <span class="inline-flex items-center gap-1 text-[10px] text-white/70 mt-0.5">
-                                <i class="fa-solid fa-ticket-simple text-[9px] text-[#DFB755]"></i> 1 winner
-                            </span>
-                        </div>
-                    </div>
+                        <!-- Ticket Count Badge -->
+                        <span class="bg-stone-100 text-stone-600 font-bold text-[10px] px-2.5 py-1 rounded-full">
+                            {{ count($cat['tickets']) }} tickets displayed
+                        </span>
 
-                    <!-- 3rd Prize -->
-                    <div class="bg-[#0B193E]/90 backdrop-blur-sm rounded-xl p-3.5 sm:p-4 text-white shadow-sm flex items-center gap-3.5 border border-[#DFB755]/20 text-left">
-                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black flex items-center justify-center text-sm shrink-0 shadow-sm">
-                            3
-                        </div>
-                        <div class="min-w-0">
-                            <span class="block text-[9px] uppercase font-bold text-[#DFB755] tracking-wider">THIRD PRIZE</span>
-                            <h5 class="text-xs sm:text-sm font-extrabold text-white">INR 15 Lakh</h5>
-                            <span class="inline-flex items-center gap-1 text-[10px] text-white/70 mt-0.5">
-                                <i class="fa-solid fa-ticket-simple text-[9px] text-[#DFB755]"></i> 12 winners
-                            </span>
-                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Search, Quick Picks & Status Legend Bar -->
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-2 border-b border-stone-100 pb-4">
-                
-                <!-- Left Search Box -->
-                <div class="relative w-full lg:w-80">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-xs"></i>
-                    <input type="text" id="ticket-search" placeholder="Search ticket number" 
-                        class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#0B193E]/30 focus:border-[#0B193E] transition">
-                </div>
+                <!-- 8 Columns Responsive Ticket Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-2.5" id="grid-{{ $cat['slug'] }}">
+                    @foreach($cat['tickets'] as $ticket)
+                        @php
+                            $isSelected = in_array($ticket['number'], $selectedTickets);
+                            $isReserved = $ticket['status'] === 'reserved';
+                        @endphp
+                        
+                        <button type="button" 
+                            data-ticket="{{ $ticket['number'] }}"
+                            data-category="{{ $cat['slug'] }}"
+                            data-price="{{ $ticket['price'] }}"
+                            data-reserved="{{ $isReserved ? 'true' : 'false' }}"
+                            onclick="toggleTicket(this)"
+                            class="ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative {{ $isReserved ? 'bg-stone-50 border-stone-200/60 text-stone-300 cursor-not-allowed' : ($isSelected ? 'bg-[#040A1A] text-[#F3D068] border-[#DFB755] shadow-md transform scale-[1.02] ring-1 ring-[#DFB755]' : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#0B193E]') }}"
+                            {{ $isReserved ? 'disabled' : '' }}>
+                            
+                            <span>{{ $ticket['number'] }}</span>
 
-                <!-- Quick Pick Buttons -->
-                <div class="flex items-center flex-wrap gap-2 text-xs">
-                    <span class="text-stone-400 text-[11px] font-medium mr-1">Quick pick:</span>
-                    <button type="button" onclick="quickPick(1)" class="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-xs transition">1</button>
-                    <button type="button" onclick="quickPick(3)" class="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-xs transition">3</button>
-                    <button type="button" onclick="quickPick(5)" class="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-xs transition">5</button>
-                    <button type="button" onclick="quickPick(10)" class="px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-xs transition">10</button>
-                    <button type="button" onclick="clearSelection()" class="px-2.5 py-1 rounded-lg text-rose-700 hover:bg-rose-50 font-semibold text-xs transition ml-1">Clear</button>
-                </div>
-
-                <!-- Right Legend & Count -->
-                <div class="flex items-center flex-wrap gap-4 text-xs font-medium text-stone-600">
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3.5 h-3.5 rounded-sm border border-stone-300 bg-white"></span>
-                        <span class="text-[11px]">Available</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3.5 h-3.5 rounded-sm bg-[#071533] border border-[#DFB755]"></span>
-                        <span class="text-[11px] font-bold text-[#071533]">Selected</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-3.5 h-3.5 rounded-sm bg-stone-200"></span>
-                        <span class="text-[11px] text-stone-400">Reserved</span>
-                    </div>
-                    <div class="text-[11px] font-bold text-stone-700 bg-stone-100 px-2.5 py-1 rounded-md">
-                        {{ count($tickets) }} tickets displayed
-                    </div>
+                            @if($isSelected)
+                                <span class="selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+                            @endif
+                        </button>
+                    @endforeach
                 </div>
 
             </div>
+        @endforeach
 
-            <!-- Lottery Tickets Grid -->
-            <div id="tickets-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-2.5 sm:gap-3 py-2">
-                @foreach($tickets as $ticket)
-                    @php
-                        $isSelected = in_array($ticket['number'], $selectedTickets);
-                        $isReserved = $ticket['status'] === 'reserved';
-                    @endphp
-                    <button type="button"
-                        data-ticket="{{ $ticket['number'] }}"
-                        data-price="50"
-                        @if($isReserved) disabled @endif
-                        onclick="toggleTicket('{{ $ticket['number'] }}')"
-                        class="ticket-btn select-none py-2.5 px-3 rounded-xl text-xs font-bold tracking-wider transition-all duration-150 text-center
-                        @if($isReserved)
-                            bg-stone-100 text-stone-300 border border-stone-200/50 cursor-not-allowed
-                        @elseif($isSelected)
-                            bg-[#071533] text-[#F3D068] border-2 border-[#DFB755] shadow-md transform scale-[1.02]
-                        @else
-                            bg-white text-stone-800 border border-stone-200 hover:border-[#0B193E] hover:shadow-xs
-                        @endif">
-                        {{ $ticket['number'] }}
-                    </button>
-                @endforeach
-            </div>
-
-        </div>
     </div>
 </section>
 
-<!-- Hidden Form to Proceed to Payment Form -->
-<form id="proceed-form" action="{{ route('payment.form') }}" method="POST" class="hidden">
-    @csrf
-    <input type="hidden" name="tickets" id="form-selected-tickets" value="{{ implode(',', $selectedTickets) }}">
-</form>
-
-<!-- Floating Bottom Bar (Appears when >= 1 ticket is selected) -->
-<div id="floating-bottom-bar" class="fixed bottom-4 left-0 right-0 z-50 px-4 sm:px-6 pointer-events-none transition-all duration-300 transform translate-y-24 opacity-0">
-    <div class="container mx-auto max-w-4xl pointer-events-auto">
-        <div class="bg-white/95 rounded-2xl shadow-2xl border border-[#DFB755]/30 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md">
-            
-            <!-- Left Info -->
-            <div class="space-y-1 w-full sm:w-auto text-left">
-                <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#0B193E]/10 text-[#0B193E] text-[10px] font-extrabold uppercase tracking-wide">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#0B193E] animate-ping"></span>
-                    Selected
+<!-- Floating Live Checkout Action Bar (Always Visible at Bottom) -->
+<div id="checkout-dock" class="fixed bottom-0 inset-x-0 z-40 bg-[#040A1A]/95 backdrop-blur-md border-t-2 border-[#DFB755] shadow-2xl p-4 transition-all">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        
+        <!-- Left: Selected Tickets Summary -->
+        <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black flex items-center justify-center text-base shadow-sm shrink-0">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span id="selected-count" class="text-white font-black text-sm sm:text-base font-serif">
+                        {{ count($selectedTickets) }} Tickets Selected
+                    </span>
+                    <span class="text-stone-400 text-xs hidden sm:inline">&bull;</span>
+                    <span id="total-price" class="text-[#F3D068] font-black text-sm sm:text-base font-mono">
+                        Total: Calculate...
+                    </span>
                 </div>
-                <div class="text-base sm:text-lg font-black text-stone-900 flex items-center gap-2">
-                    <span id="floating-count">3 Ticket</span>
-                    <span class="text-stone-300">-</span>
-                    <span id="floating-amount" class="text-[#0B193E] font-extrabold">INR 150</span>
-                </div>
-                <p id="floating-list" class="text-xs text-stone-500 font-mono font-medium truncate max-w-md">
-                    SM100006, SM100007, SM100018
+                <p id="selected-list-preview" class="text-stone-400 text-[11px] font-mono truncate max-w-[280px] sm:max-w-md">
+                    {{ implode(', ', $selectedTickets) }}
                 </p>
             </div>
-
-            <!-- Right Proceed Button -->
-            <div class="w-full sm:w-auto flex items-center justify-end">
-                <button type="button" onclick="proceedToDetails()" 
-                    class="w-full sm:w-auto bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] px-8 py-3.5 rounded-xl font-black text-sm shadow-lg shadow-gold-500/20 hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                    <span>Proceed to Details</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </button>
-            </div>
-
         </div>
+
+        <!-- Right: Submit Form / Continue Button -->
+        <form action="{{ route('payment.form') }}" method="POST" id="booking-checkout-form" class="w-full sm:w-auto">
+            @csrf
+            <input type="hidden" name="tickets" id="form-tickets-input" value="{{ implode(',', $selectedTickets) }}">
+            
+            <button type="submit" id="checkout-btn" 
+                class="w-full sm:w-auto min-w-[240px] bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] font-serif font-black text-sm py-3 px-8 rounded-xl shadow-lg border border-[#FFE8A2]/80 flex items-center justify-center gap-2 transition transform hover:scale-[1.02]">
+                <span>Proceed to Customer Details</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+        </form>
+
     </div>
 </div>
 
+@push('scripts')
 <script>
-    let selectedTickets = @json($selectedTickets);
-    const ticketPrice = 50;
+    let selectedTicketsSet = new Set({!! json_encode($selectedTickets) !!});
+    
+    // Map ticket number to price
+    const ticketPriceMap = {};
+    document.querySelectorAll('.ticket-btn').forEach(btn => {
+        const num = btn.getAttribute('data-ticket');
+        const price = parseInt(btn.getAttribute('data-price') || '40', 10);
+        if (num) ticketPriceMap[num] = price;
+    });
 
-    function renderSelection() {
-        const buttons = document.querySelectorAll('.ticket-btn');
-        buttons.forEach(btn => {
-            const num = btn.getAttribute('data-ticket');
-            if (btn.disabled) return;
+    function toggleTicket(btn) {
+        const ticketNum = btn.getAttribute('data-ticket');
+        const isReserved = btn.getAttribute('data-reserved') === 'true';
+        if (isReserved) return;
 
-            if (selectedTickets.includes(num)) {
-                btn.className = "ticket-btn select-none py-2.5 px-3 rounded-xl text-xs font-bold tracking-wider transition-all duration-150 text-center bg-[#071533] text-[#F3D068] border-2 border-[#DFB755] shadow-md transform scale-[1.02]";
-            } else {
-                btn.className = "ticket-btn select-none py-2.5 px-3 rounded-xl text-xs font-bold tracking-wider transition-all duration-150 text-center bg-white text-stone-800 border border-stone-200 hover:border-[#0B193E] hover:shadow-xs";
+        if (selectedTicketsSet.has(ticketNum)) {
+            selectedTicketsSet.delete(ticketNum);
+            btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#0B193E]";
+            const indicator = btn.querySelector('.selected-indicator');
+            if (indicator) indicator.remove();
+        } else {
+            selectedTicketsSet.add(ticketNum);
+            btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-[#040A1A] text-[#F3D068] border-[#DFB755] shadow-md transform scale-[1.02] ring-1 ring-[#DFB755]";
+            if (!btn.querySelector('.selected-indicator')) {
+                const badge = document.createElement('span');
+                badge.className = "selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs";
+                badge.innerHTML = '<i class="fa-solid fa-check"></i>';
+                btn.appendChild(badge);
+            }
+        }
+
+        updateCheckoutDock();
+    }
+
+    function quickPickCategory(catSlug, count) {
+        const grid = document.getElementById('grid-' + catSlug);
+        if (!grid) return;
+
+        const availableButtons = Array.from(grid.querySelectorAll('.ticket-btn')).filter(btn => {
+            return btn.getAttribute('data-reserved') !== 'true';
+        });
+
+        // Pick random available buttons
+        const shuffled = availableButtons.sort(() => 0.5 - Math.random());
+        const selectedSlice = shuffled.slice(0, count);
+
+        selectedSlice.forEach(btn => {
+            const ticketNum = btn.getAttribute('data-ticket');
+            if (!selectedTicketsSet.has(ticketNum)) {
+                selectedTicketsSet.add(ticketNum);
+                btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-[#040A1A] text-[#F3D068] border-[#DFB755] shadow-md transform scale-[1.02] ring-1 ring-[#DFB755]";
+                if (!btn.querySelector('.selected-indicator')) {
+                    const badge = document.createElement('span');
+                    badge.className = "selected-indicator absolute -top-1.5 -right-1.5 w-4 h-4 bg-[#DFB755] text-[#071533] rounded-full text-[9px] flex items-center justify-center font-black shadow-xs";
+                    badge.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    btn.appendChild(badge);
+                }
             }
         });
 
-        const bar = document.getElementById('floating-bottom-bar');
-        const countSpan = document.getElementById('floating-count');
-        const amountSpan = document.getElementById('floating-amount');
-        const listP = document.getElementById('floating-list');
-        const formInput = document.getElementById('form-selected-tickets');
-
-        if (selectedTickets.length > 0) {
-            bar.classList.remove('translate-y-24', 'opacity-0');
-            bar.classList.add('translate-y-0', 'opacity-100');
-            countSpan.textContent = `${selectedTickets.length} Ticket${selectedTickets.length > 1 ? 's' : ''}`;
-            amountSpan.textContent = `INR ${selectedTickets.length * ticketPrice}`;
-            listP.textContent = selectedTickets.join(', ');
-            formInput.value = selectedTickets.join(',');
-        } else {
-            bar.classList.add('translate-y-24', 'opacity-0');
-            bar.classList.remove('translate-y-0', 'opacity-100');
-            formInput.value = '';
-        }
+        updateCheckoutDock();
     }
 
-    function toggleTicket(number) {
-        const index = selectedTickets.indexOf(number);
-        if (index > -1) {
-            selectedTickets.splice(index, 1);
-        } else {
-            selectedTickets.push(number);
-        }
-        renderSelection();
-    }
+    function clearCategorySelection(catSlug) {
+        const grid = document.getElementById('grid-' + catSlug);
+        if (!grid) return;
 
-    function quickPick(count) {
-        const availableButtons = Array.from(document.querySelectorAll('.ticket-btn:not([disabled])'));
-        const availableNumbers = availableButtons.map(b => b.getAttribute('data-ticket'));
-        
-        const shuffled = availableNumbers.sort(() => 0.5 - Math.random());
-        selectedTickets = shuffled.slice(0, count);
-        renderSelection();
-    }
-
-    function clearSelection() {
-        selectedTickets = [];
-        renderSelection();
-    }
-
-    function filterSeries(series) {
-        const buttons = document.querySelectorAll('.ticket-btn');
-        const btnAll = document.getElementById('btn-series-all');
-        const btnSm = document.getElementById('btn-series-sm');
-        const btnSm2 = document.getElementById('btn-series-sm2');
-
-        [btnAll, btnSm, btnSm2].forEach(b => {
-            b.className = "px-3 py-1.5 rounded-lg bg-white border border-stone-200 text-stone-700 hover:border-[#0B193E] font-bold text-xs shadow-2xs transition";
+        grid.querySelectorAll('.ticket-btn').forEach(btn => {
+            const ticketNum = btn.getAttribute('data-ticket');
+            if (selectedTicketsSet.has(ticketNum)) {
+                selectedTicketsSet.delete(ticketNum);
+                btn.className = "ticket-btn select-none py-2.5 px-2 rounded-xl text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#0B193E]";
+                const indicator = btn.querySelector('.selected-indicator');
+                if (indicator) indicator.remove();
+            }
         });
 
-        if (series === 'all') {
-            btnAll.className = "px-3 py-1.5 rounded-lg bg-[#071533] text-[#F3D068] font-bold text-xs shadow-xs transition";
-            buttons.forEach(b => b.style.display = '');
-        } else if (series === 'SM1000') {
-            btnSm.className = "px-3 py-1.5 rounded-lg bg-[#071533] text-[#F3D068] font-bold text-xs shadow-xs transition";
-            buttons.forEach(b => {
-                const num = b.getAttribute('data-ticket');
-                b.style.display = num.startsWith('SM1000') ? '' : 'none';
-            });
-        } else if (series === 'SM1001') {
-            btnSm2.className = "px-3 py-1.5 rounded-lg bg-[#071533] text-[#F3D068] font-bold text-xs shadow-xs transition";
-            buttons.forEach(b => {
-                const num = b.getAttribute('data-ticket');
-                b.style.display = num.startsWith('SM1001') ? '' : 'none';
-            });
-        }
+        updateCheckoutDock();
     }
 
-    function proceedToDetails() {
-        if (selectedTickets.length === 0) {
-            alert('Please select at least one lottery ticket to proceed.');
-            return;
-        }
-        document.getElementById('proceed-form').submit();
-    }
+    function searchCategoryTickets(catSlug, query) {
+        const grid = document.getElementById('grid-' + catSlug);
+        if (!grid) return;
 
-    // Live search filter
-    document.getElementById('ticket-search').addEventListener('input', function(e) {
-        const term = e.target.value.trim().toUpperCase();
-        const buttons = document.querySelectorAll('.ticket-btn');
-        buttons.forEach(btn => {
-            const num = btn.getAttribute('data-ticket').toUpperCase();
-            if (num.includes(term)) {
+        const q = query.trim().toUpperCase();
+        grid.querySelectorAll('.ticket-btn').forEach(btn => {
+            const num = btn.getAttribute('data-ticket');
+            if (!q || num.includes(q)) {
                 btn.style.display = '';
             } else {
                 btn.style.display = 'none';
             }
         });
-    });
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        renderSelection();
-    });
+    function updateCheckoutDock() {
+        const ticketsArr = Array.from(selectedTicketsSet);
+        const count = ticketsArr.length;
+        
+        let total = 0;
+        ticketsArr.forEach(t => {
+            total += (ticketPriceMap[t] || 40);
+        });
+
+        const countEl = document.getElementById('selected-count');
+        const priceEl = document.getElementById('total-price');
+        const previewEl = document.getElementById('selected-list-preview');
+        const inputEl = document.getElementById('form-tickets-input');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        if (countEl) countEl.textContent = count + ' Ticket' + (count === 1 ? '' : 's') + ' Selected';
+        if (priceEl) priceEl.textContent = 'Total: ₹' + total.toLocaleString('en-IN');
+        if (previewEl) previewEl.textContent = count > 0 ? ticketsArr.join(', ') : 'No tickets selected yet';
+        if (inputEl) inputEl.value = ticketsArr.join(',');
+
+        if (checkoutBtn) {
+            if (count === 0) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                checkoutBtn.disabled = false;
+                checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+    }
+
+    // Initialize on page load
+    updateCheckoutDock();
 </script>
+@endpush
 @endsection
-
