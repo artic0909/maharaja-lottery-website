@@ -148,14 +148,11 @@
                     <!-- Right Controls: Status Legend & Count -->
                     <div class="flex items-center gap-4 text-xs">
                         <div class="flex items-center gap-3 text-[11px] text-stone-600">
-                            <span class="flex items-center gap-1.5">
+                            <span class="flex items-center gap-1.5 font-medium">
                                 <span class="w-3 h-3 rounded-sm border border-stone-300 bg-white"></span> Available
                             </span>
                             <span class="flex items-center gap-1.5 font-bold text-[#071533]">
                                 <span class="w-3 h-3 rounded-sm bg-[#071533] border border-[#DFB755]"></span> Selected
-                            </span>
-                            <span class="flex items-center gap-1.5">
-                                <span class="w-3 h-3 rounded-sm bg-stone-100 border border-stone-200"></span> Reserved
                             </span>
                         </div>
 

@@ -28,34 +28,63 @@ class BookingController extends Controller
 
         foreach ($categories as $cat) {
             $ticketPrice = $cat['price_num'] ?? 40;
-            $series = strtoupper($cat['series'] ?? 'MH');
-            $sampleCode = $cat['code'] ?? ($series . '784563');
+            $seriesRaw = $cat['series'] ?? 'MH';
+            $seriesList = array_values(array_filter(array_map('trim', explode(',', $seriesRaw))));
+            if (empty($seriesList)) {
+                $seriesList = ['MH'];
+            }
+            $primarySeries = strtoupper($seriesList[0]);
+            $sampleCode = $cat['code'] ?? ($primarySeries . '784563');
 
-            $reservedNumbers = [
-                $series . '100004', $series . '100005', $series . '100012', 
-                $series . '100021', $series . '100045', $series . '100053',
-                $series . '100064', $series . '100085'
-            ];
+            // Parse number range
+            $startNum = 100000;
+            $endNum = 999999;
+            if (!empty($cat['number_range']) && str_contains($cat['number_range'], '-')) {
+                $rangeParts = explode('-', $cat['number_range']);
+                $startNum = (int)trim($rangeParts[0]) ?: 100000;
+                $endNum = (int)trim($rangeParts[1]) ?: 999999;
+            }
+
+            // Display limit from category settings
+            $displayLimit = isset($cat['display']) ? (int)$cat['display'] : 50;
+            if ($displayLimit <= 0) {
+                $displayLimit = 50;
+            }
 
             $tickets = [];
-            // Sample main ticket code
-            $tickets[] = [
-                'number' => $sampleCode,
-                'status' => 'available',
-                'price' => $ticketPrice,
-                'series' => $series,
-            ];
+            $seenTickets = [];
 
-            // Generate ticket grid (e.g. 70 tickets per scheme directly visible)
-            for ($i = 100000; $i <= 100069; $i++) {
-                $numStr = $series . $i;
-                if ($numStr !== $sampleCode) {
-                    $tickets[] = [
-                        'number' => $numStr,
-                        'status' => in_array($numStr, $reservedNumbers) ? 'reserved' : 'available',
-                        'price' => $ticketPrice,
-                        'series' => $series,
-                    ];
+            // Add sample code as the first featured ticket
+            if (!empty($sampleCode)) {
+                $tickets[] = [
+                    'number' => $sampleCode,
+                    'status' => 'available', // By default reserved is OFF
+                    'price' => $ticketPrice,
+                    'series' => $primarySeries,
+                ];
+                $seenTickets[$sampleCode] = true;
+            }
+
+            // Generate all tickets dynamically across series up to display limit
+            for ($num = $startNum; $num <= $endNum && count($tickets) < $displayLimit; $num++) {
+                foreach ($seriesList as $s) {
+                    $sUpper = strtoupper(trim($s));
+                    if (empty($sUpper)) continue;
+                    $ticketCode = $sUpper . str_pad((string)$num, 6, '0', STR_PAD_LEFT);
+                    
+                    if (!isset($seenTickets[$ticketCode])) {
+                        $tickets[] = [
+                            'number' => $ticketCode,
+                            'status' => 'available', // By default reserved is OFF
+                            'price' => $ticketPrice,
+                            'series' => $sUpper,
+                        ];
+                        $seenTickets[$ticketCode] = true;
+
+                        if (count($tickets) >= $displayLimit) {
+                            break 2;
+                        }
+                    }
                 }
             }
 

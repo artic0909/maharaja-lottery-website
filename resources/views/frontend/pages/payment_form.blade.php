@@ -268,13 +268,13 @@
                                         <i class="fa-solid fa-crown"></i>
                                     </div>
                                     <div class="truncate">
-                                        <h5 class="text-xs sm:text-sm font-black text-stone-900 truncate">Samrudhi - Every Sunday</h5>
-                                        <p class="text-[11px] text-stone-500 font-medium">Weekly Draw • Sunday 3:00 PM</p>
+                                        <h5 class="text-xs sm:text-sm font-black text-stone-900 truncate">{{ $draw['name'] ?? 'Maharaja Lottery' }}</h5>
+                                        <p class="text-[11px] text-stone-500 font-medium">Official Directorate Scheme</p>
                                     </div>
                                 </div>
                                 <div class="text-right shrink-0">
-                                    <span class="inline-block px-2 py-0.5 rounded-md bg-[#0B193E]/10 text-[#0B193E] font-bold text-xs">
-                                        {{ count($selectedTickets) }} × ₹50
+                                    <span class="inline-block px-2.5 py-1 rounded-md bg-[#0B193E]/10 text-[#0B193E] font-bold text-xs font-mono">
+                                        {{ count($selectedTickets) }} Tickets
                                     </span>
                                 </div>
                             </div>
@@ -286,7 +286,7 @@
                                         SELECTED TICKET NUMBERS ({{ count($selectedTickets) }})
                                     </span>
                                     <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                                        ✓ Reserved
+                                        ✓ Selected
                                     </span>
                                 </div>
                                 
@@ -304,8 +304,8 @@
                             <div class="bg-stone-50/80 rounded-2xl p-4 border border-stone-200 space-y-2.5">
                                 
                                 <div class="flex justify-between items-center text-xs text-stone-600 font-medium">
-                                    <span>Tickets Subtotal ({{ count($selectedTickets) }} × ₹50)</span>
-                                    <span class="font-bold text-stone-900 font-mono">₹{{ count($selectedTickets) * 50 }}.00</span>
+                                    <span>Tickets Subtotal ({{ count($selectedTickets) }} Tickets)</span>
+                                    <span class="font-bold text-stone-900 font-mono">₹{{ number_format($draw['total_amount'] ?? (count($selectedTickets) * 40)) }}.00</span>
                                 </div>
 
                                 <div class="flex justify-between items-center text-xs text-stone-600 font-medium">
@@ -325,7 +325,7 @@
                                     </div>
                                     <div class="text-right">
                                         <span class="text-2xl sm:text-3xl font-serif font-black text-[#0B193E] tracking-tight">
-                                            INR {{ count($selectedTickets) * 50 }}
+                                            INR {{ number_format($draw['total_amount'] ?? (count($selectedTickets) * 40)) }}
                                         </span>
                                     </div>
                                 </div>
