@@ -51,9 +51,10 @@
                 </p>
                 
                 <div class="flex flex-wrap items-center gap-2.5 sm:gap-4 mb-6">
-                    <a href="{{ route('ticket.booking') }}" class="bg-gradient-to-r from-[#0F2356] to-[#14327A] hover:from-[#14327A] hover:to-[#0F2356] text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-md font-semibold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-black/40 border border-[#DFB755]/40 group">
-                        Book Tickets 
-                        <i class="fa-solid fa-arrow-right-long text-xs group-hover:translate-x-1 transition-transform text-[#F5D77F]"></i>
+                    <a href="{{ route('ticket.booking') }}" class="bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:via-[#16A34A] hover:to-[#14532D] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg font-black text-xs sm:text-sm tracking-wide transition-all duration-200 flex items-center gap-2.5 shadow-xl shadow-emerald-600/40 hover:shadow-emerald-500/60 border border-emerald-300/60 hover:scale-105 transform group">
+                        <i class="fa-solid fa-ticket-simple text-xs text-emerald-100 group-hover:rotate-12 transition-transform"></i>
+                        <span>Book Tickets</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform text-emerald-100"></i>
                     </a>
                     <a href="{{ route('winnerlist') }}" class="bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B8860B] hover:to-[#DFB755] text-[#071533] px-4 sm:px-5 py-2.5 sm:py-3 rounded-md font-black text-xs sm:text-sm transition flex items-center gap-2 shadow-md border border-[#FFE8A2]/80">
                         View Results
