@@ -14,6 +14,7 @@ Route::match(['get', 'post'], '/ticket-booking', [BookingController::class, 'tic
 Route::match(['get', 'post'], '/payment-form', [BookingController::class, 'paymentForm'])->name('payment.form');
 Route::match(['get', 'post'], '/qr-payment', [BookingController::class, 'qrShow'])->name('qr.show');
 Route::match(['get', 'post'], '/qrshow', [BookingController::class, 'qrShow']);
+Route::post('/confirm-booking', [BookingController::class, 'confirmBooking'])->name('booking.confirm');
 
 // General Auth aliases (redirect to admin)
 Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');

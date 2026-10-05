@@ -4,9 +4,75 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\TicketPriceChartController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class BookingController extends Controller
 {
+    /**
+     * Path to persistent JSON storage for booked / acquired tickets.
+     */
+    protected function getBookingsStoragePath(): string
+    {
+        return storage_path('app/booked_tickets.json');
+    }
+
+    /**
+     * Retrieve all acquired / booked ticket numbers.
+     */
+    public function getBookedTicketNumbers(): array
+    {
+        $path = $this->getBookingsStoragePath();
+        if (File::exists($path)) {
+            $data = json_decode(File::get($path), true);
+            if (is_array($data)) {
+                $allTickets = [];
+                foreach ($data as $item) {
+                    if (is_string($item)) {
+                        $allTickets[] = strtoupper(trim($item));
+                    } elseif (is_array($item) && isset($item['tickets'])) {
+                        foreach ((array)$item['tickets'] as $t) {
+                            $allTickets[] = strtoupper(trim($t));
+                        }
+                    }
+                }
+                return array_values(array_unique($allTickets));
+            }
+        }
+        return [];
+    }
+
+    /**
+     * Save newly acquired tickets to persistent storage.
+     */
+    public function recordAcquiredTickets(array $tickets, array $meta = []): void
+    {
+        $path = $this->getBookingsStoragePath();
+        $dir = dirname($path);
+        if (!File::exists($dir)) {
+            File::makeDirectory($dir, 0755, true);
+        }
+
+        $existing = [];
+        if (File::exists($path)) {
+            $existing = json_decode(File::get($path), true) ?: [];
+        }
+
+        $cleanTickets = array_values(array_unique(array_map('strtoupper', array_map('trim', $tickets))));
+
+        $record = [
+            'booking_ref' => $meta['booking_ref'] ?? ('BK' . time()),
+            'customer_name' => $meta['customer_name'] ?? 'Customer',
+            'customer_mobile' => $meta['customer_mobile'] ?? '',
+            'tickets' => $cleanTickets,
+            'total_amount' => $meta['total_amount'] ?? 0,
+            'booked_at' => date('Y-m-d H:i:s'),
+            'utr_number' => $meta['utr_number'] ?? null,
+        ];
+
+        $existing[] = $record;
+        File::put($path, json_encode($existing, JSON_PRETTY_PRINT));
+    }
+
     /**
      * Get active categories from ticket charts controller.
      */
@@ -25,6 +91,7 @@ class BookingController extends Controller
     {
         $categories = $this->getActiveCategories();
         $categoriesWithTickets = [];
+        $bookedTickets = $this->getBookedTicketNumbers();
 
         foreach ($categories as $cat) {
             $ticketPrice = $cat['price_num'] ?? 40;
@@ -56,9 +123,10 @@ class BookingController extends Controller
 
             // Add sample code as the first featured ticket
             if (!empty($sampleCode)) {
+                $isSampleReserved = in_array(strtoupper($sampleCode), $bookedTickets);
                 $tickets[] = [
                     'number' => $sampleCode,
-                    'status' => 'available', // By default reserved is OFF
+                    'status' => $isSampleReserved ? 'reserved' : 'available',
                     'price' => $ticketPrice,
                     'series' => $primarySeries,
                 ];
@@ -73,9 +141,10 @@ class BookingController extends Controller
                     $ticketCode = $sUpper . str_pad((string)$num, 6, '0', STR_PAD_LEFT);
                     
                     if (!isset($seenTickets[$ticketCode])) {
+                        $isTicketReserved = in_array(strtoupper($ticketCode), $bookedTickets);
                         $tickets[] = [
                             'number' => $ticketCode,
-                            'status' => 'available', // By default reserved is OFF
+                            'status' => $isTicketReserved ? 'reserved' : 'available',
                             'price' => $ticketPrice,
                             'series' => $sUpper,
                         ];
@@ -99,6 +168,9 @@ class BookingController extends Controller
             $selectedTickets = array_values(array_filter(explode(',', $selectedTickets)));
         }
 
+        // Filter out any already acquired tickets from current selection
+        $selectedTickets = array_values(array_filter($selectedTickets, fn($t) => !in_array(strtoupper($t), $bookedTickets)));
+
         return view('frontend.pages.ticket_booking', compact('categoriesWithTickets', 'selectedTickets'));
     }
 
@@ -109,6 +181,7 @@ class BookingController extends Controller
     {
         $categories = $this->getActiveCategories();
         $rawTickets = $request->input('tickets', session('selected_tickets', []));
+        $bookedTickets = $this->getBookedTicketNumbers();
         
         if (is_array($rawTickets)) {
             $selectedTickets = array_values(array_filter($rawTickets));
@@ -116,8 +189,11 @@ class BookingController extends Controller
             $selectedTickets = array_values(array_filter(explode(',', (string)$rawTickets)));
         }
 
+        // Exclude any already reserved tickets
+        $selectedTickets = array_values(array_filter($selectedTickets, fn($t) => !in_array(strtoupper($t), $bookedTickets)));
+
         if (empty($selectedTickets)) {
-            return redirect()->route('ticket.booking')->with('error', 'Please click and choose at least one ticket to proceed.');
+            return redirect()->route('ticket.booking')->with('error', 'Please click and choose at least one available ticket to proceed.');
         }
 
         session(['selected_tickets' => $selectedTickets]);
@@ -175,6 +251,7 @@ class BookingController extends Controller
     {
         $categories = $this->getActiveCategories();
         $rawTickets = $request->input('tickets', session('selected_tickets', []));
+        $bookedTickets = $this->getBookedTicketNumbers();
         
         if (is_array($rawTickets)) {
             $selectedTickets = array_values(array_filter($rawTickets));
@@ -182,8 +259,11 @@ class BookingController extends Controller
             $selectedTickets = array_values(array_filter(explode(',', (string)$rawTickets)));
         }
 
+        // Exclude any already reserved tickets
+        $selectedTickets = array_values(array_filter($selectedTickets, fn($t) => !in_array(strtoupper($t), $bookedTickets)));
+
         if (empty($selectedTickets)) {
-            return redirect()->route('ticket.booking')->with('error', 'Please choose at least one ticket to proceed.');
+            return redirect()->route('ticket.booking')->with('error', 'Please choose at least one available ticket to proceed.');
         }
 
         session(['selected_tickets' => $selectedTickets]);
@@ -222,6 +302,7 @@ class BookingController extends Controller
             'customer_mobile' => $customer['mobile'],
             'customer_state' => $customer['state'],
             'customer_city' => $customer['city'],
+            'total_amount' => $totalAmount,
         ]);
 
         $activeDraw = 'Maharaja Lottery Schemes';
@@ -230,6 +311,66 @@ class BookingController extends Controller
         $upiNote = 'Booking ' . $bookingRef;
         $upiUrl = "upi://pay?pa={$upiId}&pn=" . urlencode($payeeName) . "&am={$totalAmount}&cu=INR&tn=" . urlencode($upiNote);
 
-        return view('frontend.pages.qrshow', compact('bookingRef', 'selectedTickets', 'totalTickets', 'totalAmount', 'customer', 'activeDraw', 'upiId', 'payeeName', 'upiUrl'));
+        $matchedCategory = !empty($categories) ? $categories[0] : [
+            'name' => 'Maharaja 500',
+            'price' => 'Rs. 40',
+            'prizes' => [
+                ['label' => '1st', 'amount' => 'INR 50 Lakhs'],
+                ['label' => '2nd', 'amount' => 'INR 25 Lakhs'],
+                ['label' => '3rd', 'amount' => 'INR 15 Lakhs'],
+            ]
+        ];
+
+        if (!empty($selectedTickets)) {
+            $firstTicket = $selectedTickets[0];
+            foreach ($categories as $cat) {
+                $series = strtoupper($cat['series'] ?? '');
+                $code = strtoupper($cat['code'] ?? '');
+                if ((!empty($series) && str_starts_with(strtoupper($firstTicket), $series)) || $firstTicket === $code) {
+                    $matchedCategory = $cat;
+                    break;
+                }
+            }
+        }
+
+        return view('frontend.pages.qrshow', compact('bookingRef', 'selectedTickets', 'totalTickets', 'totalAmount', 'customer', 'activeDraw', 'upiId', 'payeeName', 'upiUrl', 'matchedCategory'));
+    }
+
+    /**
+     * Confirm a booking and reserve acquired tickets permanently.
+     */
+    public function confirmBooking(Request $request)
+    {
+        $rawTickets = $request->input('tickets', session('selected_tickets', []));
+        if (is_array($rawTickets)) {
+            $tickets = array_values(array_filter($rawTickets));
+        } else {
+            $tickets = array_values(array_filter(explode(',', (string)$rawTickets)));
+        }
+
+        $bookingRef = $request->input('booking_ref', session('booking_ref', 'BK' . time()));
+        $customerName = $request->input('customer_name', session('customer_name', 'Customer'));
+        $customerMobile = $request->input('customer_mobile', session('customer_mobile', ''));
+        $utrNumber = $request->input('utr_number', '');
+        $totalAmount = (int)$request->input('total_amount', session('total_amount', 0));
+
+        if (!empty($tickets)) {
+            $this->recordAcquiredTickets($tickets, [
+                'booking_ref' => $bookingRef,
+                'customer_name' => $customerName,
+                'customer_mobile' => $customerMobile,
+                'utr_number' => $utrNumber,
+                'total_amount' => $totalAmount,
+            ]);
+
+            session()->forget('selected_tickets');
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tickets acquired and permanently reserved successfully.',
+            'booking_ref' => $bookingRef,
+            'reserved_tickets' => $tickets,
+        ]);
     }
 }

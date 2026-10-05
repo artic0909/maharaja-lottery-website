@@ -154,6 +154,9 @@
                             <span class="flex items-center gap-1.5 font-bold text-[#071533]">
                                 <span class="w-3 h-3 rounded-sm bg-[#071533] border border-[#DFB755]"></span> Selected
                             </span>
+                            <span class="flex items-center gap-1.5 text-stone-400 font-medium">
+                                <span class="w-3 h-3 rounded-sm bg-stone-100 border border-stone-200 line-through"></span> Reserved
+                            </span>
                         </div>
 
                         <!-- Ticket Count Badge -->
@@ -168,14 +171,15 @@
                     @foreach($cat['tickets'] as $ticket)
                         @php
                             $isSelected = in_array($ticket['number'], $selectedTickets);
-                            $isReserved = $ticket['status'] === 'reserved';
+                            $isReserved = ($ticket['status'] ?? '') === 'reserved';
                         @endphp
                         
                         <button type="button" 
                             data-ticket="{{ $ticket['number'] }}"
                             data-price="{{ $ticket['price'] }}"
                             data-reserved="{{ $isReserved ? 'true' : 'false' }}"
-                            class="ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative cursor-pointer {{ $isReserved ? 'bg-stone-50 border-stone-200/60 text-stone-300 cursor-not-allowed opacity-60' : ($isSelected ? 'bg-[#040A1A] text-[#F3D068] border-2 border-[#DFB755] ring-2 ring-[#DFB755]/40 shadow-md transform scale-[1.02]' : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755]') }}"
+                            title="{{ $isReserved ? 'This ticket has already been acquired / reserved' : 'Click to select ticket ' . $ticket['number'] }}"
+                            class="ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative {{ $isReserved ? 'bg-stone-100 border-stone-200 text-stone-400 line-through cursor-not-allowed opacity-60' : ($isSelected ? 'bg-[#040A1A] text-[#F3D068] border-2 border-[#DFB755] ring-2 ring-[#DFB755]/40 shadow-md transform scale-[1.02] cursor-pointer' : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755] cursor-pointer') }}"
                             {{ $isReserved ? 'disabled' : '' }}>
                             
                             <span>{{ $ticket['number'] }}</span>

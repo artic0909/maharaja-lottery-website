@@ -10,7 +10,7 @@
     <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-[#0F2356]/40 rounded-full blur-3xl pointer-events-none"></div>
 
     <!-- Main Payment Modal Card -->
-    <div class="relative w-full max-w-lg bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-[#DFB755]/30 z-10 transition-all">
+    <div id="payment-modal-card" class="relative w-full max-w-lg md:max-w-xl transition-all duration-300 bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-[#DFB755]/30 z-10">
         
         <!-- Modal Top Royal Navy Header (Compact) -->
         <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#0B193E] text-white px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between border-b border-[#DFB755]/30">
@@ -318,29 +318,64 @@
 
             </form>
 
-            <!-- Success State Modal (Hidden by default) -->
-            <div id="success-alert" class="hidden text-center space-y-3 py-3">
-                <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mx-auto shadow-inner">
-                    <i class="fa-solid fa-check"></i>
+            <!-- Success State Modal: Exact Downloadable Certificate & Popup -->
+            <div id="success-alert" class="hidden space-y-4 py-2 text-left animate-fade-in">
+                
+                <!-- Success Header & Action Bar -->
+                <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-xl shrink-0 shadow-md">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-serif font-black text-stone-900 leading-tight">Payment Verified &amp; Ticket Issued!</h4>
+                            <p class="text-xs text-stone-600">Official certificate generated for <span class="font-bold text-stone-800">{{ $customer['name'] }}</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Download PNG Button -->
+                    <button type="button" onclick="downloadTicketPNG()" id="download-ticket-btn"
+                        class="w-full sm:w-auto bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B3891F] hover:via-[#E2BF56] hover:to-[#B3891F] text-[#071533] font-black text-xs sm:text-sm py-2.5 px-5 rounded-xl shadow-lg border border-[#FFE8A2]/80 flex items-center justify-center gap-2 transition transform hover:scale-[1.02] cursor-pointer shrink-0">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Download Ticket (PNG)</span>
+                    </button>
                 </div>
-                <div class="space-y-1">
-                    <h4 class="text-base sm:text-lg font-serif font-black text-stone-900">Booking Submitted Successfully!</h4>
-                    <p class="text-xs text-stone-600 max-w-sm mx-auto">
-                        Your reference <span class="font-mono font-bold text-stone-900">{{ $bookingRef }}</span> is now verified. Lottery certificate has been issued for <span class="font-bold text-stone-800">{{ $customer['name'] }}</span> ({{ $customer['mobile'] }}).
-                    </p>
+
+                <!-- Live Ticket Visual Card (Pure 100% Responsive Rendered Image) -->
+                <div id="ticket-certificate-card" class="rounded-2xl shadow-2xl overflow-hidden border-2 border-[#DFB755] relative bg-[#040A1A] select-none flex items-center justify-center">
+                    
+                    <!-- Rendered Certificate Image that scales seamlessly on all Mobile, Tablet & Desktop screens -->
+                    <img id="ticket-preview-image" 
+                        src="{{ asset('img/ticket_template_clean.jpg') }}?v={{ time() }}" 
+                        alt="Maharaja Lottery Official Ticket Certificate" 
+                        class="w-full h-auto block object-contain select-none">
+
                 </div>
-                <div class="pt-2">
-                    <a href="{{ route('home') }}" class="inline-flex items-center gap-2 bg-[#071533] text-[#F3D068] border border-[#DFB755] px-5 py-2 rounded-xl text-xs font-bold shadow hover:bg-[#0B193E] transition">
+
+                <!-- Bottom Navigation Options -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <a href="{{ route('home') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#071533] hover:bg-[#0B193E] text-[#F3D068] border border-[#DFB755] px-5 py-2.5 rounded-xl text-xs font-bold shadow transition">
+                        <i class="fa-solid fa-house text-xs"></i>
                         <span>Return to Home</span>
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
+
+                    <a href="https://wa.me/918743978796?text={{ urlencode('Hello, I have booked Maharaja Lottery tickets (' . implode(', ', $selectedTickets) . ') with Booking Number ' . $bookingRef . ' for ' . $customer['name'] . '. Please confirm my certificate.') }}" 
+                        target="_blank" 
+                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow transition">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span>WhatsApp Receipt</span>
                     </a>
                 </div>
+
             </div>
 
         </div>
 
     </div>
 </section>
+
+<!-- Canvas for Offline High-Res PNG Generation & Dynamic Preview Rendering -->
+<canvas id="ticket-canvas" width="1024" height="682" class="hidden"></canvas>
 
 <script>
     function toggleDetails() {
@@ -397,14 +432,198 @@
     function handleReceiptSubmit(e) {
         e.preventDefault();
         const btn = document.getElementById('submit-verification-btn');
+        const utrVal = document.getElementById('utr_number').value;
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Verifying Booking...</span>';
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Verifying Booking & Reserving...</span>';
 
-        setTimeout(() => {
+        fetch('{{ route("booking.confirm") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                booking_ref: '{{ $bookingRef }}',
+                customer_name: {!! json_encode($customer['name'] ?? '') !!},
+                customer_mobile: {!! json_encode($customer['mobile'] ?? '') !!},
+                tickets: {!! json_encode($selectedTickets) !!},
+                total_amount: {{ (int)$totalAmount }},
+                utr_number: utrVal
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const card = document.getElementById('payment-modal-card');
+            if (card) {
+                card.classList.remove('max-w-lg', 'md:max-w-xl');
+                card.classList.add('max-w-3xl');
+            }
             document.querySelector('#payment-step-2 form').classList.add('hidden');
             document.getElementById('success-alert').classList.remove('hidden');
-        }, 1000);
+            generateAndRenderTicketCertificate(false);
+        })
+        .catch(err => {
+            const card = document.getElementById('payment-modal-card');
+            if (card) {
+                card.classList.remove('max-w-lg', 'md:max-w-xl');
+                card.classList.add('max-w-3xl');
+            }
+            document.querySelector('#payment-step-2 form').classList.add('hidden');
+            document.getElementById('success-alert').classList.remove('hidden');
+            generateAndRenderTicketCertificate(false);
+        });
     }
+
+    // High-Resolution 100% Proportional Canvas Generator & Preview Updater
+    function generateAndRenderTicketCertificate(downloadAfterRender = false) {
+        const canvas = document.getElementById('ticket-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const W = 1024;
+        const H = 682;
+
+        const baseImg = new Image();
+        baseImg.crossOrigin = 'anonymous';
+        baseImg.src = '{{ asset("img/ticket_template_clean.jpg") }}?v=' + Date.now();
+
+        baseImg.onload = function() {
+            ctx.clearRect(0, 0, W, H);
+            ctx.drawImage(baseImg, 0, 0, W, H);
+
+            const rightCenterX = 830; // Center of right ticket card
+
+            // 1. CUSTOMER NAME
+            ctx.fillStyle = '#4B5563';
+            ctx.font = '800 11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('CUSTOMER NAME', rightCenterX, 86);
+
+            ctx.fillStyle = '#071533';
+            ctx.font = '900 22px "Times New Roman", Georgia, serif';
+            ctx.fillText({!! json_encode(strtoupper($customer['name'] ?? 'CUSTOMER')) !!}, rightCenterX, 112);
+
+            // 2. BOOKING NUMBER (Big & Bold)
+            ctx.fillStyle = '#4B5563';
+            ctx.font = '800 11px sans-serif';
+            ctx.fillText('BOOKING NUMBER', rightCenterX, 138);
+
+            ctx.fillStyle = '#0B193E';
+            ctx.font = '900 17px monospace';
+            ctx.fillText('{{ $bookingRef }}', rightCenterX, 160);
+
+            // 3. TICKET NUMBER (Highlighted, Big, Bold, One by One, No Border, No Commas)
+            ctx.fillStyle = '#4B5563';
+            ctx.font = '800 11px sans-serif';
+            ctx.fillText('TICKET NUMBER', rightCenterX, 188);
+
+            const tickets = {!! json_encode(array_values($selectedTickets)) !!};
+            ctx.fillStyle = '#071533';
+            
+            let dateTopY = 285;
+            
+            if (tickets.length === 1) {
+                ctx.font = '900 26px monospace';
+                ctx.fillText(tickets[0], rightCenterX, 222);
+                dateTopY = 270;
+            } else if (tickets.length === 2) {
+                ctx.font = '900 21px monospace';
+                ctx.fillText(tickets[0], rightCenterX, 216);
+                ctx.fillText(tickets[1], rightCenterX, 240);
+                dateTopY = 282;
+            } else if (tickets.length === 3) {
+                ctx.font = '900 18px monospace';
+                ctx.fillText(tickets[0], rightCenterX, 212);
+                ctx.fillText(tickets[1], rightCenterX, 234);
+                ctx.fillText(tickets[2], rightCenterX, 256);
+                dateTopY = 292;
+            } else if (tickets.length <= 5) {
+                ctx.font = '900 15px monospace';
+                let tY = 210;
+                tickets.forEach(ticket => {
+                    ctx.fillText(ticket, rightCenterX, tY);
+                    tY += 17;
+                });
+                dateTopY = Math.max(298, tY + 6);
+            } else {
+                // > 5 tickets: 2 columns
+                ctx.font = '900 13px monospace';
+                const mid = Math.ceil(tickets.length / 2);
+                let tY1 = 208;
+                for (let i = 0; i < mid; i++) {
+                    ctx.fillText(tickets[i], rightCenterX - 55, tY1);
+                    tY1 += 15;
+                }
+                let tY2 = 208;
+                for (let i = mid; i < tickets.length; i++) {
+                    ctx.fillText(tickets[i], rightCenterX + 55, tY2);
+                    tY2 += 15;
+                }
+                dateTopY = Math.max(290, Math.max(tY1, tY2) + 6);
+            }
+
+            // 4. DATE Box (Highlighted Pill)
+            ctx.fillStyle = '#4B5563';
+            ctx.font = '800 11px sans-serif';
+            ctx.fillText('DATE', rightCenterX, dateTopY);
+
+            ctx.fillStyle = '#FFF5F6';
+            ctx.beginPath();
+            ctx.roundRect(710, dateTopY + 6, 240, 36, 10);
+            ctx.fill();
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#BE123C';
+            ctx.stroke();
+
+            ctx.fillStyle = '#BE123C';
+            ctx.font = '900 18px monospace';
+            ctx.fillText('{{ date("d/M/Y") }}', rightCenterX, dateTopY + 30);
+
+            // 5. TODAY LIVE (Green Bold Badge - High-Contrast)
+            const liveTopY = dateTopY + 52;
+            ctx.fillStyle = '#ECFDF5';
+            ctx.beginPath();
+            ctx.roundRect(710, liveTopY, 240, 52, 12);
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#059669';
+            ctx.stroke();
+
+            ctx.fillStyle = '#047857';
+            ctx.font = '900 23px sans-serif';
+            ctx.fillText('★ TODAY LIVE ★', rightCenterX, liveTopY + 34);
+
+            // Update live preview image with rendered canvas
+            const imgData = canvas.toDataURL('image/png');
+            const previewImg = document.getElementById('ticket-preview-image');
+            if (previewImg) {
+                previewImg.src = imgData;
+            }
+
+            // Trigger direct download if requested
+            if (downloadAfterRender) {
+                const link = document.createElement('a');
+                link.download = 'Maharaja_Lottery_{{ $bookingRef }}.png';
+                link.href = imgData;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        };
+
+        if (baseImg.complete) {
+            baseImg.onload();
+        }
+    }
+
+    function downloadTicketPNG() {
+        generateAndRenderTicketCertificate(true);
+    }
+
+    // Auto-render certificate as soon as the page is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        generateAndRenderTicketCertificate(false);
+    });
 </script>
 @endsection
 
