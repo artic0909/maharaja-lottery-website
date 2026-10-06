@@ -343,30 +343,9 @@
                     <h3 class="text-xl sm:text-2xl font-serif font-black text-slate-900">
                         Search Your Ticket to Check Result
                     </h3>
-                    <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-                        Please enter your Ticket Number (e.g. <span class="font-mono font-bold text-slate-700">MH100014</span>), Booking Reference, or Registered Mobile Number in the search box above to check your official result and live draw status.
-                    </p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-left">
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
-                        <i class="fa-solid fa-shield-check text-emerald-600 text-sm"></i>
-                        <h4 class="text-xs font-bold text-slate-900">Admin Approved</h4>
-                        <p class="text-[11px] text-slate-500 leading-tight">Results visible after payment confirmation</p>
-                    </div>
 
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
-                        <i class="fa-solid fa-bolt text-[#C59B27] text-sm"></i>
-                        <h4 class="text-xs font-bold text-slate-900">Live Draw Status</h4>
-                        <p class="text-[11px] text-slate-500 leading-tight">Instant prize and round updates</p>
-                    </div>
-
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-1">
-                        <i class="fa-solid fa-certificate text-cyan-600 text-sm"></i>
-                        <h4 class="text-xs font-bold text-slate-900">Official Records</h4>
-                        <p class="text-[11px] text-slate-500 leading-tight">Direct government-regulated desk</p>
-                    </div>
-                </div>
             </div>
         @endif
 
