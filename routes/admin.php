@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TicketPriceChartController;
+use App\Http\Controllers\Admin\BookingManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/', fn () => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Bookings & Payment Verification Management
+    Route::get('/bookings', [BookingManagementController::class, 'index'])->name('bookings.index');
+    Route::post('/bookings/bulk-delete', [BookingManagementController::class, 'bulkDelete'])->name('bookings.bulk_delete');
+    Route::post('/bookings/bulk-approve', [BookingManagementController::class, 'bulkApprove'])->name('bookings.bulk_approve');
+    Route::post('/bookings/{ref}/approve', [BookingManagementController::class, 'approve'])->name('bookings.approve');
+    Route::post('/bookings/{ref}/reject', [BookingManagementController::class, 'reject'])->name('bookings.reject');
+    Route::post('/bookings/{ref}/update-result', [BookingManagementController::class, 'updateResult'])->name('bookings.update_result');
+    Route::delete('/bookings/{ref}', [BookingManagementController::class, 'destroy'])->name('bookings.destroy');
+    Route::post('/bookings/delete/{ref}', [BookingManagementController::class, 'destroy'])->name('bookings.delete');
 
     // Ticket Management & Price Chart Schemes
     Route::get('/tickets', [TicketPriceChartController::class, 'index'])->name('tickets.index');

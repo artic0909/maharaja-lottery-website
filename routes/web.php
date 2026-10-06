@@ -6,7 +6,8 @@ use App\Http\Controllers\BookingController;
 // Frontend Pages
 Route::view('/', 'frontend.pages.index')->name('home');
 Route::view('/about', 'frontend.pages.about')->name('about');
-Route::view('/winner-list', 'frontend.pages.winnerlist')->name('winnerlist');
+Route::match(['get', 'post'], '/winner-list', [BookingController::class, 'winnerList'])->name('winnerlist');
+Route::match(['get', 'post'], '/check-result', [BookingController::class, 'winnerList'])->name('check.result');
 Route::view('/contact', 'frontend.pages.contact')->name('contact');
 
 // Ticket Booking & Payment Workflow

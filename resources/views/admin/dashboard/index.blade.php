@@ -142,23 +142,27 @@
         <div class="p-5 sm:p-6 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10">
             <div>
                 <h2 class="text-xl sm:text-2xl font-serif font-black text-white tracking-tight">
-                    Recent Bookings
+                    Recent Bookings &amp; Payment Submissions
                 </h2>
                 <p class="text-xs text-stone-400 mt-0.5">
-                    Live stream of recent user ticket purchases and verification logs
+                    Live stream of recent user ticket purchases &bull; Approve payment to allow result access
                 </p>
             </div>
 
             <!-- Quick Filter / Action Buttons -->
             <div class="flex items-center gap-2">
-                <button type="button" onclick="filterTable('all')" id="btn-all" class="px-3 py-1.5 rounded-xl bg-[#DFB755] text-[#071533] font-black text-xs transition shadow-xs">
+                <a href="{{ route('admin.bookings.index') }}" class="px-3 py-1.5 rounded-xl bg-[#DFB755] text-[#071533] font-black text-xs transition shadow-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-list-check text-xs"></i>
+                    <span>Manage All Bookings</span>
+                </a>
+                <button type="button" onclick="filterTable('all')" id="btn-all" class="px-3 py-1.5 rounded-xl bg-white/10 text-white font-bold text-xs transition">
                     All ({{ count($recentBookings) }})
                 </button>
-                <button type="button" onclick="filterTable('Confirmed')" id="btn-confirmed" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-300 font-bold text-xs border border-emerald-500/30 transition">
-                    Confirmed
+                <button type="button" onclick="filterTable('Approved')" id="btn-confirmed" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-emerald-300 font-bold text-xs border border-emerald-500/30 transition">
+                    Approved
                 </button>
-                <button type="button" onclick="filterTable('Profile Submitted')" id="btn-submitted" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-amber-300 font-bold text-xs border border-amber-500/30 transition">
-                    Profile Submitted
+                <button type="button" onclick="filterTable('Pending')" id="btn-submitted" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-amber-300 font-bold text-xs border border-amber-500/30 transition">
+                    Pending Approval
                 </button>
             </div>
         </div>
@@ -168,64 +172,118 @@
             <table class="w-full text-left text-xs text-stone-300" id="recent-bookings-table">
                 <thead class="bg-[#0B193E] text-[11px] uppercase font-black text-[#DFB755] tracking-wider border-b border-[#DFB755]/30">
                     <tr>
-                        <th scope="col" class="py-4 px-4 sm:px-6">ID</th>
-                        <th scope="col" class="py-4 px-4">NAME</th>
+                        <th scope="col" class="py-4 px-4 sm:px-6">BOOKING REF / DATE</th>
+                        <th scope="col" class="py-4 px-4">CUSTOMER</th>
                         <th scope="col" class="py-4 px-4">TICKETS</th>
                         <th scope="col" class="py-4 px-4">AMOUNT</th>
-                        <th scope="col" class="py-4 px-4">STATUS</th>
-                        <th scope="col" class="py-4 px-4 sm:pr-6">UPDATED</th>
+                        <th scope="col" class="py-4 px-4">PAYMENT / UTR</th>
+                        <th scope="col" class="py-4 px-4">APPROVAL STATUS</th>
+                        <th scope="col" class="py-4 px-4 text-right sm:pr-6">ACTION</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5 font-sans">
-                    @foreach($recentBookings as $b)
+                    @forelse($recentBookings as $b)
                         <tr class="table-row-item hover:bg-white/[0.04] transition duration-150" data-status="{{ $b['status'] }}">
                             
-                            <!-- ID -->
+                            <!-- ID / Date -->
                             <td class="py-4 px-4 sm:px-6 whitespace-nowrap">
-                                <span class="font-mono font-bold text-white text-xs select-all">
-                                    {{ $b['id'] }}
+                                <span class="font-mono font-bold text-white text-xs select-all block">
+                                    {{ $b['booking_ref'] }}
+                                </span>
+                                <span class="text-[10px] text-stone-400 font-mono block mt-0.5">
+                                    {{ date('d M Y, h:i A', strtotime($b['booked_at'])) }}
                                 </span>
                             </td>
 
-                            <!-- NAME -->
+                            <!-- NAME & MOBILE -->
                             <td class="py-4 px-4 whitespace-nowrap font-medium text-stone-200">
-                                {{ $b['name'] }}
+                                <div class="font-bold text-white">{{ $b['customer_name'] }}</div>
+                                <div class="text-[11px] font-mono text-[#F3D068]">{{ $b['customer_mobile'] }}</div>
                             </td>
 
                             <!-- TICKETS -->
                             <td class="py-4 px-4">
-                                <span class="font-mono font-semibold text-[#F3D068]">
-                                    {{ $b['tickets'] }}
-                                </span>
+                                <div class="flex items-center gap-1.5 mb-1">
+                                    <span class="px-1.5 py-0.5 rounded bg-[#DFB755]/20 text-[#F3D068] text-[10px] font-black">
+                                        {{ $b['ticket_count'] }} Tickets
+                                    </span>
+                                </div>
+                                <div class="flex flex-wrap gap-1 max-w-xs">
+                                    @foreach(array_slice($b['tickets'], 0, 4) as $ticket)
+                                        <span class="inline-block px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white font-mono text-[10px] font-bold">
+                                            {{ $ticket }}
+                                        </span>
+                                    @endforeach
+                                    @if(count($b['tickets']) > 4)
+                                        <span class="text-[10px] text-stone-400 font-bold">+{{ count($b['tickets']) - 4 }} more</span>
+                                    @endif
+                                </div>
                             </td>
 
                             <!-- AMOUNT -->
-                            <td class="py-4 px-4 whitespace-nowrap font-mono font-bold text-white">
-                                {{ $b['amount'] }}
+                            <td class="py-4 px-4 whitespace-nowrap font-mono font-black text-white text-sm">
+                                ₹{{ number_format($b['total_amount']) }}
+                            </td>
+
+                            <!-- PAYMENT / UTR -->
+                            <td class="py-4 px-4">
+                                @if(!empty($b['utr_number']))
+                                    <span class="font-mono text-emerald-300 font-bold text-xs bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 select-all">
+                                        {{ $b['utr_number'] }}
+                                    </span>
+                                @else
+                                    <span class="text-stone-400 text-xs italic">Direct</span>
+                                @endif
                             </td>
 
                             <!-- STATUS -->
                             <td class="py-4 px-4 whitespace-nowrap">
-                                @if($b['status'] === 'Confirmed')
+                                @if($b['status'] === 'Approved')
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                                        Confirmed
+                                        Payment Received (Approved)
+                                    </span>
+                                @elseif($b['status'] === 'Rejected')
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                                        Rejected
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-[#F3D068] border border-amber-500/30">
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
                                         <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                                        Profile Submitted
+                                        Pending Approval
                                     </span>
                                 @endif
                             </td>
 
-                            <!-- UPDATED -->
-                            <td class="py-4 px-4 sm:pr-6 whitespace-nowrap font-mono text-[11px] text-stone-400">
-                                {{ $b['updated'] }}
+                            <!-- ACTION -->
+                            <td class="py-4 px-4 sm:pr-6 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-1.5">
+                                    @if($b['status'] !== 'Approved')
+                                        <form action="{{ route('admin.bookings.approve', $b['booking_ref']) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" 
+                                                onclick="return confirm('Approve booking {{ $b['booking_ref'] }} and confirm payment received?')"
+                                                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-xs" title="Approve Booking">
+                                                <i class="fa-solid fa-check mr-1"></i> Approve
+                                            </button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('admin.bookings.index', ['q' => $b['booking_ref']]) }}" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-[#DFB755] border border-[#DFB755]/30 font-bold text-xs transition">
+                                            <i class="fa-solid fa-eye mr-1"></i> Details
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
 
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-10 text-stone-400">
+                                No recent bookings recorded yet.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -233,7 +291,10 @@
         <!-- Table Footer Summary -->
         <div class="p-4 bg-[#040A1A]/80 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-stone-400">
             <span>Showing recent {{ count($recentBookings) }} ticket entries</span>
-            <span class="text-stone-400 font-mono text-[11px]">Maharaja Lottery Directorate Console</span>
+            <a href="{{ route('admin.bookings.index') }}" class="text-[#F3D068] hover:underline font-bold text-xs flex items-center gap-1">
+                <span>View all bookings in full table</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
         </div>
 
     </div>
@@ -248,7 +309,6 @@
         const btnConfirmed = document.getElementById('btn-confirmed');
         const btnSubmitted = document.getElementById('btn-submitted');
 
-        // Reset all buttons
         [btnAll, btnConfirmed, btnSubmitted].forEach(btn => {
             btn.className = "px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-300 font-bold text-xs border border-white/10 transition";
         });
@@ -256,15 +316,15 @@
         if (status === 'all') {
             btnAll.className = "px-3 py-1.5 rounded-xl bg-[#DFB755] text-[#071533] font-black text-xs transition shadow-xs";
             rows.forEach(r => r.style.display = '');
-        } else if (status === 'Confirmed') {
+        } else if (status === 'Approved') {
             btnConfirmed.className = "px-3 py-1.5 rounded-xl bg-emerald-500 text-white font-black text-xs transition shadow-xs";
             rows.forEach(r => {
-                r.style.display = r.getAttribute('data-status') === 'Confirmed' ? '' : 'none';
+                r.style.display = r.getAttribute('data-status') === 'Approved' ? '' : 'none';
             });
-        } else if (status === 'Profile Submitted') {
-            btnSubmitted.className = "px-3 py-1.5 rounded-xl bg-[#DFB755] text-[#071533] font-black text-xs transition shadow-xs";
+        } else if (status === 'Pending') {
+            btnSubmitted.className = "px-3 py-1.5 rounded-xl bg-amber-500 text-stone-900 font-black text-xs transition shadow-xs";
             rows.forEach(r => {
-                r.style.display = r.getAttribute('data-status') === 'Profile Submitted' ? '' : 'none';
+                r.style.display = r.getAttribute('data-status') === 'Pending' ? '' : 'none';
             });
         }
     }

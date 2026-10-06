@@ -63,10 +63,22 @@ class BookingController extends Controller
             'booking_ref' => $meta['booking_ref'] ?? ('BK' . time()),
             'customer_name' => $meta['customer_name'] ?? 'Customer',
             'customer_mobile' => $meta['customer_mobile'] ?? '',
+            'customer_email' => $meta['customer_email'] ?? '',
+            'customer_state' => $meta['customer_state'] ?? '',
+            'customer_city' => $meta['customer_city'] ?? '',
             'tickets' => $cleanTickets,
-            'total_amount' => $meta['total_amount'] ?? 0,
+            'ticket_count' => count($cleanTickets),
+            'total_amount' => (int)($meta['total_amount'] ?? (count($cleanTickets) * 40)),
             'booked_at' => date('Y-m-d H:i:s'),
             'utr_number' => $meta['utr_number'] ?? null,
+            'payment_method' => $meta['payment_method'] ?? 'UPI / QR',
+            'receipt_image' => $meta['receipt_image'] ?? '',
+            'status' => 'Pending', // Pending admin payment approval
+            'payment_status' => !empty($meta['utr_number']) ? 'Submitted' : 'Pending',
+            'result_status' => 'Pending Approval',
+            'prize_amount' => '',
+            'admin_notes' => 'Awaiting payment verification by admin.',
+            'approved_at' => null,
         ];
 
         $existing[] = $record;
@@ -354,13 +366,42 @@ class BookingController extends Controller
         $utrNumber = $request->input('utr_number', '');
         $totalAmount = (int)$request->input('total_amount', session('total_amount', 0));
 
+        $receiptImage = $request->input('receipt_image', '');
+        $dir = public_path('uploads/receipts');
+        if (!File::exists($dir)) {
+            File::makeDirectory($dir, 0755, true);
+        }
+
+        if ($request->hasFile('receipt_file')) {
+            $file = $request->file('receipt_file');
+            $fileName = 'receipt_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $fileName);
+            $receiptImage = 'uploads/receipts/' . $fileName;
+        } elseif ($request->hasFile('receipt_image')) {
+            $file = $request->file('receipt_image');
+            $fileName = 'receipt_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $fileName);
+            $receiptImage = 'uploads/receipts/' . $fileName;
+        } elseif ($request->input('certificate_image') && str_starts_with($request->input('certificate_image'), 'data:image')) {
+            $certData = $request->input('certificate_image');
+            $parts = explode(',', $certData);
+            $decoded = base64_decode($parts[1] ?? $parts[0]);
+            $fileName = 'ticket_' . $bookingRef . '.png';
+            file_put_contents($dir . '/' . $fileName, $decoded);
+            $receiptImage = 'uploads/receipts/' . $fileName;
+        }
+
         if (!empty($tickets)) {
             $this->recordAcquiredTickets($tickets, [
                 'booking_ref' => $bookingRef,
                 'customer_name' => $customerName,
                 'customer_mobile' => $customerMobile,
+                'customer_email' => session('customer_email', ''),
+                'customer_state' => session('customer_state', ''),
+                'customer_city' => session('customer_city', ''),
                 'utr_number' => $utrNumber,
                 'total_amount' => $totalAmount,
+                'receipt_image' => $receiptImage,
             ]);
 
             session()->forget('selected_tickets');
@@ -372,5 +413,67 @@ class BookingController extends Controller
             'booking_ref' => $bookingRef,
             'reserved_tickets' => $tickets,
         ]);
+    }
+
+    /**
+     * Frontend Winner List & Ticket Result Verification.
+     */
+    public function winnerList(Request $request)
+    {
+        $searchQuery = trim($request->input('ticket_number', $request->input('q', '')));
+        $searchResult = null;
+        $searchState = null; // 'approved', 'pending', 'rejected', 'not_found'
+
+        $path = $this->getBookingsStoragePath();
+        $allBookings = [];
+        if (File::exists($path)) {
+            $allBookings = json_decode(File::get($path), true) ?: [];
+        }
+
+        if (!empty($searchQuery)) {
+            $queryClean = strtoupper(trim($searchQuery));
+            $foundBooking = null;
+
+            foreach ($allBookings as $b) {
+                $refMatch = strtoupper($b['booking_ref'] ?? '') === $queryClean;
+                $mobileMatch = ($b['customer_mobile'] ?? '') === $searchQuery;
+                $ticketMatch = false;
+
+                $tickets = $b['tickets'] ?? [];
+                if (is_array($tickets)) {
+                    foreach ($tickets as $t) {
+                        if (strtoupper(trim($t)) === $queryClean) {
+                            $ticketMatch = true;
+                            break;
+                        }
+                    }
+                }
+
+                if ($refMatch || $mobileMatch || $ticketMatch) {
+                    $foundBooking = $b;
+                    break;
+                }
+            }
+
+            if ($foundBooking) {
+                $status = $foundBooking['status'] ?? 'Pending';
+                if ($status === 'Approved') {
+                    $searchState = 'approved';
+                } elseif ($status === 'Rejected') {
+                    $searchState = 'rejected';
+                } else {
+                    $searchState = 'pending';
+                }
+                $searchResult = $foundBooking;
+            } else {
+                $searchState = 'not_found';
+            }
+        }
+
+        // Filter all approved records for the verified archive
+        $approvedWinners = array_values(array_filter($allBookings, fn($b) => ($b['status'] ?? '') === 'Approved'));
+        $totalPublished = count($approvedWinners);
+
+        return view('frontend.pages.winnerlist', compact('searchQuery', 'searchResult', 'searchState', 'approvedWinners', 'totalPublished'));
     }
 }

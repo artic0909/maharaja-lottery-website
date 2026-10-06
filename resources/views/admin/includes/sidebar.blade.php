@@ -34,6 +34,16 @@
                 <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.dashboard') ? 'inline-block' : 'hidden' }}"></span>
             </a>
 
+            <!-- Bookings & Payment Records (NEW) -->
+            <a href="{{ route('admin.bookings.index') }}" 
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.bookings.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-receipt text-sm {{ request()->routeIs('admin.bookings.*') ? 'text-[#DFB755]' : 'text-stone-400 group-hover:text-[#DFB755]' }}"></i>
+                    <span>Bookings &amp; Payments</span>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.bookings.*') ? 'inline-block' : 'hidden' }}"></span>
+            </a>
+
             <!-- Ticket Management / Price Chart -->
             <a href="{{ route('admin.tickets.index') }}" 
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.tickets.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
@@ -44,22 +54,12 @@
                 <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.tickets.*') ? 'inline-block' : 'hidden' }}"></span>
             </a>
 
-            <!-- Lottery Schemes & Draws -->
-            <a href="#draw-schedules-section" 
-                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-trophy text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
-                    <span>Lottery Draws</span>
-                </div>
-                <span class="text-[10px] font-bold text-stone-400">4 Active</span>
-            </a>
-
-            <!-- Live Ticket Number Inventory -->
+            <!-- Live Ticket Booking Portal -->
             <a href="{{ route('ticket.booking') }}" target="_blank"
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-ticket text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
-                    <span>Ticket Inventory</span>
+                    <span>Ticket Booking Portal</span>
                 </div>
                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-stone-400"></i>
             </a>
@@ -68,8 +68,8 @@
             <a href="{{ route('winnerlist') }}" target="_blank"
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-medal text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
-                    <span>Publish Results</span>
+                    <i class="fa-solid fa-trophy text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
+                    <span>Check Results Desk</span>
                 </div>
                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-stone-400"></i>
             </a>

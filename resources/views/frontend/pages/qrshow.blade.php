@@ -433,24 +433,41 @@
         e.preventDefault();
         const btn = document.getElementById('submit-verification-btn');
         const utrVal = document.getElementById('utr_number').value;
+        const fileInput = document.getElementById('receipt-file');
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Verifying Booking & Reserving...</span>';
+
+        const formData = new FormData();
+        formData.append('booking_ref', '{{ $bookingRef }}');
+        formData.append('customer_name', {!! json_encode($customer['name'] ?? '') !!});
+        formData.append('customer_mobile', {!! json_encode($customer['mobile'] ?? '') !!});
+        formData.append('total_amount', '{{ (int)$totalAmount }}');
+        formData.append('utr_number', utrVal);
+        
+        const tickets = {!! json_encode($selectedTickets) !!};
+        tickets.forEach(t => formData.append('tickets[]', t));
+
+        if (fileInput && fileInput.files && fileInput.files.length > 0) {
+            formData.append('receipt_file', fileInput.files[0]);
+        }
+
+        const certCanvas = document.getElementById('ticket-canvas');
+        if (certCanvas) {
+            try {
+                const certBase64 = certCanvas.toDataURL('image/png');
+                if (certBase64 && certBase64.length > 50) {
+                    formData.append('certificate_image', certBase64);
+                }
+            } catch(e) {}
+        }
 
         fetch('{{ route("booking.confirm") }}', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({
-                booking_ref: '{{ $bookingRef }}',
-                customer_name: {!! json_encode($customer['name'] ?? '') !!},
-                customer_mobile: {!! json_encode($customer['mobile'] ?? '') !!},
-                tickets: {!! json_encode($selectedTickets) !!},
-                total_amount: {{ (int)$totalAmount }},
-                utr_number: utrVal
-            })
+            body: formData
         })
         .then(res => res.json())
         .then(data => {

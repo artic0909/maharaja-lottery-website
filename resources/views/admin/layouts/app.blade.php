@@ -53,28 +53,14 @@
                     </div>
 
                     <!-- Center / Live Status -->
-                    <div class="hidden md:flex items-center gap-2 bg-[#040A1A]/80 border border-[#DFB755]/25 px-3 py-1.5 rounded-full text-xs">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        <span class="text-stone-300 font-medium">Draw Engine:</span>
-                        <span class="text-[#F3D068] font-bold">Active (Samrudhi Sunday Pool)</span>
-                    </div>
+                    
 
                     <!-- Right Actions & Admin Profile -->
                     <div class="flex items-center gap-3 sm:gap-4">
                         
-                        <!-- Quick Link to Public Website -->
-                        <a href="{{ route('home') }}" target="_blank" title="View Public Website" 
-                            class="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 text-stone-300 hover:text-[#DFB755] border border-white/10 flex items-center justify-center text-xs transition">
-                            <i class="fa-solid fa-globe"></i>
-                        </a>
+                 
 
-                        <!-- Notification Bell (Dummy) -->
-                        <button type="button" class="relative w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 text-stone-300 hover:text-[#DFB755] border border-white/10 flex items-center justify-center text-xs transition">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#DFB755] text-[#071533] text-[9px] font-black flex items-center justify-center">
-                                7
-                            </span>
-                        </button>
+                   
 
                         <!-- Admin User Dropdown Trigger -->
                         <div class="relative" id="user-dropdown-container">
