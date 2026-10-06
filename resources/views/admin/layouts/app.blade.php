@@ -22,6 +22,35 @@
 
     <!-- Vite CSS/JS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        /* Hide scrollbars for sidebar and modals */
+        .no-scrollbar::-webkit-scrollbar,
+        #admin-sidebar::-webkit-scrollbar,
+        #admin-sidebar *::-webkit-scrollbar,
+        #details-modal::-webkit-scrollbar,
+        #details-modal *::-webkit-scrollbar,
+        #result-modal::-webkit-scrollbar,
+        #result-modal *::-webkit-scrollbar,
+        #image-zoom-modal::-webkit-scrollbar,
+        #image-zoom-modal *::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        .no-scrollbar,
+        #admin-sidebar,
+        #admin-sidebar *,
+        #details-modal,
+        #details-modal *,
+        #result-modal,
+        #result-modal *,
+        #image-zoom-modal,
+        #image-zoom-modal * {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+    </style>
     @stack('styles')
 </head>
 <body class="bg-[#040A1A] font-sans antialiased text-stone-200 min-h-screen flex flex-col selection:bg-[#DFB755] selection:text-[#040A1A]">

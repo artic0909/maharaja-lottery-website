@@ -350,7 +350,7 @@
 </div>
 
 <!-- 1. VIEW ALL DETAILS & PAYMENT ATTACHMENT MODAL (Fully Responsive) -->
-<div id="details-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden overflow-y-auto p-3 sm:p-4 md:p-6 justify-center items-start sm:items-center">
+<div id="details-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden overflow-y-auto no-scrollbar p-3 sm:p-4 md:p-6 justify-center items-start sm:items-center">
     <div class="bg-[#071533] border border-[#DFB755]/40 rounded-2xl sm:rounded-3xl max-w-2xl w-full shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150">
         
         <!-- Fixed Modal Header -->
@@ -376,7 +376,7 @@
         </div>
 
         <!-- Scrollable Modal Body -->
-        <div class="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1 overscroll-contain">
+        <div class="p-4 sm:p-6 space-y-4 overflow-y-auto no-scrollbar flex-1 overscroll-contain">
             
             <!-- 2 Columns Grid: Customer + Payment details -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -423,7 +423,7 @@
                     <span class="text-[10px] font-bold text-[#DFB755] uppercase tracking-wider">Booked Lottery Numbers</span>
                     <span class="text-[10px] font-mono text-stone-300" id="detail-ticket-count">0 Tickets</span>
                 </div>
-                <div class="flex flex-wrap gap-1.5 max-h-28 sm:max-h-36 overflow-y-auto pr-1" id="detail-tickets-container">
+                <div class="flex flex-wrap gap-1.5 max-h-28 sm:max-h-36 overflow-y-auto no-scrollbar pr-1" id="detail-tickets-container">
                     <!-- Injected via JS -->
                 </div>
             </div>
@@ -458,7 +458,7 @@
 </div>
 
 <!-- 2. RESULT STATUS & PRIZE MODAL (Fully Responsive) -->
-<div id="result-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden overflow-y-auto p-3 sm:p-4 md:p-6 justify-center items-start sm:items-center">
+<div id="result-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden overflow-y-auto no-scrollbar p-3 sm:p-4 md:p-6 justify-center items-start sm:items-center">
     <div class="bg-[#071533] border border-[#DFB755]/40 rounded-2xl sm:rounded-3xl max-w-lg w-full shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150">
         
         <div class="flex items-center justify-between border-b border-white/10 p-4 sm:p-5 bg-[#071533] shrink-0">
@@ -478,7 +478,7 @@
 
         <form id="result-form" method="POST" action="" class="flex flex-col flex-1 overflow-hidden">
             @csrf
-            <div class="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
+            <div class="p-4 sm:p-6 space-y-4 overflow-y-auto no-scrollbar flex-1">
                 <div>
                     <label class="block text-[11px] font-bold text-stone-300 uppercase tracking-wider mb-1.5">
                         Draw / Winning Result Status
@@ -523,7 +523,7 @@
 </div>
 
 <!-- 3. ZOOM IMAGE PREVIEW MODAL (Responsive) -->
-<div id="image-zoom-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 cursor-pointer" onclick="closeZoomModal()">
+<div id="image-zoom-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 cursor-pointer no-scrollbar" onclick="closeZoomModal()">
     <div class="max-w-4xl max-h-[92vh] w-full flex flex-col items-center justify-center">
         <img id="zoomed-image" src="" alt="Payment Receipt" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl border border-white/20">
         <p class="text-center text-xs text-stone-300 mt-3 font-medium bg-black/60 px-3 py-1 rounded-full border border-white/10">Click anywhere to close full preview</p>

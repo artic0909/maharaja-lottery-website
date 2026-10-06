@@ -2,10 +2,10 @@
 <div id="admin-sidebar-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-40 lg:hidden hidden transition-opacity"></div>
 
 <!-- Sidebar Container -->
-<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-[#040A1A] border-r border-[#DFB755]/20 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out shadow-2xl">
+<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-[#040A1A] border-r border-[#DFB755]/20 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out shadow-2xl no-scrollbar">
     
     <!-- Top Branding & Navigation -->
-    <div class="flex-1 overflow-y-auto py-5 px-4 space-y-6">
+    <div class="flex-1 overflow-y-auto no-scrollbar py-5 px-4 space-y-6">
         
         <!-- Logo Header -->
         <div class="flex items-center gap-3 px-2 pb-4 border-b border-[#DFB755]/15">
