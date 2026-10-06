@@ -340,9 +340,13 @@
                                     Edit
                                 </button>
 
-                                <form action="{{ route('admin.tickets.delete', $chart['id']) }}" method="POST" class="inline" onsubmit="return confirm('Delete scheme {{ $chart['name'] }}?')">
+                                <form action="{{ route('admin.tickets.delete', $chart['id']) }}" method="POST" class="inline">
                                     @csrf
                                     <button type="submit" 
+                                        data-confirm="Are you sure you want to delete scheme <strong>{{ $chart['name'] }}</strong>?"
+                                        data-confirm-title="Delete Category"
+                                        data-confirm-type="danger"
+                                        data-confirm-btn="Delete Scheme"
                                         class="px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/25 text-rose-300 text-xs font-bold border border-rose-500/30 transition">
                                         Delete
                                     </button>
@@ -411,9 +415,12 @@
         const container = document.getElementById('prize-rows-container');
         const rows = container.querySelectorAll('.prize-row');
         if (rows.length <= 1) {
-            alert('At least one prize tier is required for a lottery scheme.');
+            window.adminToast('At least one prize tier is required for a lottery scheme.', 'warning');
             return;
         }
+        btn.closest('.prize-row').remove();
+        reindexPrizeRows();
+    }
         btn.closest('.prize-row').remove();
         reindexPrizeRows();
     }

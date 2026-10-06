@@ -278,7 +278,10 @@
                                         <form action="{{ route('admin.bookings.approve', $b['booking_ref']) }}" method="POST" class="inline">
                                             @csrf
                                             <button type="submit" 
-                                                onclick="return confirm('Confirm payment received for {{ $b['booking_ref'] }} (₹{{ $b['total_amount'] }}) and approve frontend result access?')"
+                                                data-confirm="Confirm payment received for booking <strong>{{ $b['booking_ref'] }}</strong> (₹{{ number_format($b['total_amount']) }}) and approve frontend result access?"
+                                                data-confirm-title="Approve Booking"
+                                                data-confirm-type="success"
+                                                data-confirm-btn="Approve Payment"
                                                 class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-sm" title="Approve Booking & Confirm Payment">
                                                 <i class="fa-solid fa-check"></i>
                                                 <span>Approve</span>
@@ -303,7 +306,10 @@
                                         <form action="{{ route('admin.bookings.reject', $b['booking_ref']) }}" method="POST" class="inline">
                                             @csrf
                                             <button type="submit" 
-                                                onclick="return confirm('Are you sure you want to reject booking {{ $b['booking_ref'] }}?')"
+                                                data-confirm="Are you sure you want to reject booking <strong>{{ $b['booking_ref'] }}</strong>?"
+                                                data-confirm-title="Reject Booking"
+                                                data-confirm-type="danger"
+                                                data-confirm-btn="Reject Booking"
                                                 class="px-2.5 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition" title="Reject Payment">
                                                 <i class="fa-solid fa-ban"></i>
                                             </button>
@@ -314,7 +320,10 @@
                                     <form action="{{ route('admin.bookings.delete', $b['booking_ref']) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" 
-                                            onclick="return confirm('Delete booking {{ $b['booking_ref'] }} completely?')"
+                                            data-confirm="Are you sure you want to permanently delete booking <strong>{{ $b['booking_ref'] }}</strong> from records?"
+                                            data-confirm-title="Delete Booking"
+                                            data-confirm-type="danger"
+                                            data-confirm-btn="Delete Record"
                                             class="px-2 py-1.5 rounded-xl bg-white/5 hover:bg-rose-500/20 text-stone-400 hover:text-rose-300 text-xs transition" title="Delete Record">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </button>
@@ -575,32 +584,44 @@
         }
     }
 
-    function submitBulkDelete() {
+    async function submitBulkDelete() {
         const selected = getSelectedCheckboxes();
         if (selected.length === 0) {
-            alert('Please select at least one booking to delete.');
+            window.adminToast('Please select at least one booking to delete.', 'warning');
             return;
         }
 
-        if (!confirm('Are you sure you want to permanently delete ' + selected.length + ' selected booking(s)?')) {
-            return;
-        }
+        const confirmed = await window.adminConfirm({
+            title: 'Delete Selected Bookings',
+            message: 'Are you sure you want to permanently delete <strong>' + selected.length + '</strong> selected booking record(s)? This action cannot be undone.',
+            type: 'danger',
+            confirmText: 'Delete ' + selected.length + ' Bookings',
+            icon: 'fa-solid fa-trash-can'
+        });
+
+        if (!confirmed) return;
 
         const refs = selected.map(cb => cb.value);
         document.getElementById('bulk-delete-refs').value = refs.join(',');
         document.getElementById('bulk-delete-form').submit();
     }
 
-    function submitBulkApprove() {
+    async function submitBulkApprove() {
         const selected = getSelectedCheckboxes();
         if (selected.length === 0) {
-            alert('Please select at least one booking to approve.');
+            window.adminToast('Please select at least one booking to approve.', 'warning');
             return;
         }
 
-        if (!confirm('Confirm payment received and approve ' + selected.length + ' selected booking(s)?')) {
-            return;
-        }
+        const confirmed = await window.adminConfirm({
+            title: 'Approve Selected Bookings',
+            message: 'Confirm payment receipt and approve <strong>' + selected.length + '</strong> selected booking(s) to publish live result verification to the frontend?',
+            type: 'success',
+            confirmText: 'Approve ' + selected.length + ' Bookings',
+            icon: 'fa-solid fa-circle-check'
+        });
+
+        if (!confirmed) return;
 
         const refs = selected.map(cb => cb.value);
         document.getElementById('bulk-approve-refs').value = refs.join(',');
@@ -691,7 +712,12 @@
             actionsHtml += `
                 <form action="{{ url('/admin/bookings') }}/${booking.booking_ref}/approve" method="POST" class="inline">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" onclick="return confirm('Confirm payment and approve booking?')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm">
+                    <button type="submit" 
+                        data-confirm="Confirm payment received for booking <strong>${booking.booking_ref}</strong> (₹${Number(booking.total_amount || 0).toLocaleString()}) and approve frontend result access?"
+                        data-confirm-title="Approve Booking"
+                        data-confirm-type="success"
+                        data-confirm-btn="Approve Payment"
+                        class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm">
                         <i class="fa-solid fa-check"></i> Approve Payment
                     </button>
                 </form>
@@ -864,7 +890,7 @@
     function copyDetailRef() {
         if (currentModalRef) {
             navigator.clipboard.writeText(currentModalRef);
-            alert('Copied Booking Reference: ' + currentModalRef);
+            window.adminToast('Copied Reference: ' + currentModalRef, 'success');
         }
     }
 
