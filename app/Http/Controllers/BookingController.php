@@ -42,6 +42,34 @@ class BookingController extends Controller
     }
 
     /**
+     * Generate a guaranteed unique Booking Reference ID across all storage records.
+     * Format: BK + YmdHis + 4 random uppercase alphanumeric characters (e.g. BK202610072125019A4B)
+     */
+    public function generateUniqueBookingRef(): string
+    {
+        $path = $this->getBookingsStoragePath();
+        $existingRefs = [];
+        if (File::exists($path)) {
+            $data = json_decode(File::get($path), true);
+            if (is_array($data)) {
+                foreach ($data as $item) {
+                    if (is_array($item) && !empty($item['booking_ref'])) {
+                        $existingRefs[strtoupper(trim($item['booking_ref']))] = true;
+                    }
+                }
+            }
+        }
+
+        do {
+            $timestamp = date('YmdHis');
+            $randomBytes = strtoupper(bin2hex(random_bytes(2)));
+            $ref = 'BK' . $timestamp . $randomBytes;
+        } while (isset($existingRefs[$ref]));
+
+        return $ref;
+    }
+
+    /**
      * Save newly acquired tickets to persistent storage.
      */
     public function recordAcquiredTickets(array $tickets, array $meta = []): void
@@ -60,7 +88,7 @@ class BookingController extends Controller
         $cleanTickets = array_values(array_unique(array_map('strtoupper', array_map('trim', $tickets))));
 
         $record = [
-            'booking_ref' => $meta['booking_ref'] ?? ('BK' . time()),
+            'booking_ref' => !empty($meta['booking_ref']) ? $meta['booking_ref'] : $this->generateUniqueBookingRef(),
             'customer_name' => $meta['customer_name'] ?? 'Customer',
             'customer_mobile' => $meta['customer_mobile'] ?? '',
             'customer_email' => $meta['customer_email'] ?? '',
@@ -321,8 +349,8 @@ class BookingController extends Controller
 
         $totalTickets = count($selectedTickets);
 
-        // Generate or retrieve booking reference
-        $bookingRef = $request->input('booking_ref', session('booking_ref', 'BK' . date('YmdHis') . strtoupper(substr(md5(uniqid('', true)), 0, 6))));
+        // Auto-generate fresh guaranteed unique booking reference for every checkout attempt
+        $bookingRef = $this->generateUniqueBookingRef();
         
         $customer = [
             'name' => $request->input('full_name', session('customer_name', 'Rajesh Kumar')),
@@ -385,7 +413,7 @@ class BookingController extends Controller
             $tickets = array_values(array_filter(explode(',', (string)$rawTickets)));
         }
 
-        $bookingRef = $request->input('booking_ref', session('booking_ref', 'BK' . time()));
+        $bookingRef = $request->input('booking_ref', session('booking_ref')) ?: $this->generateUniqueBookingRef();
         $customerName = $request->input('customer_name', session('customer_name', 'Customer'));
         $customerMobile = $request->input('customer_mobile', session('customer_mobile', ''));
         $utrNumber = $request->input('utr_number', '');
