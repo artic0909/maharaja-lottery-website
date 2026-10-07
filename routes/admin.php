@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/bookings/bulk-approve', [BookingManagementController::class, 'bulkApprove'])->name('bookings.bulk_approve');
     Route::post('/bookings/{ref}/approve', [BookingManagementController::class, 'approve'])->name('bookings.approve');
     Route::post('/bookings/{ref}/reject', [BookingManagementController::class, 'reject'])->name('bookings.reject');
+    Route::post('/bookings/{ref}/third-prize', [BookingManagementController::class, 'awardThirdPrize'])->name('bookings.award_third_prize');
     Route::post('/bookings/{ref}/update-result', [BookingManagementController::class, 'updateResult'])->name('bookings.update_result');
     Route::delete('/bookings/{ref}', [BookingManagementController::class, 'destroy'])->name('bookings.destroy');
     Route::post('/bookings/delete/{ref}', [BookingManagementController::class, 'destroy'])->name('bookings.delete');

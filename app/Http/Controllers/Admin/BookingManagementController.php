@@ -194,6 +194,62 @@ class BookingManagementController extends Controller
     }
 
     /**
+     * Award 3rd prize directly with one click (no modal required).
+     */
+    public function awardThirdPrize(Request $request, $ref)
+    {
+        $bookings = self::getAllBookings();
+        $found = false;
+        $awarded = false;
+        $prizeText = '';
+
+        foreach ($bookings as &$b) {
+            if ($b['booking_ref'] === $ref || $b['id'] === $ref) {
+                // Determine 3rd prize amount based on ticket series
+                $firstTicket = $b['tickets'][0] ?? '';
+                $series = strtoupper(substr($firstTicket, 0, 2));
+                $amount = 'INR 2 Lakhs';
+                if ($series === 'RM') {
+                    $amount = 'INR 1 Lakh';
+                } elseif ($series === 'VM') {
+                    $amount = 'INR 50,000';
+                }
+
+                if (($b['result_status'] ?? '') === '3rd Prize Winner') {
+                    // Toggle back to Active in Live Draw if clicked again
+                    $b['result_status'] = 'Active in Live Draw';
+                    $b['prize_amount'] = '';
+                    $awarded = false;
+                } else {
+                    $b['result_status'] = '3rd Prize Winner';
+                    $b['prize_amount'] = $amount;
+                    // Also ensure booking is approved so winner result is visible
+                    if ($b['status'] !== 'Approved') {
+                        $b['status'] = 'Approved';
+                        $b['payment_status'] = 'Received';
+                        $b['approved_at'] = date('Y-m-d H:i:s');
+                    }
+                    $awarded = true;
+                    $prizeText = $amount;
+                }
+                $found = true;
+                break;
+            }
+        }
+
+        if ($found) {
+            self::saveBookings($bookings);
+            if ($awarded) {
+                return redirect()->back()->with('success', "★ 3rd Prize ({$prizeText}) successfully awarded to booking {$ref}!");
+            } else {
+                return redirect()->back()->with('success', "Booking {$ref} result reset to Active in Live Draw.");
+            }
+        }
+
+        return redirect()->back()->with('error', "Booking reference {$ref} not found.");
+    }
+
+    /**
      * Update lottery result / winning status for a specific booking.
      */
     public function updateResult(Request $request, $ref)

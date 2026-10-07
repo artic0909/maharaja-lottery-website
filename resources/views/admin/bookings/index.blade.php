@@ -295,11 +295,15 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
 
-                                    <!-- Update Result / Prize Modal Trigger -->
-                                    <button type="button" onclick="openResultModal('{{ $b['booking_ref'] }}', '{{ addslashes($b['customer_name']) }}', '{{ addslashes($b['result_status'] ?? 'Active in Live Draw') }}', '{{ addslashes($b['prize_amount'] ?? '') }}')" 
-                                        class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-[#DFB755] border border-[#DFB755]/30 font-bold text-xs transition" title="Set Winner / Draw Result">
-                                        <i class="fa-solid fa-award"></i>
-                                    </button>
+                                    <!-- One-Click 3rd Prize Trophy Button (No Modal) -->
+                                    <form action="{{ route('admin.bookings.award_third_prize', $b['booking_ref']) }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" 
+                                            class="px-2.5 py-1.5 rounded-xl {{ ($b['result_status'] ?? '') === '3rd Prize Winner' ? 'bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] shadow-md border border-[#DFB755] font-black' : 'bg-white/5 hover:bg-[#DFB755]/20 text-[#DFB755] hover:text-[#F3D068] border border-[#DFB755]/30 hover:border-[#DFB755]' }} text-xs font-bold transition flex items-center justify-center gap-1" 
+                                            title="{{ ($b['result_status'] ?? '') === '3rd Prize Winner' ? '3rd Prize Awarded (Click to Reset)' : 'Award 3rd Prize (One-Click)' }}">
+                                            <i class="fa-solid fa-trophy text-[11px]"></i>
+                                        </button>
+                                    </form>
 
                                     @if($b['status'] !== 'Rejected')
                                         <!-- Reject Button -->
@@ -466,72 +470,7 @@
     </div>
 </div>
 
-<!-- 2. RESULT STATUS & PRIZE MODAL (Fully Responsive) -->
-<div id="result-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden overflow-y-auto no-scrollbar p-3 sm:p-4 md:p-6 justify-center items-start sm:items-center">
-    <div class="bg-[#071533] border border-[#DFB755]/40 rounded-2xl sm:rounded-3xl max-w-lg w-full shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150">
-        
-        <div class="flex items-center justify-between border-b border-white/10 p-4 sm:p-5 bg-[#071533] shrink-0">
-            <div class="flex items-center gap-3 min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-[#DFB755]/15 border border-[#DFB755]/30 text-[#DFB755] flex items-center justify-center text-sm shrink-0">
-                    <i class="fa-solid fa-trophy"></i>
-                </div>
-                <div class="min-w-0">
-                    <h3 class="text-sm sm:text-base font-serif font-black text-white truncate">Set Lottery Draw Result</h3>
-                    <p class="text-[10px] text-stone-400 truncate" id="modal-customer-info">Ref: BK...</p>
-                </div>
-            </div>
-            <button type="button" onclick="closeResultModal()" class="text-stone-400 hover:text-white text-lg p-1.5 rounded-lg hover:bg-white/10 transition shrink-0">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <form id="result-form" method="POST" action="" class="flex flex-col flex-1 overflow-hidden">
-            @csrf
-            <div class="p-4 sm:p-6 space-y-4 overflow-y-auto no-scrollbar flex-1">
-                <div>
-                    <label class="block text-[11px] font-bold text-stone-300 uppercase tracking-wider mb-1.5">
-                        Draw / Winning Result Status
-                    </label>
-                    <select name="result_status" id="modal-result-status" class="w-full bg-[#040A1A] border border-white/20 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#DFB755]">
-                        <option value="Active in Live Draw">Active in Live Draw (Draw Scheduled)</option>
-                        <option value="1st Prize Winner">★ 1st Prize Winner ★</option>
-                        <option value="2nd Prize Winner">★ 2nd Prize Winner ★</option>
-                        <option value="3rd Prize Winner">★ 3rd Prize Winner ★</option>
-                        <option value="Consolation Prize Winner">Consolation Prize Winner</option>
-                        <option value="Better Luck Next Time">Draw Completed - Better Luck Next Time</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-bold text-stone-300 uppercase tracking-wider mb-1.5">
-                        Prize Amount / Description (Optional)
-                    </label>
-                    <input type="text" name="prize_amount" id="modal-prize-amount" placeholder="e.g. INR 50 Lakhs / INR 10 Lakhs" 
-                        class="w-full bg-[#040A1A] border border-white/20 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#DFB755]">
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-bold text-stone-300 uppercase tracking-wider mb-1.5">
-                        Admin Verification Notes (Optional)
-                    </label>
-                    <textarea name="admin_notes" id="modal-admin-notes" rows="2" placeholder="Official remarks from verification desk" 
-                        class="w-full bg-[#040A1A] border border-white/20 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#DFB755]"></textarea>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-end gap-3 p-3.5 sm:p-4 border-t border-white/10 bg-[#040A1A] shrink-0">
-                <button type="button" onclick="closeResultModal()" class="px-4 py-2 rounded-xl bg-white/10 text-stone-300 font-bold text-xs hover:bg-white/15 transition">
-                    Cancel
-                </button>
-                <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] font-black text-xs hover:scale-105 transition shadow-md">
-                    Update Result Status
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- 3. ZOOM IMAGE PREVIEW MODAL (Responsive) -->
+<!-- 2. ZOOM IMAGE PREVIEW MODAL (Responsive) -->
 <div id="image-zoom-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 cursor-pointer no-scrollbar" onclick="closeZoomModal()">
     <div class="max-w-4xl max-h-[92vh] w-full flex flex-col items-center justify-center">
         <img id="zoomed-image" src="" alt="Payment Receipt" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl border border-white/20">
@@ -904,29 +843,6 @@
 
     function closeZoomModal() {
         const modal = document.getElementById('image-zoom-modal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-
-    // Result Modal Logic
-    function openResultModal(ref, customerName, currentStatus, currentPrize) {
-        const modal = document.getElementById('result-modal');
-        const form = document.getElementById('result-form');
-        const customerInfo = document.getElementById('modal-customer-info');
-        const statusSelect = document.getElementById('modal-result-status');
-        const prizeInput = document.getElementById('modal-prize-amount');
-
-        form.action = "{{ url('/admin/bookings') }}/" + ref + "/update-result";
-        customerInfo.innerText = "Ref: " + ref + " (" + customerName + ")";
-        statusSelect.value = currentStatus || "Active in Live Draw";
-        prizeInput.value = currentPrize || "";
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    function closeResultModal() {
-        const modal = document.getElementById('result-modal');
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
