@@ -92,13 +92,18 @@
             </a>
 
             <!-- Customer Contacts -->
-            <a href="javascript:void(0)" onclick="window.adminToast('Total Registered Customers: 3,840 Active Players', 'info')"
-                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
+            @php
+                $uniqueCustomerCount = count(\App\Http\Controllers\Admin\CustomerController::getUniqueCustomers());
+            @endphp
+            <a href="{{ route('admin.customers.index') }}"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.customers.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-users text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
+                    <i class="fa-solid fa-users text-sm {{ request()->routeIs('admin.customers.*') ? 'text-[#DFB755]' : 'text-stone-400 group-hover:text-[#DFB755]' }} transition"></i>
                     <span>Customer List</span>
                 </div>
-                <span class="text-[10px] text-stone-400">3.8k</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full {{ request()->routeIs('admin.customers.*') ? 'bg-[#DFB755] text-[#071533] font-bold' : 'text-[#F3D068] bg-[#DFB755]/15 border border-[#DFB755]/30' }}">
+                    {{ $uniqueCustomerCount }}
+                </span>
             </a>
 
 

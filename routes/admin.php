@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TicketPriceChartController;
 use App\Http\Controllers\Admin\BookingManagementController;
+use App\Http\Controllers\Admin\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/tickets/delete/{id}', [TicketPriceChartController::class, 'destroy'])->name('tickets.delete');
 
     // Admin Settings, UPI Gateways & Profile
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/upi-gateways', [SettingController::class, 'upiIndex'])->name('upi.index');
     Route::post('/settings/upi', [SettingController::class, 'updateUpiSettings'])->name('settings.upi');
     Route::post('/settings/upi/reset-qr', [SettingController::class, 'resetUpiQrImage'])->name('settings.upi.reset_qr');
