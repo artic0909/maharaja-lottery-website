@@ -240,57 +240,80 @@
                 </div>
 
             @elseif($searchState === 'pending')
-                <!-- CASE 2: PENDING APPROVAL -> RESULT LOCKED UNTIL ADMIN APPROVES -->
-                <div class="bg-gradient-to-br from-[#1C1405] via-[#2A1F08] to-[#120D03] rounded-3xl border-2 border-amber-500/60 p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                    <!-- Background Amber Glow -->
-                    <div class="absolute -top-20 -right-20 w-72 h-72 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <!-- CASE 2: PENDING APPROVAL -> THEMED & SIMPLE -->
+                <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border border-[#DFB755]/40 p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <!-- Subtle Background Pattern & Ambient Glow -->
+                    <div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: url('{{ asset('img/lottery-pattern.svg') }}'); background-repeat: repeat; background-size: 140px 140px;"></div>
+                    <div class="absolute -top-20 -right-20 w-72 h-72 bg-[#DFB755]/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                    <div class="relative z-10 space-y-5">
+                    <div class="relative z-10 space-y-6">
                         
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/50 text-amber-300 flex items-center justify-center text-xl shrink-0">
-                                <i class="fa-solid fa-clock-rotate-left animate-spin" style="animation-duration: 4s;"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40 mb-1.5">
-                                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-                                    PAYMENT VERIFICATION PENDING BY ADMIN
+                        <!-- Header: Icon, Badge & Title -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-12 h-12 rounded-2xl bg-[#DFB755]/15 border border-[#DFB755]/40 text-[#F3D068] flex items-center justify-center text-xl shrink-0 shadow-inner">
+                                    <i class="fa-solid fa-hourglass-half animate-pulse"></i>
                                 </div>
-                                <h2 class="text-xl sm:text-2xl font-serif font-black text-white">
-                                    Booking Submitted &bull; Awaiting Admin Approval
-                                </h2>
-                                <p class="text-xs sm:text-sm text-stone-300 mt-1 max-w-2xl leading-relaxed">
-                                    Your payment submission (UTR / Ref: <span class="font-mono font-bold text-amber-300">{{ $searchResult['utr_number'] ?? 'Direct' }}</span>) is currently being reviewed by our Admin Verification Desk. <strong class="text-white">Draw results and official certificates become viewable on this page immediately once the Admin approves your booking.</strong>
-                                </p>
+                                <div>
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-[#F3D068] border border-amber-500/40 mb-1">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                                        Verification Pending
+                                    </span>
+                                    <h2 class="text-xl sm:text-2xl font-serif font-black text-white">
+                                        Payment Under Review
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <div class="text-left sm:text-right">
+                                <span class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider">BOOKING REF</span>
+                                <span class="font-mono font-black text-[#F3D068] text-sm sm:text-base select-all">{{ $searchResult['booking_ref'] }}</span>
                             </div>
                         </div>
 
-                        <!-- Info Box -->
-                        <div class="bg-black/40 rounded-2xl p-4 border border-amber-500/20 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-                            <div>
-                                <span class="text-stone-400 block text-[10px] uppercase font-bold">Booking Ref</span>
-                                <span class="font-mono font-bold text-white">{{ $searchResult['booking_ref'] }}</span>
+                        <!-- 3 Compact Summary Cards -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                            <!-- Amount & UTR -->
+                            <div class="bg-black/30 rounded-2xl p-4 border border-white/10 flex flex-col justify-between">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755]">AMOUNT UNDER REVIEW</span>
+                                <div class="mt-2">
+                                    <span class="text-xl sm:text-2xl font-black font-serif text-white">INR {{ number_format($searchResult['total_amount'] ?? 0) }}</span>
+                                    @if(!empty($searchResult['utr_number']))
+                                        <span class="block text-[11px] font-mono text-stone-300 mt-1">UTR: <strong class="text-[#F3D068]">{{ $searchResult['utr_number'] }}</strong></span>
+                                    @endif
+                                </div>
                             </div>
-                            <div>
-                                <span class="text-stone-400 block text-[10px] uppercase font-bold">Selected Tickets</span>
-                                <span class="font-mono font-bold text-amber-300">{{ implode(', ', $searchResult['tickets'] ?? []) }}</span>
-                            </div>
-                            <div>
-                                <span class="text-stone-400 block text-[10px] uppercase font-bold">Amount Under Verification</span>
-                                <span class="font-mono font-bold text-white">INR {{ number_format($searchResult['total_amount'] ?? 0) }}</span>
+
+                            <!-- Selected Tickets -->
+                            <div class="bg-black/30 rounded-2xl p-4 border border-white/10 sm:col-span-2 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755]">SELECTED TICKETS</span>
+                                    <span class="px-2 py-0.5 rounded-md bg-[#DFB755]/20 text-[#F3D068] text-[10px] font-black font-mono">
+                                        {{ count($searchResult['tickets'] ?? []) }} Total
+                                    </span>
+                                </div>
+                                <div class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto pr-1">
+                                    @foreach($searchResult['tickets'] ?? [] as $t)
+                                        <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-[#DFB755]/30 text-white font-mono font-bold text-xs shadow-xs">
+                                            <i class="fa-solid fa-ticket text-[10px] text-[#DFB755] mr-1"></i>{{ $t }}
+                                        </span>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
 
-                        <!-- WhatsApp Fast Verification Helper -->
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-                            <span class="text-xs text-stone-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-circle-info text-amber-400"></i> Admin approvals usually process within 5 to 15 minutes.
-                            </span>
+                        <!-- Simple Footer Note & WhatsApp Action -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                            <div class="flex items-center gap-2 text-xs text-stone-300">
+                                <i class="fa-regular fa-clock text-[#DFB755]"></i>
+                                <span>Verification takes <strong>5–15 minutes</strong>. Results will appear here once approved.</span>
+                            </div>
+
                             <a href="https://wa.me/918743978796?text={{ urlencode('Hello Admin, I have submitted payment for Booking Reference ' . $searchResult['booking_ref'] . ' (UTR: ' . ($searchResult['utr_number'] ?? '') . '). Please approve my booking.') }}" 
                                 target="_blank"
-                                class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs transition shadow-md">
+                                class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs transition shadow-md shrink-0">
                                 <i class="fa-brands fa-whatsapp text-sm"></i>
-                                <span>Send Receipt to Admin WhatsApp</span>
+                                <span>Fast Approval on WhatsApp</span>
                             </a>
                         </div>
 
@@ -299,15 +322,28 @@
 
             @elseif($searchState === 'rejected')
                 <!-- CASE 3: REJECTED -->
-                <div class="bg-gradient-to-br from-[#24080B] to-[#120305] rounded-3xl border border-rose-500/50 p-6 sm:p-8 text-white shadow-2xl space-y-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg shrink-0">
+                <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border border-rose-500/40 p-6 sm:p-8 text-white shadow-2xl space-y-4">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/40 text-rose-400 flex items-center justify-center text-xl shrink-0">
                             <i class="fa-solid fa-circle-xmark"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-serif font-black text-rose-300">Booking / Payment Rejected</h3>
-                            <p class="text-xs text-stone-300">The verification desk could not confirm the payment for this booking (Ref: {{ $searchResult['booking_ref'] }}). Please contact customer support.</p>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/40 mb-1">
+                                Verification Unsuccessful
+                            </span>
+                            <h3 class="text-xl font-serif font-black text-white">Payment Not Confirmed</h3>
                         </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-stone-300 max-w-xl">
+                        We could not verify the payment for Booking Reference <span class="font-mono font-bold text-[#F3D068]">{{ $searchResult['booking_ref'] }}</span>. Please reach out to support on WhatsApp for assistance.
+                    </p>
+                    <div class="pt-1">
+                        <a href="https://wa.me/918743978796?text={{ urlencode('Hello Support, my booking reference ' . $searchResult['booking_ref'] . ' was rejected. Please assist me.') }}" 
+                            target="_blank"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-md">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>Contact Support Desk</span>
+                        </a>
                     </div>
                 </div>
 
