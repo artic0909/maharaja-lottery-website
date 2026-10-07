@@ -199,12 +199,6 @@
                                 alt="Dynamic UPI QR" 
                                 class="w-44 h-44 object-contain rounded-xl mx-auto select-none">
                         @endif
-
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div class="w-7 h-7 rounded-full bg-[#071533] shadow border border-[#DFB755] flex items-center justify-center text-[#DFB755] text-xs">
-                                <i class="fa-solid fa-crown text-[#DFB755]"></i>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

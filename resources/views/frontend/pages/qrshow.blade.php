@@ -141,13 +141,6 @@
                             loading="eager"
                             onerror="this.src='https://chart.googleapis.com/chart?cht=qr&chs=165x165&chl={{ urlencode($upiUrl) }}';">
                     @endif
-                    
-                    <!-- Center Overlay Icon / Crown -->
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="w-7 h-7 rounded-full bg-[#071533] shadow border border-[#DFB755] flex items-center justify-center text-[#DFB755] text-xs">
-                            <i class="fa-solid fa-crown text-[#DFB755]"></i>
-                        </div>
-                    </div>
                 </div>
             </div>
 
