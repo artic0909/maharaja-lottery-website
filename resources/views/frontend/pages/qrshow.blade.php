@@ -125,13 +125,22 @@
             <!-- QR Code Card Container (Reduced Size) -->
             <div class="flex justify-center">
                 <div class="relative p-2.5 bg-white rounded-2xl border-2 border-[#DFB755]/40 shadow-md group hover:border-[#DFB755] transition-all">
-                    <!-- Dynamic UPI QR Code (160x160) -->
-                    <img id="upi-qrcode" 
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=165x165&data={{ urlencode($upiUrl) }}&margin=2" 
-                        alt="Scan UPI QR Code" 
-                        class="w-36 h-36 sm:w-40 sm:h-40 object-contain rounded-xl mx-auto select-none"
-                        loading="eager"
-                        onerror="this.src='https://chart.googleapis.com/chart?cht=qr&chs=165x165&chl={{ urlencode($upiUrl) }}';">
+                    @if(!empty($upiQrImage) && file_exists(public_path($upiQrImage)))
+                        <!-- Custom Admin Uploaded QR Code -->
+                        <img id="upi-qrcode" 
+                            src="{{ asset($upiQrImage) }}?v={{ time() }}" 
+                            alt="Scan UPI QR Code" 
+                            class="w-36 h-36 sm:w-40 sm:h-40 object-contain rounded-xl mx-auto select-none"
+                            loading="eager">
+                    @else
+                        <!-- Dynamic UPI QR Code (160x160) -->
+                        <img id="upi-qrcode" 
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=165x165&data={{ urlencode($upiUrl) }}&margin=2" 
+                            alt="Scan UPI QR Code" 
+                            class="w-36 h-36 sm:w-40 sm:h-40 object-contain rounded-xl mx-auto select-none"
+                            loading="eager"
+                            onerror="this.src='https://chart.googleapis.com/chart?cht=qr&chs=165x165&chl={{ urlencode($upiUrl) }}';">
+                    @endif
                     
                     <!-- Center Overlay Icon / Crown -->
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">

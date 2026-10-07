@@ -67,6 +67,12 @@
             <span>Footer Contacts &amp; Address</span>
         </button>
 
+        <a href="{{ route('admin.upi.index') }}"
+            class="settings-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs text-stone-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center gap-2 shrink-0">
+            <i class="fa-solid fa-qrcode text-[#DFB755]"></i>
+            <span>UPI Gateways &amp; QR</span>
+        </a>
+
         <button type="button" onclick="switchTab('social')" id="tab-btn-social"
             class="settings-tab-btn px-4 py-2.5 rounded-xl font-bold text-xs text-stone-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center gap-2 shrink-0">
             <i class="fa-solid fa-share-nodes"></i>

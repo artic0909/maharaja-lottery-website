@@ -47,7 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tickets/{id}', [TicketPriceChartController::class, 'destroy'])->name('tickets.destroy');
     Route::post('/tickets/delete/{id}', [TicketPriceChartController::class, 'destroy'])->name('tickets.delete');
 
-    // Admin Settings & Profile
+    // Admin Settings, UPI Gateways & Profile
+    Route::get('/upi-gateways', [SettingController::class, 'upiIndex'])->name('upi.index');
+    Route::post('/settings/upi', [SettingController::class, 'updateUpiSettings'])->name('settings.upi');
+    Route::post('/settings/upi/reset-qr', [SettingController::class, 'resetUpiQrImage'])->name('settings.upi.reset_qr');
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings/profile', [SettingController::class, 'updateProfile'])->name('settings.profile');
     Route::post('/settings/hero-banner', [SettingController::class, 'updateHeroBanner'])->name('settings.hero');

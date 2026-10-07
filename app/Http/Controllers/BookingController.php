@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\TicketPriceChartController;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -371,8 +372,9 @@ class BookingController extends Controller
         ]);
 
         $activeDraw = 'Maharaja Lottery Schemes';
-        $upiId = '9288309113@mairtel';
-        $payeeName = 'Maharaja Lottery';
+        $upiId = Setting::get('upi_id', '9288309113@mairtel');
+        $payeeName = Setting::get('payee_name', 'Maharaja Lottery');
+        $upiQrImage = Setting::get('upi_qr_image', '');
         $upiNote = 'Booking ' . $bookingRef;
         $upiUrl = "upi://pay?pa={$upiId}&pn=" . urlencode($payeeName) . "&am={$totalAmount}&cu=INR&tn=" . urlencode($upiNote);
 
@@ -398,7 +400,7 @@ class BookingController extends Controller
             }
         }
 
-        return view('frontend.pages.qrshow', compact('bookingRef', 'selectedTickets', 'totalTickets', 'totalAmount', 'customer', 'activeDraw', 'upiId', 'payeeName', 'upiUrl', 'matchedCategory'));
+        return view('frontend.pages.qrshow', compact('bookingRef', 'selectedTickets', 'totalTickets', 'totalAmount', 'customer', 'activeDraw', 'upiId', 'payeeName', 'upiUrl', 'upiQrImage', 'matchedCategory'));
     }
 
     /**

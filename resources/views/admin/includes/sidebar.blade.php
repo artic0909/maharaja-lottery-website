@@ -82,13 +82,13 @@
             </p>
 
             <!-- UPI Gateways & Accounts -->
-            <a href="javascript:void(0)" onclick="window.adminToast('UPI Gateway Active: paytmqr2810050501011306d15v19x7@paytm', 'success')"
-                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
+            <a href="{{ route('admin.upi.index') }}"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.upi.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-qrcode text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
+                    <i class="fa-solid fa-qrcode text-sm {{ request()->routeIs('admin.upi.*') ? 'text-[#DFB755]' : 'text-stone-400 group-hover:text-[#DFB755]' }} transition"></i>
                     <span>UPI Gateways</span>
                 </div>
-                <span class="text-[10px] text-emerald-400 font-bold">Active</span>
+                <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Active</span>
             </a>
 
             <!-- Customer Contacts -->

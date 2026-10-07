@@ -26,6 +26,10 @@ class SettingController extends Controller
             'hero_title' => Setting::get('hero_title', 'Maharaja Lottery'),
             'hero_subtitle' => Setting::get('hero_subtitle', 'Tickets, Results & Support'),
             'hero_description' => Setting::get('hero_description', 'Explore current ticket availability, follow verified draw updates and receive clear guidance for winner verification and prize claims.'),
+            'upi_id' => Setting::get('upi_id', '9288309113@mairtel'),
+            'payee_name' => Setting::get('payee_name', 'Maharaja Lottery'),
+            'upi_qr_image' => Setting::get('upi_qr_image', ''),
+            'upi_status' => Setting::get('upi_status', 'Active'),
             'contact_mobile' => Setting::get('contact_mobile', '+91 87439 78796'),
             'contact_email' => Setting::get('contact_email', 'support@maharajalottery.com'),
             'contact_address' => Setting::get('contact_address', 'Lottery Directorate Complex, Vikas Bhavan, Thiruvananthapuram, Kerala 695033'),
@@ -37,6 +41,74 @@ class SettingController extends Controller
         ];
 
         return view('admin.settings.index', compact('user', 'settings'));
+    }
+
+    /**
+     * Display the UPI Gateways & QR Code Configuration page.
+     */
+    public function upiIndex(): View
+    {
+        $settings = [
+            'upi_id' => Setting::get('upi_id', '9288309113@mairtel'),
+            'payee_name' => Setting::get('payee_name', 'Maharaja Lottery'),
+            'upi_qr_image' => Setting::get('upi_qr_image', ''),
+            'upi_status' => Setting::get('upi_status', 'Active'),
+        ];
+
+        return view('admin.upi.index', compact('settings'));
+    }
+
+    /**
+     * Update UPI Gateway & QR Code Settings.
+     */
+    public function updateUpiSettings(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'upi_id' => ['required', 'string', 'max:100'],
+            'payee_name' => ['required', 'string', 'max:150'],
+            'upi_status' => ['nullable', 'string', 'max:50'],
+            'upi_qr_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:5120'],
+        ]);
+
+        Setting::set('upi_id', trim($request->input('upi_id')));
+        Setting::set('payee_name', trim($request->input('payee_name')));
+        Setting::set('upi_status', $request->input('upi_status', 'Active'));
+
+        if ($request->hasFile('upi_qr_image')) {
+            $file = $request->file('upi_qr_image');
+            $filename = 'upi_qr_' . time() . '.' . $file->getClientOriginalExtension();
+            
+            $uploadPath = public_path('uploads/qr');
+            if (!File::isDirectory($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true, true);
+            }
+
+            // Remove old custom QR image if exists
+            $oldImage = Setting::get('upi_qr_image');
+            if ($oldImage && File::exists(public_path($oldImage))) {
+                File::delete(public_path($oldImage));
+            }
+
+            $file->move($uploadPath, $filename);
+            Setting::set('upi_qr_image', 'uploads/qr/' . $filename);
+        }
+
+        return redirect()->back()->with('success', 'UPI Gateway & QR settings updated successfully.');
+    }
+
+    /**
+     * Reset / Remove Custom UPI QR Image.
+     */
+    public function resetUpiQrImage(): RedirectResponse
+    {
+        $oldImage = Setting::get('upi_qr_image');
+        if ($oldImage && File::exists(public_path($oldImage))) {
+            File::delete(public_path($oldImage));
+        }
+
+        Setting::set('upi_qr_image', '');
+
+        return redirect()->back()->with('success', 'Custom QR code removed. Auto-generated dynamic QR is now active.');
     }
 
     /**
