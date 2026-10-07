@@ -177,6 +177,8 @@
                         <button type="button" 
                             data-ticket="{{ $ticket['number'] }}"
                             data-price="{{ $ticket['price'] }}"
+                            data-category="{{ $cat['slug'] }}"
+                            data-category-name="{{ $cat['name'] }}"
                             data-reserved="{{ $isReserved ? 'true' : 'false' }}"
                             title="{{ $isReserved ? 'This ticket has already been acquired / reserved' : 'Click to select ticket ' . $ticket['number'] }}"
                             class="ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative {{ $isReserved ? 'bg-stone-100 border-stone-200 text-stone-400 line-through cursor-not-allowed opacity-60' : ($isSelected ? 'bg-[#040A1A] text-[#F3D068] border-2 border-[#DFB755] ring-2 ring-[#DFB755]/40 shadow-md transform scale-[1.02] cursor-pointer' : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755] cursor-pointer') }}"
@@ -209,17 +211,18 @@
                 <i class="fa-solid fa-receipt"></i>
             </div>
             <div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap">
                     <span id="selected-count" class="text-white font-black text-sm sm:text-base font-serif">
                         0 Tickets Selected
                     </span>
+                    <span id="selected-pack-badge" class="hidden bg-[#DFB755]/20 text-[#F3D068] border border-[#DFB755]/40 text-[10px] font-black px-2 py-0.5 rounded-full font-sans"></span>
                     <span class="text-stone-400 text-xs hidden sm:inline">&bull;</span>
                     <span id="total-price" class="text-[#F3D068] font-black text-sm sm:text-base font-mono">
                         Total: ₹0
                     </span>
                 </div>
                 <p id="selected-list-preview" class="text-stone-400 text-[11px] font-mono truncate max-w-[280px] sm:max-w-md">
-                    Click any ticket above to select
+                    Click any ticket in a pack to select
                 </p>
             </div>
         </div>
@@ -239,33 +242,65 @@
     </div>
 </div>
 
-<!-- JavaScript for Ticket Selection & Dock Updates -->
+<!-- JavaScript for Single Ticket Pack Selection & Dock Updates -->
 <script>
-    // Selected tickets set
+    // Selected tickets set & single active pack tracker
     window.selectedTicketsSet = new Set({!! json_encode($selectedTickets ?? []) !!});
     window.ticketPriceMap = {};
+    window.selectedCategorySlug = null;
+    window.selectedCategoryName = null;
 
-    // Map all ticket prices across all schemes
+    // Map all ticket prices across all schemes and detect initial pack
     function initTicketPriceMap() {
         document.querySelectorAll('.ticket-btn').forEach(btn => {
             const num = btn.getAttribute('data-ticket');
             const price = parseInt(btn.getAttribute('data-price') || '40', 10);
+            const cat = btn.getAttribute('data-category');
+            const catName = btn.getAttribute('data-category-name');
             if (num) window.ticketPriceMap[num] = price;
+
+            // Detect if pre-selected
+            if (num && window.selectedTicketsSet.has(num) && !window.selectedCategorySlug) {
+                window.selectedCategorySlug = cat;
+                window.selectedCategoryName = catName;
+            }
         });
     }
 
-    // Toggle Ticket Handler
+    // Toggle Ticket Handler: Restrict selection to a SINGLE ticket pack at a time
     window.toggleTicket = function(btn) {
         if (!btn) return;
         const ticketNum = btn.getAttribute('data-ticket');
         const isReserved = btn.getAttribute('data-reserved') === 'true';
+        const catSlug = btn.getAttribute('data-category');
+        const catName = btn.getAttribute('data-category-name');
         if (isReserved || !ticketNum) return;
+
+        // If clicking a ticket from a DIFFERENT pack, clear previous pack selection
+        if (window.selectedCategorySlug && window.selectedCategorySlug !== catSlug && window.selectedTicketsSet.size > 0) {
+            document.querySelectorAll('.ticket-btn').forEach(otherBtn => {
+                if (otherBtn.getAttribute('data-category') !== catSlug) {
+                    otherBtn.className = "ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755] cursor-pointer";
+                    const ind = otherBtn.querySelector('.selected-indicator');
+                    if (ind) ind.remove();
+                }
+            });
+            window.selectedTicketsSet.clear();
+        }
+
+        window.selectedCategorySlug = catSlug;
+        window.selectedCategoryName = catName;
 
         if (window.selectedTicketsSet.has(ticketNum)) {
             window.selectedTicketsSet.delete(ticketNum);
             btn.className = "ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative bg-white hover:bg-stone-50 border-stone-200 text-stone-800 hover:border-[#DFB755] cursor-pointer";
             const indicator = btn.querySelector('.selected-indicator');
             if (indicator) indicator.remove();
+
+            if (window.selectedTicketsSet.size === 0) {
+                window.selectedCategorySlug = null;
+                window.selectedCategoryName = null;
+            }
         } else {
             window.selectedTicketsSet.add(ticketNum);
             btn.className = "ticket-btn select-none py-2.5 px-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-bold transition text-center border relative bg-[#040A1A] text-[#F3D068] border-2 border-[#DFB755] ring-2 ring-[#DFB755]/40 shadow-md transform scale-[1.02] cursor-pointer";
@@ -291,14 +326,25 @@
         });
 
         const countEl = document.getElementById('selected-count');
+        const packBadge = document.getElementById('selected-pack-badge');
         const priceEl = document.getElementById('total-price');
         const previewEl = document.getElementById('selected-list-preview');
         const inputEl = document.getElementById('form-tickets-input');
         const checkoutBtn = document.getElementById('checkout-btn');
 
         if (countEl) countEl.textContent = count + ' Ticket' + (count === 1 ? '' : 's') + ' Selected';
+        
+        if (packBadge) {
+            if (count > 0 && window.selectedCategoryName) {
+                packBadge.textContent = window.selectedCategoryName;
+                packBadge.classList.remove('hidden');
+            } else {
+                packBadge.classList.add('hidden');
+            }
+        }
+
         if (priceEl) priceEl.textContent = 'Total: ₹' + total.toLocaleString('en-IN');
-        if (previewEl) previewEl.textContent = count > 0 ? ticketsArr.join(', ') : 'Click any ticket above to select';
+        if (previewEl) previewEl.textContent = count > 0 ? (window.selectedCategoryName ? '[' + window.selectedCategoryName + '] ' : '') + ticketsArr.join(', ') : 'Click any ticket in a pack to select';
         if (inputEl) inputEl.value = ticketsArr.join(',');
 
         if (checkoutBtn) {

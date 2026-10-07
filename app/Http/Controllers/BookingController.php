@@ -208,6 +208,31 @@ class BookingController extends Controller
             return redirect()->route('ticket.booking')->with('error', 'Please click and choose at least one available ticket to proceed.');
         }
 
+        // Enforce single ticket pack / category constraint
+        $firstTicket = $selectedTickets[0];
+        $firstCatSlug = '';
+        foreach ($categories as $cat) {
+            $series = strtoupper($cat['series'] ?? '');
+            $code = strtoupper($cat['code'] ?? '');
+            if ((!empty($series) && str_starts_with(strtoupper($firstTicket), $series)) || $firstTicket === $code) {
+                $firstCatSlug = $cat['slug'] ?? $cat['name'];
+                break;
+            }
+        }
+
+        if (!empty($firstCatSlug)) {
+            $selectedTickets = array_values(array_filter($selectedTickets, function($t) use ($categories, $firstCatSlug) {
+                foreach ($categories as $cat) {
+                    $series = strtoupper($cat['series'] ?? '');
+                    $code = strtoupper($cat['code'] ?? '');
+                    if ((!empty($series) && str_starts_with(strtoupper($t), $series)) || $t === $code) {
+                        return ($cat['slug'] ?? $cat['name']) === $firstCatSlug;
+                    }
+                }
+                return true;
+            }));
+        }
+
         session(['selected_tickets' => $selectedTickets]);
 
         $totalAmount = 0;
