@@ -55,14 +55,14 @@
             </a>
 
             <!-- Live Ticket Booking Portal -->
-            <a href="{{ route('ticket.booking') }}" target="_blank"
+            <!-- <a href="{{ route('ticket.booking') }}" target="_blank"
                 class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white hover:bg-white/5 transition group">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-ticket text-sm text-stone-400 group-hover:text-[#DFB755] transition"></i>
                     <span>Ticket Booking Portal</span>
                 </div>
                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-stone-400"></i>
-            </a>
+            </a> -->
 
             <!-- Winner Results Publication -->
             <a href="{{ route('winnerlist') }}" target="_blank"
