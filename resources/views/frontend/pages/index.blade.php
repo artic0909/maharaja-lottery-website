@@ -119,49 +119,70 @@
                 <div class="marquee-track flex items-center gap-2 py-0.5">
                     
                     @php
-                        $sessions = [
-                            ['num' => '01', 'name' => 'Samrudhi - Sunday', 'price' => '₹50'],
-                            ['num' => '02', 'name' => 'Bhagyathara - Monday', 'price' => '₹50'],
-                            ['num' => '03', 'name' => 'Sthree Sakthi - Tuesday', 'price' => '₹50'],
-                            ['num' => '04', 'name' => 'Dhanalekshmi - Wednesday', 'price' => '₹50'],
-                            ['num' => '05', 'name' => 'Karunya Plus - Thursday', 'price' => '₹50'],
-                            ['num' => '06', 'name' => 'Suvarna - Friday', 'price' => '₹50'],
-                            ['num' => '07', 'name' => 'Karunya - Saturday', 'price' => '₹50'],
-                        ];
+                        $priceChartCtrl = new \App\Http\Controllers\Admin\TicketPriceChartController();
+                        $adminCharts = $priceChartCtrl->getCharts();
+                        $activeCharts = array_filter($adminCharts, fn($c) => ($c['status'] ?? 'Active') === 'Active');
+                        $chartList = !empty($activeCharts) ? array_values($activeCharts) : $adminCharts;
+
+                        $sessions = [];
+                        foreach ($chartList as $cIdx => $c) {
+                            $priceText = $c['price'] ?? ('₹' . ($c['price_num'] ?? 40));
+                            if (is_numeric($priceText)) {
+                                $priceText = '₹' . $priceText;
+                            } elseif (str_starts_with($priceText, 'Rs.')) {
+                                $priceText = str_replace('Rs.', '₹', $priceText);
+                            }
+                            $prefix = !empty($c['series']) ? $c['series'] : (!empty($c['prefix']) ? $c['prefix'] : 'MH');
+                            $sessions[] = [
+                                'num' => str_pad((string)($cIdx + 1), 2, '0', STR_PAD_LEFT),
+                                'name' => $c['name'] ?? 'Maharaja Lottery',
+                                'prefix' => $prefix,
+                                'price' => $priceText,
+                            ];
+                        }
+
+                        // Fallback if empty
+                        if (empty($sessions)) {
+                            $sessions = [
+                                ['num' => '01', 'name' => 'Maharaja 500', 'prefix' => 'MH', 'price' => '₹40'],
+                                ['num' => '02', 'name' => 'Rajshree 200', 'prefix' => 'RM', 'price' => '₹149'],
+                                ['num' => '03', 'name' => 'Rajshree 50', 'prefix' => 'VM', 'price' => '₹249'],
+                            ];
+                        }
                     @endphp
 
                     <!-- Loop 1 -->
                     @foreach($sessions as $sess)
-                        <div class="bg-white rounded-lg border border-slate-200 shadow-2xs hover:shadow-xs hover:border-[#0B193E]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <a href="{{ route('ticket.booking') }}" class="bg-white rounded-lg border border-slate-200 shadow-2xs hover:shadow-xs hover:border-[#0B193E]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0 no-underline text-inherit">
                             <div class="bg-[#e6eef9] text-[#0B193E] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#0B193E] group-hover:text-[#F5D77F] transition shrink-0">
                                 {{ $sess['num'] }}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide truncate group-hover:text-[#0B193E] transition">{{ $sess['name'] }}</p>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide truncate group-hover:text-[#0B193E] transition">Prefix: {{ $sess['prefix'] }}</p>
                                 <div class="flex items-center justify-between gap-1">
                                     <h5 class="font-bold text-slate-900 text-xs truncate group-hover:text-[#0B193E] transition">{{ $sess['name'] }}</h5>
                                     <i class="fa-solid fa-arrow-right text-[9px] text-[#DFB755] shrink-0"></i>
                                 </div>
                                 <p class="text-[10px] font-medium text-slate-500"><span class="text-[#0B193E] font-bold">{{ $sess['price'] }}</span> per ticket</p>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
 
                     <!-- Loop 2 Duplicate for continuous infinite smooth loop -->
                     @foreach($sessions as $sess)
-                        <div class="bg-white rounded-lg border border-slate-200 shadow-2xs hover:shadow-xs hover:border-[#0B193E]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0">
+                        <a href="{{ route('ticket.booking') }}" class="bg-white rounded-lg border border-slate-200 shadow-2xs hover:shadow-xs hover:border-[#0B193E]/40 px-3 py-1.5 flex items-center gap-2.5 min-w-[245px] transition-all cursor-pointer group shrink-0 no-underline text-inherit">
                             <div class="bg-[#e6eef9] text-[#0B193E] w-7 h-7 rounded-md flex items-center justify-center font-bold text-xs group-hover:bg-[#0B193E] group-hover:text-[#F5D77F] transition shrink-0">
                                 {{ $sess['num'] }}
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide truncate group-hover:text-[#0B193E] transition">{{ $sess['name'] }}</p>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide truncate group-hover:text-[#0B193E] transition">Prefix: {{ $sess['prefix'] }}</p>
                                 <div class="flex items-center justify-between gap-1">
                                     <h5 class="font-bold text-slate-900 text-xs truncate group-hover:text-[#0B193E] transition">{{ $sess['name'] }}</h5>
                                     <i class="fa-solid fa-arrow-right text-[9px] text-[#DFB755] shrink-0"></i>
                                 </div>
                                 <p class="text-[10px] font-medium text-slate-500"><span class="text-[#0B193E] font-bold">{{ $sess['price'] }}</span> per ticket</p>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
 
                 </div>
