@@ -13,7 +13,7 @@
     .marquee-track {
         display: flex;
         width: max-content;
-        animation: marquee-scroll 28s linear infinite;
+        animation: marquee-scroll 12s linear infinite;
     }
     .marquee-container:hover .marquee-track {
         animation-play-state: paused;
