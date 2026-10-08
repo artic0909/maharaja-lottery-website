@@ -281,12 +281,20 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
 
-                                    <!-- One-Click 3rd Prize Trophy Button (No Modal) -->
+                                    <!-- One-Click 3rd Prize Trophy Button with Uniform Confirmation Alert -->
+                                    @php
+                                        $isThirdPrize = ($b['result_status'] ?? '') === '3rd Prize Winner';
+                                    @endphp
                                     <form action="{{ route('admin.bookings.award_third_prize', $b['booking_ref']) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" 
-                                            class="px-2.5 py-1.5 rounded-xl {{ ($b['result_status'] ?? '') === '3rd Prize Winner' ? 'bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] shadow-md border border-[#DFB755] font-black' : 'bg-white/5 hover:bg-[#DFB755]/20 text-[#DFB755] hover:text-[#F3D068] border border-[#DFB755]/30 hover:border-[#DFB755]' }} text-xs font-bold transition flex items-center justify-center gap-1" 
-                                            title="{{ ($b['result_status'] ?? '') === '3rd Prize Winner' ? '3rd Prize Awarded (Click to Reset)' : 'Award 3rd Prize (One-Click)' }}">
+                                            data-confirm="{{ $isThirdPrize ? 'Are you sure you want to reset 3rd prize winner status for booking <strong>'.$b['booking_ref'].'</strong> ('.$b['customer_name'].') back to normal active live draw?' : 'Are you sure you want to declare booking <strong>'.$b['booking_ref'].'</strong> ('.$b['customer_name'].') as <strong>3rd Prize Winner</strong>?' }}"
+                                            data-confirm-title="{{ $isThirdPrize ? 'Reset Winner Status' : 'Give 3rd Prize' }}"
+                                            data-confirm-type="{{ $isThirdPrize ? 'warning' : 'success' }}"
+                                            data-confirm-btn="{{ $isThirdPrize ? 'Reset Prize Status' : 'Give 3rd Prize' }}"
+                                            data-confirm-icon="fa-solid fa-trophy"
+                                            class="px-2.5 py-1.5 rounded-xl {{ $isThirdPrize ? 'bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] shadow-md border border-[#DFB755] font-black' : 'bg-white/5 hover:bg-[#DFB755]/20 text-[#DFB755] hover:text-[#F3D068] border border-[#DFB755]/30 hover:border-[#DFB755]' }} text-xs font-bold transition flex items-center justify-center gap-1" 
+                                            title="{{ $isThirdPrize ? '3rd Prize Awarded (Click to Reset)' : 'Give 3rd Prize (One-Click)' }}">
                                             <i class="fa-solid fa-trophy text-[11px]"></i>
                                         </button>
                                     </form>
