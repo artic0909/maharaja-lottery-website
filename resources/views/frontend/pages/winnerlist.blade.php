@@ -134,110 +134,307 @@
         @if(!empty($searchQuery))
 
             @if($searchState === 'approved')
-                <!-- CASE 1: APPROVED BY ADMIN -> FULL RESULT UNLOCKED -->
-                <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border-2 border-emerald-500/50 p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                    <!-- Background Glow -->
-                    <div class="absolute -top-24 -right-24 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                    
-                    <div class="relative z-10 space-y-6">
-                        
-                        <!-- Status Badge Header -->
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
-                            <div class="flex items-center gap-3.5">
-                                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-xl shadow-inner shrink-0">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                </div>
-                                <div>
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 mb-1">
-                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                                        ADMIN APPROVED &bull; RESULT VERIFIED
-                                    </span>
-                                    <h2 class="text-xl sm:text-2xl font-serif font-black text-white">
-                                        Booking Confirmed &amp; Live Result Active
-                                    </h2>
-                                </div>
-                            </div>
+                @php
+                    $resultStatusLower = strtolower($searchResult['result_status'] ?? '');
+                    $isWinner = !empty($searchResult['prize_amount']) || str_contains($resultStatusLower, 'winner') || str_contains($resultStatusLower, 'prize') || str_contains($resultStatusLower, '1st') || str_contains($resultStatusLower, '2nd') || str_contains($resultStatusLower, '3rd');
+                    $primaryTicket = !empty($searchResult['tickets'][0]) ? $searchResult['tickets'][0] : 'MH100002';
+                    $ticketListStr = implode(', ', $searchResult['tickets'] ?? []);
+                    $formattedDate = !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y');
+                    $displayDate = !empty($searchResult['booked_at']) ? date('d M Y', strtotime($searchResult['booked_at'])) : date('d M Y');
+                @endphp
 
-                            <div class="text-left sm:text-right">
-                                <span class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider">BOOKING REFERENCE</span>
-                                <span class="font-mono font-black text-[#F3D068] text-sm sm:text-base select-all">{{ $searchResult['booking_ref'] }}</span>
+                @if($isWinner)
+                    <!-- CASE 1A: WINNER FOUND -> MEGA CELEBRATION BOOM & OFFICIAL CERTIFICATE -->
+                    <div class="space-y-8 animate-in fade-in zoom-in-95 duration-300" id="winner-celebration-wrapper">
+                        
+                        <!-- Celebration Hero Boom Banner -->
+                        <div class="relative bg-gradient-to-r from-[#040A1A] via-[#0B193E] to-[#040A1A] rounded-3xl border-2 border-[#DFB755] p-6 sm:p-10 text-center text-white shadow-[0_0_50px_rgba(223,183,85,0.25)] overflow-hidden">
+                            <!-- Background Sparkles & Glows -->
+                            <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+                            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#DFB755]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                            <!-- Animated Confetti Blast Triggers & Decorative Elements -->
+                            <div class="relative z-10 space-y-4 max-w-3xl mx-auto">
+                                
+                                <div class="inline-flex items-center gap-2 bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] text-[#071533] px-4 sm:px-6 py-1.5 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest shadow-lg animate-bounce">
+                                    <i class="fa-solid fa-crown text-sm"></i>
+                                    <span>Official Maharaja Lottery Winner</span>
+                                    <i class="fa-solid fa-crown text-sm"></i>
+                                </div>
+
+                                <h2 class="text-2xl sm:text-4xl lg:text-5xl font-serif font-black text-white tracking-wide leading-tight drop-shadow-md">
+                                    🎉 CONGRATULATIONS! 🎉<br>
+                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F5D77F] via-[#FFE8A2] to-[#DFB755]">
+                                        {{ $searchResult['customer_name'] }}
+                                    </span>
+                                </h2>
+
+                                <div class="inline-flex flex-wrap items-center justify-center gap-3 bg-black/40 border border-[#DFB755]/40 px-5 py-2.5 rounded-2xl backdrop-blur-md">
+                                    <div class="flex items-center gap-2 text-[#F3D068] font-bold text-sm sm:text-base">
+                                        <i class="fa-solid fa-trophy text-[#DFB755]"></i>
+                                        <span>{{ $searchResult['result_status'] }}</span>
+                                    </div>
+                                    @if(!empty($searchResult['prize_amount']))
+                                        <span class="text-white/40 font-thin">|</span>
+                                        <div class="text-emerald-400 font-mono font-black text-base sm:text-lg">
+                                            Prize: {{ $searchResult['prize_amount'] }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <p class="text-xs sm:text-sm text-stone-300 max-w-xl mx-auto leading-relaxed">
+                                    Your lottery ticket reservation <strong class="text-[#F3D068] font-mono">{{ $ticketListStr }}</strong> has been officially declared as a prize winner in the Maharaja Directorate draw!
+                                </p>
+
+                                <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+                                    <button type="button" onclick="triggerWinnerConfettiBoom()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#F5D77F] border border-[#DFB755]/40 text-xs font-bold transition flex items-center gap-2 shadow-sm">
+                                        <i class="fa-solid fa-wand-magic-sparkles text-[#DFB755]"></i>
+                                        <span>Celebrate Again 🎉</span>
+                                    </button>
+                                    <button type="button" onclick="downloadCertificate()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white text-xs font-black transition flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 transform border border-emerald-300/40">
+                                        <i class="fa-solid fa-download"></i>
+                                        <span>Download Official Certificate</span>
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
 
-                        <!-- Main Details Grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Official Winner Certificate Preview Container -->
+                        <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border-2 border-[#DFB755]/50 p-4 sm:p-8 text-white shadow-2xl space-y-6">
                             
-                            <!-- Left: Customer Details -->
-                            <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755] block">CUSTOMER INFORMATION</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                                 <div>
-                                    <span class="text-xs text-stone-400 block">Ticket Holder</span>
-                                    <span class="text-base font-bold text-white">{{ $searchResult['customer_name'] }}</span>
+                                    <span class="text-[10px] uppercase font-bold tracking-widest text-[#DFB755] block">GOVERNMENT VERIFIED CERTIFICATE</span>
+                                    <h3 class="text-lg sm:text-2xl font-serif font-black text-white">
+                                        Official Winner Certificate
+                                    </h3>
                                 </div>
-                                <div>
-                                    <span class="text-xs text-stone-400 block">Registered Mobile</span>
-                                    <span class="text-xs font-mono font-bold text-stone-300">{{ $searchResult['customer_mobile'] }}</span>
+                                
+                                <div class="flex items-center gap-2">
+                                    <button type="button" onclick="downloadCertificate()" class="bg-[#DFB755] hover:bg-[#C59B27] text-[#071533] px-4 sm:px-5 py-2 rounded-xl font-black text-xs transition flex items-center gap-2 shadow-md">
+                                        <i class="fa-solid fa-file-arrow-down text-xs"></i>
+                                        <span>Download HD JPG</span>
+                                    </button>
+                                    <button type="button" onclick="printCertificate()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-xl font-bold text-xs transition flex items-center gap-1.5 border border-white/20">
+                                        <i class="fa-solid fa-print text-xs"></i>
+                                        <span>Print</span>
+                                    </button>
                                 </div>
-                                @if(!empty($searchResult['customer_state']))
-                                    <div>
-                                        <span class="text-xs text-stone-400 block">Location</span>
-                                        <span class="text-xs text-stone-300">{{ $searchResult['customer_city'] ? $searchResult['customer_city'].', ' : '' }}{{ $searchResult['customer_state'] }}</span>
-                                    </div>
-                                @endif
                             </div>
 
-                            <!-- Middle: Booked Tickets -->
-                            <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755]">BOOKED TICKETS</span>
-                                    <span class="px-2 py-0.5 rounded-md bg-[#DFB755]/20 text-[#F3D068] text-[10px] font-black font-mono">
-                                        {{ count($searchResult['tickets'] ?? []) }} Total
+                            <!-- Responsive Canvas Container for Certificate -->
+                            <div class="relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden border-2 sm:border-4 border-[#DFB755] shadow-2xl bg-[#040A1A] flex items-center justify-center p-1 sm:p-2">
+                                <canvas id="winner-certificate-canvas" class="w-full h-auto rounded-xl shadow-lg cursor-pointer max-w-full block" title="Click Download button to save high resolution copy"></canvas>
+                            </div>
+
+                            <!-- Certificate Action Guidance -->
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-black/40 border border-white/10 rounded-2xl p-4 text-xs">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">
+                                        <i class="fa-solid fa-shield-check"></i>
+                                    </div>
+                                    <span class="text-stone-300">
+                                        Digitally signed &amp; certified by <strong>Maharaja Lotteries Directorate</strong> with Ref: <strong class="text-[#F3D068] font-mono">{{ $searchResult['booking_ref'] }}</strong>
                                     </span>
                                 </div>
-                                <div class="flex flex-wrap gap-2 max-h-36 overflow-y-auto pr-1">
-                                    @foreach($searchResult['tickets'] ?? [] as $t)
-                                        <span class="px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-white font-mono font-black text-xs shadow-xs hover:border-[#DFB755] transition select-all">
-                                            <i class="fa-solid fa-ticket text-[10px] text-[#DFB755] mr-1"></i>{{ $t }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                                <span class="text-[10px] text-emerald-400 block mt-2">
-                                    <i class="fa-solid fa-circle-check mr-1"></i> Permanently Reserved &amp; Registered in Directorate
-                                </span>
+
+                                <a href="https://wa.me/918743978796?text={{ urlencode('Hello Maharaja Directorate, I have won ' . ($searchResult['result_status'] ?? '3rd Prize') . ' for Booking Ref ' . $searchResult['booking_ref'] . ' (Ticket: ' . $ticketListStr . '). Please guide me to claim my prize.') }}" 
+                                    target="_blank"
+                                    class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-5 rounded-xl flex items-center justify-center gap-2 transition shadow-md shrink-0">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                    <span>Contact Claim Desk</span>
+                                </a>
                             </div>
 
-                            <!-- Right: Draw Result & Prize Status -->
-                            <div class="bg-gradient-to-br from-emerald-950/40 to-black/40 rounded-2xl p-5 border border-emerald-500/30 space-y-3 flex flex-col justify-between">
-                                <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block">DRAW &amp; PRIZE STATUS</span>
-                                    <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0B193E] border border-[#DFB755]/50 text-[#F3D068] font-serif font-black text-sm">
-                                        <i class="fa-solid fa-award text-[#DFB755]"></i>
-                                        <span>{{ $searchResult['result_status'] ?? 'Active in Live Draw' }}</span>
+                        </div>
+
+                        <!-- Full Customer & Ticket Information Breakdown Grid -->
+                        <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border border-white/10 p-6 sm:p-8 text-white shadow-xl space-y-6">
+                            
+                            <div class="border-b border-white/10 pb-4">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755] block">RECORD VERIFICATION</span>
+                                <h4 class="text-lg font-serif font-black text-white">
+                                    Full Booking &amp; Registration Details
+                                </h4>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                
+                                <!-- Left: Customer Details -->
+                                <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755] block">CUSTOMER INFORMATION</span>
+                                    <div>
+                                        <span class="text-xs text-stone-400 block">Ticket Holder</span>
+                                        <span class="text-base font-bold text-white">{{ $searchResult['customer_name'] }}</span>
                                     </div>
-                                    @if(!empty($searchResult['prize_amount']))
-                                        <div class="mt-2 text-emerald-300 font-bold text-sm">
-                                            Winning Amount: <span class="text-white font-mono font-black text-base">{{ $searchResult['prize_amount'] }}</span>
+                                    <div>
+                                        <span class="text-xs text-stone-400 block">Registered Mobile</span>
+                                        <span class="text-xs font-mono font-bold text-stone-300">{{ $searchResult['customer_mobile'] }}</span>
+                                    </div>
+                                    @if(!empty($searchResult['customer_state']))
+                                        <div>
+                                            <span class="text-xs text-stone-400 block">Location</span>
+                                            <span class="text-xs text-stone-300">{{ $searchResult['customer_city'] ? $searchResult['customer_city'].', ' : '' }}{{ $searchResult['customer_state'] }}</span>
                                         </div>
                                     @endif
-                                    <p class="text-[11px] text-stone-300 mt-2">
-                                        Payment verified: <span class="font-mono font-bold text-white">INR {{ number_format($searchResult['total_amount'] ?? 0) }}</span> (Received).
-                                    </p>
                                 </div>
 
-                                <div class="pt-2">
-                                    <a href="https://wa.me/918743978796?text={{ urlencode('Hello Maharaja Directorate, I am checking my approved booking ' . $searchResult['booking_ref'] . ' for ticket(s) ' . implode(', ', $searchResult['tickets'] ?? []) . '.') }}" 
-                                        target="_blank"
-                                        class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md">
-                                        <i class="fa-brands fa-whatsapp text-sm"></i>
-                                        <span>Claim / Official Support Desk</span>
-                                    </a>
+                                <!-- Middle: Booked Tickets -->
+                                <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755]">BOOKED TICKETS</span>
+                                        <span class="px-2 py-0.5 rounded-md bg-[#DFB755]/20 text-[#F3D068] text-[10px] font-black font-mono">
+                                            {{ count($searchResult['tickets'] ?? []) }} Total
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 max-h-36 overflow-y-auto pr-1">
+                                        @foreach($searchResult['tickets'] ?? [] as $t)
+                                            <span class="px-3 py-1.5 rounded-xl bg-white/10 border border-[#DFB755]/40 text-[#F5D77F] font-mono font-black text-xs shadow-xs select-all">
+                                                <i class="fa-solid fa-ticket text-[10px] text-[#DFB755] mr-1"></i>{{ $t }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                    <span class="text-[10px] text-emerald-400 block mt-2 font-medium">
+                                        <i class="fa-solid fa-circle-check mr-1"></i> Permanently Reserved &amp; Registered in Directorate
+                                    </span>
                                 </div>
+
+                                <!-- Right: Draw Result & Prize Status -->
+                                <div class="bg-gradient-to-br from-emerald-950/40 to-black/40 rounded-2xl p-5 border border-emerald-500/30 space-y-3 flex flex-col justify-between">
+                                    <div>
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block">DRAW &amp; PRIZE STATUS</span>
+                                        <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0B193E] border border-[#DFB755]/50 text-[#F3D068] font-serif font-black text-sm">
+                                            <i class="fa-solid fa-trophy text-[#DFB755]"></i>
+                                            <span>{{ $searchResult['result_status'] }}</span>
+                                        </div>
+                                        @if(!empty($searchResult['prize_amount']))
+                                            <div class="mt-2 text-emerald-300 font-bold text-sm">
+                                                Winning Amount: <span class="text-white font-mono font-black text-base">{{ $searchResult['prize_amount'] }}</span>
+                                            </div>
+                                        @endif
+                                        <p class="text-[11px] text-stone-300 mt-2">
+                                            Payment verified: <span class="font-mono font-bold text-white">INR {{ number_format($searchResult['total_amount'] ?? 0) }}</span> (Received).
+                                        </p>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <a href="https://wa.me/918743978796?text={{ urlencode('Hello Maharaja Directorate, I am checking my approved booking ' . $searchResult['booking_ref'] . ' for ticket(s) ' . $ticketListStr . '.') }}" 
+                                            target="_blank"
+                                            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md">
+                                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                                            <span>Claim / Official Support Desk</span>
+                                        </a>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
 
                     </div>
-                </div>
+
+                @else
+                    <!-- CASE 1B: APPROVED BUT REGULAR ACTIVE IN LIVE DRAW -->
+                    <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border-2 border-emerald-500/50 p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                        <!-- Background Glow -->
+                        <div class="absolute -top-24 -right-24 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <div class="relative z-10 space-y-6">
+                            
+                            <!-- Status Badge Header -->
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                                <div class="flex items-center gap-3.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-xl shadow-inner shrink-0">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+                                    <div>
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 mb-1">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                            ADMIN APPROVED &bull; RESULT VERIFIED
+                                        </span>
+                                        <h2 class="text-xl sm:text-2xl font-serif font-black text-white">
+                                            Booking Confirmed &amp; Live Result Active
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                <div class="text-left sm:text-right">
+                                    <span class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider">BOOKING REFERENCE</span>
+                                    <span class="font-mono font-black text-[#F3D068] text-sm sm:text-base select-all">{{ $searchResult['booking_ref'] }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Main Details Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                
+                                <!-- Left: Customer Details -->
+                                <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755] block">CUSTOMER INFORMATION</span>
+                                    <div>
+                                        <span class="text-xs text-stone-400 block">Ticket Holder</span>
+                                        <span class="text-base font-bold text-white">{{ $searchResult['customer_name'] }}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-stone-400 block">Registered Mobile</span>
+                                        <span class="text-xs font-mono font-bold text-stone-300">{{ $searchResult['customer_mobile'] }}</span>
+                                    </div>
+                                    @if(!empty($searchResult['customer_state']))
+                                        <div>
+                                            <span class="text-xs text-stone-400 block">Location</span>
+                                            <span class="text-xs text-stone-300">{{ $searchResult['customer_city'] ? $searchResult['customer_city'].', ' : '' }}{{ $searchResult['customer_state'] }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Middle: Booked Tickets -->
+                                <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755]">BOOKED TICKETS</span>
+                                        <span class="px-2 py-0.5 rounded-md bg-[#DFB755]/20 text-[#F3D068] text-[10px] font-black font-mono">
+                                            {{ count($searchResult['tickets'] ?? []) }} Total
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 max-h-36 overflow-y-auto pr-1">
+                                        @foreach($searchResult['tickets'] ?? [] as $t)
+                                            <span class="px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 text-white font-mono font-black text-xs shadow-xs hover:border-[#DFB755] transition select-all">
+                                                <i class="fa-solid fa-ticket text-[10px] text-[#DFB755] mr-1"></i>{{ $t }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                    <span class="text-[10px] text-emerald-400 block mt-2">
+                                        <i class="fa-solid fa-circle-check mr-1"></i> Permanently Reserved &amp; Registered in Directorate
+                                    </span>
+                                </div>
+
+                                <!-- Right: Draw Result & Prize Status -->
+                                <div class="bg-gradient-to-br from-emerald-950/40 to-black/40 rounded-2xl p-5 border border-emerald-500/30 space-y-3 flex flex-col justify-between">
+                                    <div>
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block">DRAW &amp; PRIZE STATUS</span>
+                                        <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0B193E] border border-[#DFB755]/50 text-[#F3D068] font-serif font-black text-sm">
+                                            <i class="fa-solid fa-award text-[#DFB755]"></i>
+                                            <span>{{ $searchResult['result_status'] ?? 'Active in Live Draw' }}</span>
+                                        </div>
+                                        <p class="text-[11px] text-stone-300 mt-2">
+                                            Payment verified: <span class="font-mono font-bold text-white">INR {{ number_format($searchResult['total_amount'] ?? 0) }}</span> (Received).
+                                        </p>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <a href="https://wa.me/918743978796?text={{ urlencode('Hello Maharaja Directorate, I am checking my approved booking ' . $searchResult['booking_ref'] . ' for ticket(s) ' . $ticketListStr . '.') }}" 
+                                            target="_blank"
+                                            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md">
+                                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                                            <span>Claim / Official Support Desk</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                @endif
 
             @elseif($searchState === 'pending')
                 <!-- CASE 2: PENDING APPROVAL -> THEMED & SIMPLE -->
@@ -387,6 +584,154 @@
 
     </div>
 </section>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+    // Confetti Mega Celebration Blast
+    function triggerWinnerConfettiBoom() {
+        if (typeof confetti !== 'function') return;
+
+        // Left Cannon Burst
+        confetti({
+            particleCount: 90,
+            angle: 60,
+            spread: 75,
+            origin: { x: 0.05, y: 0.7 },
+            colors: ['#DFB755', '#F3D068', '#16A34A', '#E11D48', '#FFFFFF', '#FFD700']
+        });
+
+        // Right Cannon Burst
+        setTimeout(() => {
+            confetti({
+                particleCount: 90,
+                angle: 120,
+                spread: 75,
+                origin: { x: 0.95, y: 0.7 },
+                colors: ['#DFB755', '#F3D068', '#16A34A', '#E11D48', '#FFFFFF', '#FFD700']
+            });
+        }, 200);
+
+        // Center Grand Explosion
+        setTimeout(() => {
+            confetti({
+                particleCount: 140,
+                spread: 120,
+                origin: { x: 0.5, y: 0.45 },
+                shapes: ['star', 'circle'],
+                colors: ['#FFD700', '#FFA500', '#FF4500', '#22C55E', '#DFB755', '#FFFFFF']
+            });
+        }, 450);
+
+        // Continuous Fireworks Cascade
+        const duration = 2500;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#DFB755', '#F3D068', '#16A34A']
+            });
+            confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#DFB755', '#F3D068', '#E11D48']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    }
+
+    // Dynamic High-Resolution Winner Certificate Generator
+    function generateAndRenderCertificate() {
+        const canvas = document.getElementById('winner-certificate-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = "{{ asset('img/certificate_template.jpg') }}";
+
+        img.onload = function() {
+            canvas.width = 1280;
+            canvas.height = 960;
+            ctx.drawImage(img, 0, 0, 1280, 960);
+
+            @if(isset($searchResult) && $searchState === 'approved')
+                // 1. Draw Winner Name (Mr/Mrs -:)
+                ctx.font = "bold italic 32px 'Cinzel', serif, Georgia, 'Times New Roman'";
+                ctx.fillStyle = "#5c0e18";
+                ctx.textAlign = "left";
+                const customerName = "{{ addslashes($searchResult['customer_name'] ?? 'Winner') }}";
+                ctx.fillText(customerName, 430, 498);
+
+                // 2. Draw Ticket Number(s)
+                ctx.font = "bold 24px 'Outfit', 'Courier New', monospace";
+                ctx.fillStyle = "#1e293b";
+                const ticketNumbers = "{{ implode(', ', $searchResult['tickets'] ?? []) }}";
+                ctx.fillText(ticketNumbers, 400, 555);
+
+                // 3. Draw Date
+                ctx.font = "bold 22px 'Outfit', sans-serif";
+                ctx.fillStyle = "#1e293b";
+                const dateStr = "{{ !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y') }}";
+                ctx.fillText(dateStr, 350, 605);
+            @endif
+        };
+    }
+
+    // Download HD Certificate as JPG
+    function downloadCertificate() {
+        const canvas = document.getElementById('winner-certificate-canvas');
+        if (!canvas) return;
+
+        const link = document.createElement('a');
+        link.download = 'Maharaja_Winner_Certificate_{{ $searchResult['booking_ref'] ?? 'Winner' }}.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.95);
+        link.click();
+    }
+
+    // Print Certificate
+    function printCertificate() {
+        const canvas = document.getElementById('winner-certificate-canvas');
+        if (!canvas) return;
+
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Winner Certificate - Maharaja Lottery</title>
+                    <style>
+                        @page { size: landscape; margin: 0; }
+                        body { margin: 0; display: flex; align-items: center; justify-content: center; background: #fff; min-height: 100vh; }
+                        img { max-width: 98vw; max-height: 96vh; object-fit: contain; }
+                    </style>
+                </head>
+                <body onload="window.print(); window.close();">
+                    <img src="${dataUrl}">
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+
+    // Auto-initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(isset($searchResult) && $searchState === 'approved' && ($isWinner ?? false))
+            generateAndRenderCertificate();
+            setTimeout(triggerWinnerConfettiBoom, 400);
+        @endif
+    });
+</script>
+@endpush
 
 @endsection
 
