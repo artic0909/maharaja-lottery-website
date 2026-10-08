@@ -143,14 +143,36 @@
                 </div>
             </header>
 
-            <!-- Flash Message Banner -->
+            <!-- Uniform Royal Admin Flash Message Banner -->
             @if(session('success'))
-                <div class="m-4 sm:m-6 mb-0 bg-emerald-500/15 border border-emerald-500/40 rounded-2xl p-4 text-emerald-300 text-xs flex items-center justify-between shadow-lg">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-circle-check text-base text-emerald-400"></i>
-                        <span class="font-bold">{{ session('success') }}</span>
+                <div id="global-flash-success" class="m-4 sm:m-6 mb-0 bg-gradient-to-r from-emerald-950/80 via-emerald-900/60 to-[#071533] border border-emerald-400/50 rounded-2xl p-4 text-emerald-300 text-xs flex items-center justify-between shadow-xl animate-in fade-in slide-in-from-top-3 duration-300">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-circle-check text-sm"></i>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-widest text-[#DFB755] font-black block">Success Notification</span>
+                            <span class="font-bold text-white text-xs sm:text-[13px]">{{ session('success') }}</span>
+                        </div>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-400 hover:text-white">
+                    <button type="button" onclick="this.closest('#global-flash-success').remove()" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-emerald-300 hover:text-white flex items-center justify-center text-xs transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div id="global-flash-error" class="m-4 sm:m-6 mb-0 bg-gradient-to-r from-rose-950/80 via-rose-900/60 to-[#071533] border border-rose-400/50 rounded-2xl p-4 text-rose-300 text-xs flex items-center justify-between shadow-xl animate-in fade-in slide-in-from-top-3 duration-300">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-triangle-exclamation text-sm"></i>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-widest text-rose-400 font-black block">System Alert</span>
+                            <span class="font-bold text-white text-xs sm:text-[13px]">{{ session('error') }}</span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="this.closest('#global-flash-error').remove()" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-rose-300 hover:text-white flex items-center justify-center text-xs transition">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>

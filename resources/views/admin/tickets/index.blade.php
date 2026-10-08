@@ -6,29 +6,6 @@
 @section('content')
 <div class="space-y-8">
 
-    <!-- Top Info / Notification Banner -->
-    @if(session('success'))
-        <div class="bg-emerald-500/15 border border-emerald-500/40 rounded-2xl p-4 text-emerald-300 text-xs flex items-center justify-between shadow-lg">
-            <div class="flex items-center gap-2.5">
-                <i class="fa-solid fa-circle-check text-base text-emerald-400"></i>
-                <span class="font-bold">{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-emerald-400 hover:text-white">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-    @endif
-
-    <div id="toast-message" class="hidden bg-emerald-500/15 border border-emerald-500/40 rounded-2xl p-4 text-emerald-300 text-xs flex items-center justify-between shadow-lg transition-all">
-        <div class="flex items-center gap-2.5">
-            <i class="fa-solid fa-circle-check text-base text-emerald-400"></i>
-            <span id="toast-text" class="font-bold">Action completed successfully!</span>
-        </div>
-        <button type="button" onclick="document.getElementById('toast-message').classList.add('hidden')" class="text-emerald-400 hover:text-white">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-
     <!-- Section 1: Ticket Category Creation & Edit Form -->
     <div id="form-container" class="bg-[#071533]/90 rounded-3xl border border-[#DFB755]/25 shadow-2xl p-6 sm:p-8 space-y-6 relative overflow-hidden">
         <!-- Background decorative ambient blur -->
@@ -221,7 +198,11 @@
                     <span class="text-xs font-bold text-white">Active Scheme</span>
                 </label>
 
-                <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+                    <button type="button" id="cancel-edit-btn" onclick="resetForm()" class="hidden px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-stone-300 font-bold text-xs transition items-center gap-1.5 border border-white/10">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Cancel Edit</span>
+                    </button>
                     <button type="submit" id="submit-btn"
                         class="w-full sm:w-auto min-w-[200px] bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 hover:from-emerald-600 hover:to-emerald-500 text-white font-black text-xs py-3 px-8 rounded-xl shadow-lg border border-emerald-400/40 flex items-center justify-center gap-2 transition transform hover:scale-[1.02]">
                         <i class="fa-solid fa-floppy-disk"></i>
@@ -415,12 +396,13 @@
         const container = document.getElementById('prize-rows-container');
         const rows = container.querySelectorAll('.prize-row');
         if (rows.length <= 1) {
-            window.adminToast('At least one prize tier is required for a lottery scheme.', 'warning');
+            if (typeof window.adminToast === 'function') {
+                window.adminToast('At least one prize tier is required for a lottery scheme.', 'warning');
+            } else {
+                alert('At least one prize tier is required for a lottery scheme.');
+            }
             return;
         }
-        btn.closest('.prize-row').remove();
-        reindexPrizeRows();
-    }
         btn.closest('.prize-row').remove();
         reindexPrizeRows();
     }
@@ -437,24 +419,42 @@
 
     // Populate Form when clicking Edit on a table row
     function editChart(chart) {
-        document.getElementById('chart_id').value = chart.id;
-        document.getElementById('price').value = chart.price;
-        document.getElementById('draw_name').value = chart.name;
-        document.getElementById('series_prefixes').value = chart.series;
+        if (typeof chart === 'string') {
+            try {
+                chart = JSON.parse(chart);
+            } catch (e) {
+                console.error("Invalid chart data", e);
+                return;
+            }
+        }
+
+        document.getElementById('chart_id').value = chart.id || '';
+        document.getElementById('price').value = chart.price || '';
+        document.getElementById('draw_name').value = chart.name || '';
+        document.getElementById('series_prefixes').value = chart.series || '';
         document.getElementById('ticket_code').value = chart.code || '';
         
         if (chart.number_range && chart.number_range.includes('-')) {
             const parts = chart.number_range.split('-').map(s => s.trim());
-            document.getElementById('start_number').value = parts[0] || '';
-            document.getElementById('end_number').value = parts[1] || '';
+            document.getElementById('start_number').value = parts[0] || '100000';
+            document.getElementById('end_number').value = parts[1] || '999999';
+        } else {
+            document.getElementById('start_number').value = '100000';
+            document.getElementById('end_number').value = '999999';
         }
 
-        document.getElementById('display_limit').value = chart.display;
-        document.getElementById('position').value = chart.position;
-        document.getElementById('is_active').checked = chart.status === 'Active';
+        document.getElementById('display_limit').value = chart.display || 50;
+        document.getElementById('position').value = chart.position || 'LB 1';
+        document.getElementById('is_active').checked = (chart.status === 'Active');
 
-        document.getElementById('form-title').textContent = 'Edit Category: ' + chart.name;
+        document.getElementById('form-title').textContent = 'Edit Category: ' + (chart.name || 'Scheme');
         document.getElementById('submit-btn-text').textContent = 'Update Category';
+        
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        if (cancelBtn) {
+            cancelBtn.classList.remove('hidden');
+            cancelBtn.classList.add('inline-flex');
+        }
 
         // Rebuild prize breakdown rows
         const container = document.getElementById('prize-rows-container');
@@ -488,10 +488,24 @@
                 `;
                 container.appendChild(row);
             });
+        } else {
+            // Add at least 1 default row
+            addPrizeRow();
         }
 
-        // Scroll to form smoothly
-        document.getElementById('form-container').scrollIntoView({ behavior: 'smooth' });
+        // Scroll to form smoothly and highlight
+        const formContainer = document.getElementById('form-container');
+        if (formContainer) {
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+            formContainer.classList.add('ring-2', 'ring-[#DFB755]');
+            setTimeout(() => {
+                formContainer.classList.remove('ring-2', 'ring-[#DFB755]');
+            }, 1800);
+        }
+
+        if (typeof window.adminToast === 'function') {
+            window.adminToast('Editing scheme: ' + (chart.name || ''), 'warning');
+        }
     }
 
     // Reset Form
@@ -500,6 +514,59 @@
         document.getElementById('chart_id').value = '';
         document.getElementById('form-title').textContent = 'Ticket Price Chart';
         document.getElementById('submit-btn-text').textContent = 'Save Chart';
+        
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        if (cancelBtn) {
+            cancelBtn.classList.add('hidden');
+            cancelBtn.classList.remove('inline-flex');
+        }
+
+        // Reset default prizes (3 tiers)
+        const container = document.getElementById('prize-rows-container');
+        container.innerHTML = `
+            <div class="prize-row grid grid-cols-12 gap-2 sm:gap-3 items-center bg-[#040A1A]/80 p-2.5 rounded-2xl border border-white/10">
+                <div class="col-span-3 sm:col-span-2">
+                    <span class="prize-badge w-full py-2 rounded-xl bg-[#0B193E] text-[#F3D068] font-bold text-xs border border-[#DFB755]/30 flex items-center justify-center text-center">
+                        1st Prize
+                    </span>
+                </div>
+                <div class="col-span-5 sm:col-span-5">
+                    <input type="text" name="prize_amount[]" value="INR 50 Lakhs" placeholder="e.g. INR 50 Lakhs"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <div class="col-span-3 sm:col-span-4">
+                    <input type="text" name="prize_winners[]" value="1 Lucky Ticket" placeholder="e.g. 1 Lucky Ticket"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <div class="col-span-1 text-center">
+                    <button type="button" onclick="removePrizeRow(this)" title="Remove Prize"
+                        class="w-7 h-7 rounded-full bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 flex items-center justify-center text-xs transition mx-auto">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="prize-row grid grid-cols-12 gap-2 sm:gap-3 items-center bg-[#040A1A]/80 p-2.5 rounded-2xl border border-white/10">
+                <div class="col-span-3 sm:col-span-2">
+                    <span class="prize-badge w-full py-2 rounded-xl bg-[#0B193E] text-[#F3D068] font-bold text-xs border border-[#DFB755]/30 flex items-center justify-center text-center">
+                        2nd Prize
+                    </span>
+                </div>
+                <div class="col-span-5 sm:col-span-5">
+                    <input type="text" name="prize_amount[]" value="INR 10 Lakhs" placeholder="e.g. INR 10 Lakhs"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <div class="col-span-3 sm:col-span-4">
+                    <input type="text" name="prize_winners[]" value="5 winners" placeholder="e.g. 5 winners"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <div class="col-span-1 text-center">
+                    <button type="button" onclick="removePrizeRow(this)" title="Remove Prize"
+                        class="w-7 h-7 rounded-full bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 flex items-center justify-center text-xs transition mx-auto">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+        `;
     }
 </script>
 @endpush

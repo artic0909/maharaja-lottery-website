@@ -33,13 +33,6 @@
     </div>
 
     <!-- Feedback Alerts -->
-    @if(session('success'))
-        <div class="bg-emerald-500/15 border border-emerald-500/40 rounded-2xl p-4 flex items-center gap-3 text-emerald-300 text-xs font-bold shadow-lg animate-in fade-in duration-200">
-            <i class="fa-solid fa-circle-check text-emerald-400 text-base shrink-0"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
     @if ($errors->any())
         <div class="bg-rose-500/15 border border-rose-500/40 rounded-2xl p-4 text-rose-300 text-xs shadow-lg">
             <div class="flex items-center gap-2 font-bold mb-1">

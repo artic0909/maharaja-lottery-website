@@ -21,20 +21,6 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="bg-emerald-500/15 border border-emerald-500/40 rounded-2xl p-4 flex items-center gap-3 text-emerald-300 text-xs font-bold shadow-lg animate-in fade-in duration-200">
-            <i class="fa-solid fa-circle-check text-emerald-400 text-base shrink-0"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="bg-rose-500/15 border border-rose-500/40 rounded-2xl p-4 flex items-center gap-3 text-rose-300 text-xs font-bold shadow-lg">
-            <i class="fa-solid fa-circle-exclamation text-rose-400 text-base shrink-0"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
     <!-- Bulk Actions Sticky Floating Bar (Shows when 1+ checkboxes selected) -->
     <div id="bulk-action-bar" class="hidden bg-[#040A1A]/95 border-2 border-[#DFB755] rounded-2xl p-3 sm:p-4 shadow-2xl backdrop-blur-md sticky top-4 z-40 flex flex-col sm:flex-row items-center justify-between gap-3 animate-in fade-in slide-in-from-top-4 duration-200">
         <div class="flex items-center gap-3">
