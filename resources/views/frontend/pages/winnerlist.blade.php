@@ -249,89 +249,6 @@
 
                         </div>
 
-                        <!-- Full Customer & Ticket Information Breakdown Grid -->
-                        <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border border-white/10 p-6 sm:p-8 text-white shadow-xl space-y-6">
-                            
-                            <div class="border-b border-white/10 pb-4">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755] block">RECORD VERIFICATION</span>
-                                <h4 class="text-lg font-serif font-black text-white">
-                                    Full Booking &amp; Registration Details
-                                </h4>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                                
-                                <!-- Left: Customer Details -->
-                                <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
-                                    <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755] block">CUSTOMER INFORMATION</span>
-                                    <div>
-                                        <span class="text-xs text-stone-400 block">Ticket Holder</span>
-                                        <span class="text-base font-bold text-white">{{ $searchResult['customer_name'] }}</span>
-                                    </div>
-                                    <div>
-                                        <span class="text-xs text-stone-400 block">Registered Mobile</span>
-                                        <span class="text-xs font-mono font-bold text-stone-300">{{ $searchResult['customer_mobile'] }}</span>
-                                    </div>
-                                    @if(!empty($searchResult['customer_state']))
-                                        <div>
-                                            <span class="text-xs text-stone-400 block">Location</span>
-                                            <span class="text-xs text-stone-300">{{ $searchResult['customer_city'] ? $searchResult['customer_city'].', ' : '' }}{{ $searchResult['customer_state'] }}</span>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <!-- Middle: Booked Tickets -->
-                                <div class="bg-black/30 rounded-2xl p-5 border border-white/10 space-y-3">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-[10px] font-bold uppercase tracking-widest text-[#DFB755]">BOOKED TICKETS</span>
-                                        <span class="px-2 py-0.5 rounded-md bg-[#DFB755]/20 text-[#F3D068] text-[10px] font-black font-mono">
-                                            {{ count($searchResult['tickets'] ?? []) }} Total
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-wrap gap-2 max-h-36 overflow-y-auto pr-1">
-                                        @foreach($searchResult['tickets'] ?? [] as $t)
-                                            <span class="px-3 py-1.5 rounded-xl bg-white/10 border border-[#DFB755]/40 text-[#F5D77F] font-mono font-black text-xs shadow-xs select-all">
-                                                <i class="fa-solid fa-ticket text-[10px] text-[#DFB755] mr-1"></i>{{ $t }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                    <span class="text-[10px] text-emerald-400 block mt-2 font-medium">
-                                        <i class="fa-solid fa-circle-check mr-1"></i> Permanently Reserved &amp; Registered in Directorate
-                                    </span>
-                                </div>
-
-                                <!-- Right: Draw Result & Prize Status -->
-                                <div class="bg-gradient-to-br from-emerald-950/40 to-black/40 rounded-2xl p-5 border border-emerald-500/30 space-y-3 flex flex-col justify-between">
-                                    <div>
-                                        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block">DRAW &amp; PRIZE STATUS</span>
-                                        <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0B193E] border border-[#DFB755]/50 text-[#F3D068] font-serif font-black text-sm">
-                                            <i class="fa-solid fa-trophy text-[#DFB755]"></i>
-                                            <span>{{ $searchResult['result_status'] }}</span>
-                                        </div>
-                                        @if(!empty($searchResult['prize_amount']))
-                                            <div class="mt-2 text-emerald-300 font-bold text-sm">
-                                                Winning Amount: <span class="text-white font-mono font-black text-base">{{ $searchResult['prize_amount'] }}</span>
-                                            </div>
-                                        @endif
-                                        <p class="text-[11px] text-stone-300 mt-2">
-                                            Payment verified: <span class="font-mono font-bold text-white">INR {{ number_format($searchResult['total_amount'] ?? 0) }}</span> (Received).
-                                        </p>
-                                    </div>
-
-                                    <div class="pt-2">
-                                        <a href="https://wa.me/918743978796?text={{ urlencode('Hello Maharaja Directorate, I am checking my approved booking ' . $searchResult['booking_ref'] . ' for ticket(s) ' . $ticketListStr . '.') }}" 
-                                            target="_blank"
-                                            class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md">
-                                            <i class="fa-brands fa-whatsapp text-sm"></i>
-                                            <span>Claim / Official Support Desk</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
                     </div>
 
                 @else
@@ -666,23 +583,28 @@
 
             @if(isset($searchResult) && $searchState === 'approved')
                 // 1. Draw Winner Name (Mr/Mrs -:)
-                ctx.font = "bold italic 32px 'Cinzel', serif, Georgia, 'Times New Roman'";
+                ctx.font = "bold italic 28px 'Cinzel', serif, Georgia, 'Times New Roman'";
                 ctx.fillStyle = "#5c0e18";
                 ctx.textAlign = "left";
+                ctx.textBaseline = "alphabetic";
                 const customerName = "{{ addslashes($searchResult['customer_name'] ?? 'Winner') }}";
-                ctx.fillText(customerName, 430, 498);
+                ctx.fillText(customerName, 560, 506);
 
                 // 2. Draw Ticket Number(s)
-                ctx.font = "bold 24px 'Outfit', 'Courier New', monospace";
+                ctx.font = "bold 20px 'Outfit', 'Courier New', monospace";
                 ctx.fillStyle = "#1e293b";
+                ctx.textAlign = "left";
+                ctx.textBaseline = "alphabetic";
                 const ticketNumbers = "{{ implode(', ', $searchResult['tickets'] ?? []) }}";
-                ctx.fillText(ticketNumbers, 400, 555);
+                ctx.fillText(ticketNumbers, 495, 562);
 
                 // 3. Draw Date
-                ctx.font = "bold 22px 'Outfit', sans-serif";
+                ctx.font = "bold 20px 'Outfit', sans-serif";
                 ctx.fillStyle = "#1e293b";
+                ctx.textAlign = "left";
+                ctx.textBaseline = "alphabetic";
                 const dateStr = "{{ !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y') }}";
-                ctx.fillText(dateStr, 350, 605);
+                ctx.fillText(dateStr, 405, 596);
             @endif
         };
     }
@@ -704,23 +626,37 @@
         if (!canvas) return;
 
         const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>Print Winner Certificate - Maharaja Lottery</title>
-                    <style>
-                        @page { size: landscape; margin: 0; }
-                        body { margin: 0; display: flex; align-items: center; justify-content: center; background: #fff; min-height: 100vh; }
-                        img { max-width: 98vw; max-height: 96vh; object-fit: contain; }
-                    </style>
-                </head>
-                <body onload="window.print(); window.close();">
-                    <img src="${dataUrl}">
-                </body>
-            </html>
-        `);
-        printWindow.document.close();
+        const win = window.open('', '_blank');
+        if (!win) {
+            alert('Please allow popups to print the certificate.');
+            return;
+        }
+
+        win.document.title = 'Maharaja Winner Certificate';
+        win.document.body.style.margin = '0';
+        win.document.body.style.display = 'flex';
+        win.document.body.style.alignItems = 'center';
+        win.document.body.style.justifyContent = 'center';
+        win.document.body.style.minHeight = '100vh';
+        win.document.body.style.background = '#ffffff';
+
+        const style = win.document.createElement('style');
+        style.appendChild(win.document.createTextNode('@page { size: landscape; margin: 0; } img { max-width: 98vw; max-height: 96vh; object-fit: contain; }'));
+        win.document.head.appendChild(style);
+
+        const img = win.document.createElement('img');
+        img.src = dataUrl;
+        win.document.body.appendChild(img);
+
+        setTimeout(function() {
+            try {
+                win.focus();
+                win.print();
+                win.close();
+            } catch (e) {
+                console.error(e);
+            }
+        }, 400);
     }
 
     // Auto-initialize on page load
