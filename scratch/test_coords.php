@@ -1,11 +1,19 @@
 <?php
-// Test Composite Generation with GD to verify exact coordinates and looks
-$im = imagecreatefromjpeg('public/img/ticket_template_clean.jpg');
-$w = imagesx($im); // 1024
-$h = imagesy($im); // 682
+$im = imagecreatefromjpeg('scratch/cert_preview.jpg');
 
-$rightCenter = 830; // Center X of the right white card
+// Let's check vertical bounds of the text rendered for Name around x=600
+for ($y = 460; $y <= 505; $y++) {
+    $rgb = imagecolorat($im, 600, $y);
+    $r = ($rgb >> 16) & 0xFF; $g = ($rgb >> 8) & 0xFF; $b = $rgb & 0xFF;
+    $brightness = ($r * 299 + $g * 587 + $b * 114) / 1000;
+    if ($brightness < 160) {
+        echo "Name text pixel at Y={$y} (bright={$brightness})\n";
+    }
+}
+// Line 1 underline is at 494. If text goes from ~467 to 489, then 490-493 is clear space, and 494 is the line! That is PERFECT!
 
-// Let's create a test composite
-// We can use built-in GD drawing and true-type or font rendering to check spacing
-echo "Template size: {$w}x{$h}, Right card center: {$rightCenter}\n";
+
+
+
+
+

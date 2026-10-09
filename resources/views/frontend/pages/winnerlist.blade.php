@@ -581,31 +581,39 @@
             canvas.height = 960;
             ctx.drawImage(img, 0, 0, 1280, 960);
 
-            @if(isset($searchResult) && $searchState === 'approved')
-                // 1. Draw Winner Name (Mr/Mrs -:)
-                ctx.font = "bold italic 28px 'Cinzel', serif, Georgia, 'Times New Roman'";
-                ctx.fillStyle = "#5c0e18";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "alphabetic";
-                const customerName = "{{ addslashes($searchResult['customer_name'] ?? 'Winner') }}";
-                ctx.fillText(customerName, 560, 506);
+            const renderText = () => {
+                @if(isset($searchResult) && $searchState === 'approved')
+                    // 1. Draw Winner Name (Mr/Mrs -:) -> Line is at Y=494
+                    ctx.font = "bold italic 26px 'Cinzel', Georgia, 'Times New Roman', serif";
+                    ctx.fillStyle = "#5c0e18";
+                    ctx.textAlign = "left";
+                    ctx.textBaseline = "alphabetic";
+                    const customerName = "{{ addslashes($searchResult['customer_name'] ?? 'Winner') }}";
+                    ctx.fillText(customerName, 555, 488);
 
-                // 2. Draw Ticket Number(s)
-                ctx.font = "bold 20px 'Outfit', 'Courier New', monospace";
-                ctx.fillStyle = "#1e293b";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "alphabetic";
-                const ticketNumbers = "{{ implode(', ', $searchResult['tickets'] ?? []) }}";
-                ctx.fillText(ticketNumbers, 495, 562);
+                    // 2. Draw Ticket Number(s) -> Line is at Y=545, Label ends before X=495
+                    ctx.font = "bold 20px 'Outfit', 'Courier New', monospace";
+                    ctx.fillStyle = "#1e293b";
+                    ctx.textAlign = "left";
+                    ctx.textBaseline = "alphabetic";
+                    const ticketNumbers = "{{ implode(', ', $searchResult['tickets'] ?? []) }}";
+                    ctx.fillText(ticketNumbers, 505, 539);
 
-                // 3. Draw Date
-                ctx.font = "bold 20px 'Outfit', sans-serif";
-                ctx.fillStyle = "#1e293b";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "alphabetic";
-                const dateStr = "{{ !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y') }}";
-                ctx.fillText(dateStr, 405, 596);
-            @endif
+                    // 3. Draw Date -> Line is at Y=586, Label ends around X=425
+                    ctx.font = "bold 20px 'Outfit', sans-serif";
+                    ctx.fillStyle = "#1e293b";
+                    ctx.textAlign = "left";
+                    ctx.textBaseline = "alphabetic";
+                    const dateStr = "{{ !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y') }}";
+                    ctx.fillText(dateStr, 440, 580);
+                @endif
+            };
+
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(renderText);
+            } else {
+                renderText();
+            }
         };
     }
 
