@@ -2,6 +2,12 @@
 
 @section('title', 'Official Draw Desk & Ticket Result Verification')
 
+@push('scripts')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@700;900&family=Outfit:wght@700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+@endpush
+
 @section('content')
 
 <!-- Official Draw Desk Banner Section -->
@@ -187,10 +193,10 @@
                                 </p>
 
                                 <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
-                                    <button type="button" onclick="triggerWinnerConfettiBoom()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#F5D77F] border border-[#DFB755]/40 text-xs font-bold transition flex items-center gap-2 shadow-sm">
+                                    <!-- <button type="button" onclick="triggerWinnerConfettiBoom()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#F5D77F] border border-[#DFB755]/40 text-xs font-bold transition flex items-center gap-2 shadow-sm">
                                         <i class="fa-solid fa-wand-magic-sparkles text-[#DFB755]"></i>
                                         <span>Celebrate Again 🎉</span>
-                                    </button>
+                                    </button> -->
                                     <button type="button" onclick="downloadCertificate()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white text-xs font-black transition flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 transform border border-emerald-300/40">
                                         <i class="fa-solid fa-download"></i>
                                         <span>Download Official Certificate</span>
@@ -214,7 +220,7 @@
                                 <div class="flex items-center gap-2">
                                     <button type="button" onclick="downloadCertificate()" class="bg-[#DFB755] hover:bg-[#C59B27] text-[#071533] px-4 sm:px-5 py-2 rounded-xl font-black text-xs transition flex items-center gap-2 shadow-md">
                                         <i class="fa-solid fa-file-arrow-down text-xs"></i>
-                                        <span>Download HD JPG</span>
+                                        <span>Download</span>
                                     </button>
                                     <button type="button" onclick="printCertificate()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-xl font-bold text-xs transition flex items-center gap-1.5 border border-white/20">
                                         <i class="fa-solid fa-print text-xs"></i>
@@ -229,7 +235,7 @@
                             </div>
 
                             <!-- Certificate Action Guidance -->
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-black/40 border border-white/10 rounded-2xl p-4 text-xs">
+                            <!-- <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-black/40 border border-white/10 rounded-2xl p-4 text-xs">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-sm shrink-0">
                                         <i class="fa-solid fa-shield-check"></i>
@@ -245,7 +251,7 @@
                                     <i class="fa-brands fa-whatsapp text-sm"></i>
                                     <span>Contact Claim Desk</span>
                                 </a>
-                            </div>
+                            </div> -->
 
                         </div>
 
@@ -583,25 +589,25 @@
 
             const renderText = () => {
                 @if(isset($searchResult) && $searchState === 'approved')
-                    // 1. Draw Winner Name (Mr/Mrs -:) -> Line is at Y=494
-                    ctx.font = "bold italic 26px 'Cinzel', Georgia, 'Times New Roman', serif";
-                    ctx.fillStyle = "#5c0e18";
+                    // 1. Draw Winner Name (Mr/Mrs -:) -> Bold Elegant Font & Rich Maroon
+                    ctx.font = "italic 900 32px 'Playfair Display', 'Cinzel Decorative', Georgia, serif";
+                    ctx.fillStyle = "#4A0710";
                     ctx.textAlign = "left";
                     ctx.textBaseline = "alphabetic";
                     const customerName = "{{ addslashes($searchResult['customer_name'] ?? 'Winner') }}";
-                    ctx.fillText(customerName, 555, 488);
+                    ctx.fillText(customerName, 555, 486);
 
-                    // 2. Draw Ticket Number(s) -> Line is at Y=545, Label ends before X=495
-                    ctx.font = "bold 20px 'Outfit', 'Courier New', monospace";
-                    ctx.fillStyle = "#1e293b";
+                    // 2. Draw Ticket Number(s) -> Extra Bold Dark Navy
+                    ctx.font = "900 22px 'Outfit', monospace";
+                    ctx.fillStyle = "#071533";
                     ctx.textAlign = "left";
                     ctx.textBaseline = "alphabetic";
                     const ticketNumbers = "{{ implode(', ', $searchResult['tickets'] ?? []) }}";
-                    ctx.fillText(ticketNumbers, 505, 539);
+                    ctx.fillText(ticketNumbers, 505, 538);
 
-                    // 3. Draw Date -> Line is at Y=586, Label ends around X=425
-                    ctx.font = "bold 20px 'Outfit', sans-serif";
-                    ctx.fillStyle = "#1e293b";
+                    // 3. Draw Date -> Extra Bold Dark Navy
+                    ctx.font = "900 21px 'Outfit', sans-serif";
+                    ctx.fillStyle = "#071533";
                     ctx.textAlign = "left";
                     ctx.textBaseline = "alphabetic";
                     const dateStr = "{{ !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y') }}";
