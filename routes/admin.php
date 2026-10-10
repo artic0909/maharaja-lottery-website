@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TicketPriceChartController;
 use App\Http\Controllers\Admin\BookingManagementController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\TdsManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/bookings/{ref}/update-result', [BookingManagementController::class, 'updateResult'])->name('bookings.update_result');
     Route::delete('/bookings/{ref}', [BookingManagementController::class, 'destroy'])->name('bookings.destroy');
     Route::post('/bookings/delete/{ref}', [BookingManagementController::class, 'destroy'])->name('bookings.delete');
+
+    // TDS & Prize Withdrawal Verification Management
+    Route::get('/tds', [TdsManagementController::class, 'index'])->name('tds.index');
+    Route::post('/tds/{id}/approve', [TdsManagementController::class, 'approve'])->name('tds.approve');
+    Route::post('/tds/{id}/reject', [TdsManagementController::class, 'reject'])->name('tds.reject');
+    Route::delete('/tds/{id}', [TdsManagementController::class, 'destroy'])->name('tds.destroy');
+    Route::post('/tds/delete/{id}', [TdsManagementController::class, 'destroy'])->name('tds.delete');
 
     // Ticket Management & Price Chart Schemes
     Route::get('/tickets', [TicketPriceChartController::class, 'index'])->name('tickets.index');

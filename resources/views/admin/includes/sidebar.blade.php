@@ -91,6 +91,25 @@
                 <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">Active</span>
             </a>
 
+            <!-- TDS & Withdrawals -->
+            @php
+                $pendingTdsCount = \App\Models\TdsPayment::where('status', 'Pending')->count();
+            @endphp
+            <a href="{{ route('admin.tds.index') }}"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition {{ request()->routeIs('admin.tds.*') ? 'bg-[#0B193E] text-[#F3D068] border border-[#DFB755]/40 shadow-md' : 'text-stone-300 hover:text-white hover:bg-white/5' }}">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-hand-holding-dollar text-sm {{ request()->routeIs('admin.tds.*') ? 'text-[#DFB755]' : 'text-stone-400 group-hover:text-[#DFB755]' }} transition"></i>
+                    <span>TDS &amp; Withdrawals</span>
+                </div>
+                @if($pendingTdsCount > 0)
+                    <span class="text-[10px] font-mono font-black px-2 py-0.5 rounded-full bg-amber-400 text-stone-950 animate-pulse">
+                        {{ $pendingTdsCount }}
+                    </span>
+                @else
+                    <span class="w-2 h-2 rounded-full bg-[#DFB755] {{ request()->routeIs('admin.tds.*') ? 'inline-block' : 'hidden' }}"></span>
+                @endif
+            </a>
+
             <!-- Customer Contacts -->
             @php
                 $uniqueCustomerCount = count(\App\Http\Controllers\Admin\CustomerController::getUniqueCustomers());

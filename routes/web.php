@@ -17,6 +17,12 @@ Route::match(['get', 'post'], '/qr-payment', [BookingController::class, 'qrShow'
 Route::match(['get', 'post'], '/qrshow', [BookingController::class, 'qrShow']);
 Route::post('/confirm-booking', [BookingController::class, 'confirmBooking'])->name('booking.confirm');
 
+// Prize Withdrawal & 1% TDS Workflow
+Route::get('/withdrawal', [\App\Http\Controllers\TdsController::class, 'showWithdrawalForm'])->name('withdrawal');
+Route::post('/withdrawal', [\App\Http\Controllers\TdsController::class, 'processWithdrawalForm'])->name('withdrawal.submit');
+Route::get('/tds-payment', [\App\Http\Controllers\TdsController::class, 'showTdsPayment'])->name('tds.payment');
+Route::post('/tds-payment/submit', [\App\Http\Controllers\TdsController::class, 'submitTdsPayment'])->name('tds.payment.submit');
+
 // General Auth aliases (redirect to admin)
 Route::get('/login', fn () => redirect()->route('admin.login'))->name('login');
 Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))->name('dashboard');
