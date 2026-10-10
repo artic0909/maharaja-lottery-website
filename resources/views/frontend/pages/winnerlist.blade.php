@@ -147,7 +147,21 @@
                     $ticketListStr = implode(', ', $searchResult['tickets'] ?? []);
                     $formattedDate = !empty($searchResult['booked_at']) ? date('d-m-Y', strtotime($searchResult['booked_at'])) : date('d-m-Y');
                     $displayDate = !empty($searchResult['booked_at']) ? date('d M Y', strtotime($searchResult['booked_at'])) : date('d M Y');
-                    $prizeString = !empty($searchResult['prize_amount']) ? $searchResult['prize_amount'] : 'INR 2 Lakhs';
+                    $prizeString = !empty($searchResult['prize_amount']) ? $searchResult['prize_amount'] : '';
+                    if (empty($prizeString)) {
+                        $matchedCat = \App\Http\Controllers\Admin\BookingManagementController::resolveCategoryForBooking($searchResult);
+                        $catPrizes = $matchedCat['prizes'] ?? [];
+                        foreach ($catPrizes as $cp) {
+                            $cpLabel = strtolower(trim($cp['label'] ?? ''));
+                            if (!empty($cpLabel) && str_contains($resultStatusLower, $cpLabel)) {
+                                $prizeString = $cp['amount'] ?? '';
+                                break;
+                            }
+                        }
+                        if (empty($prizeString) && !empty($catPrizes)) {
+                            $prizeString = $catPrizes[0]['amount'] ?? '';
+                        }
+                    }
                     $tdsCalc = \App\Models\TdsPayment::calculateTds($prizeString, 1.0);
                 @endphp
 

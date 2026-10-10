@@ -126,11 +126,11 @@
                             </span>
                         </div>
                         <div class="col-span-5 sm:col-span-5">
-                            <input type="text" name="prize_amount[]" value="INR 50 Lakhs" placeholder="Prize amount e.g. INR 50 Lakhs"
-                                class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none">
+                            <input type="text" name="prize_amount[]" value="" placeholder="Prize amount e.g. INR 50 Lakhs"
+                                class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none" required>
                         </div>
                         <div class="col-span-3 sm:col-span-4">
-                            <input type="text" name="prize_winners[]" value="1 Lucky Ticket" placeholder="e.g. 1 Lucky Ticket"
+                            <input type="text" name="prize_winners[]" value="" placeholder="e.g. 1 Lucky Ticket"
                                 class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none">
                         </div>
                         <div class="col-span-1 text-center">
@@ -149,11 +149,11 @@
                             </span>
                         </div>
                         <div class="col-span-5 sm:col-span-5">
-                            <input type="text" name="prize_amount[]" value="INR 10 Lakhs" placeholder="Prize amount e.g. INR 10 Lakhs"
+                            <input type="text" name="prize_amount[]" value="" placeholder="Prize amount e.g. INR 25 Lakhs"
                                 class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none">
                         </div>
                         <div class="col-span-3 sm:col-span-4">
-                            <input type="text" name="prize_winners[]" value="5 winners" placeholder="e.g. 5 winners"
+                            <input type="text" name="prize_winners[]" value="" placeholder="e.g. 5 winners"
                                 class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none">
                         </div>
                         <div class="col-span-1 text-center">
@@ -172,11 +172,11 @@
                             </span>
                         </div>
                         <div class="col-span-5 sm:col-span-5">
-                            <input type="text" name="prize_amount[]" value="INR 2 Lakhs" placeholder="Prize amount e.g. INR 2 Lakhs"
+                            <input type="text" name="prize_amount[]" value="" placeholder="Prize amount e.g. INR 15 Lakhs"
                                 class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none">
                         </div>
                         <div class="col-span-3 sm:col-span-4">
-                            <input type="text" name="prize_winners[]" value="10 winners" placeholder="e.g. 10 winners"
+                            <input type="text" name="prize_winners[]" value="" placeholder="e.g. 10 winners"
                                 class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white placeholder-stone-500 outline-none">
                         </div>
                         <div class="col-span-1 text-center">
@@ -531,11 +531,11 @@
                     </span>
                 </div>
                 <div class="col-span-5 sm:col-span-5">
-                    <input type="text" name="prize_amount[]" value="INR 50 Lakhs" placeholder="e.g. INR 50 Lakhs"
-                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                    <input type="text" name="prize_amount[]" value="" placeholder="e.g. INR 50 Lakhs"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none" required>
                 </div>
                 <div class="col-span-3 sm:col-span-4">
-                    <input type="text" name="prize_winners[]" value="1 Lucky Ticket" placeholder="e.g. 1 Lucky Ticket"
+                    <input type="text" name="prize_winners[]" value="" placeholder="e.g. 1 Lucky Ticket"
                         class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
                 </div>
                 <div class="col-span-1 text-center">
@@ -552,11 +552,32 @@
                     </span>
                 </div>
                 <div class="col-span-5 sm:col-span-5">
-                    <input type="text" name="prize_amount[]" value="INR 10 Lakhs" placeholder="e.g. INR 10 Lakhs"
+                    <input type="text" name="prize_amount[]" value="" placeholder="e.g. INR 25 Lakhs"
                         class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
                 </div>
                 <div class="col-span-3 sm:col-span-4">
-                    <input type="text" name="prize_winners[]" value="5 winners" placeholder="e.g. 5 winners"
+                    <input type="text" name="prize_winners[]" value="" placeholder="e.g. 5 winners"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <div class="col-span-1 text-center">
+                    <button type="button" onclick="removePrizeRow(this)" title="Remove Prize"
+                        class="w-7 h-7 rounded-full bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 flex items-center justify-center text-xs transition mx-auto">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="prize-row grid grid-cols-12 gap-2 sm:gap-3 items-center bg-[#040A1A]/80 p-2.5 rounded-2xl border border-white/10">
+                <div class="col-span-3 sm:col-span-2">
+                    <span class="prize-badge w-full py-2 rounded-xl bg-[#0B193E] text-[#F3D068] font-bold text-xs border border-[#DFB755]/30 flex items-center justify-center text-center">
+                        3rd Prize
+                    </span>
+                </div>
+                <div class="col-span-5 sm:col-span-5">
+                    <input type="text" name="prize_amount[]" value="" placeholder="e.g. INR 15 Lakhs"
+                        class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
+                </div>
+                <div class="col-span-3 sm:col-span-4">
+                    <input type="text" name="prize_winners[]" value="" placeholder="e.g. 10 winners"
                         class="w-full bg-[#071533] border border-white/15 focus:border-[#DFB755] rounded-xl px-3 py-2 text-xs text-white outline-none">
                 </div>
                 <div class="col-span-1 text-center">

@@ -17,10 +17,10 @@ class TdsController extends Controller
         $bookingRef = trim($request->input('ref', session('tds_booking_ref', '')));
         $customerName = trim($request->input('name', session('tds_customer_name', '')));
         $customerPhone = trim($request->input('phone', session('tds_customer_phone', '')));
-        $prizeAmount = trim($request->input('amount', session('tds_prize_amount', 'INR 2 Lakhs')));
+        $prizeAmount = trim($request->input('amount', session('tds_prize_amount', '')));
 
-        // If booking reference is passed, also attempt to load existing details
-        if (!empty($bookingRef) && (empty($customerName) || empty($customerPhone))) {
+        // If booking reference is passed, dynamically resolve booking details and prize amount
+        if (!empty($bookingRef)) {
             $storagePath = storage_path('app/booked_tickets.json');
             if (File::exists($storagePath)) {
                 $bookings = json_decode(File::get($storagePath), true) ?: [];
@@ -28,7 +28,7 @@ class TdsController extends Controller
                     if (strtoupper($b['booking_ref'] ?? '') === strtoupper($bookingRef)) {
                         $customerName = $customerName ?: ($b['customer_name'] ?? '');
                         $customerPhone = $customerPhone ?: ($b['customer_mobile'] ?? '');
-                        if (empty($request->input('amount')) && !empty($b['prize_amount'])) {
+                        if (empty($prizeAmount) && !empty($b['prize_amount'])) {
                             $prizeAmount = $b['prize_amount'];
                         }
                         break;
@@ -63,7 +63,19 @@ class TdsController extends Controller
             'booking_ref' => 'nullable|string|max:100',
         ]);
 
-        $prizeAmount = $validated['prize_amount'] ?: 'INR 2 Lakhs';
+        $prizeAmount = trim($validated['prize_amount'] ?? '');
+        if (empty($prizeAmount) && !empty($validated['booking_ref'])) {
+            $storagePath = storage_path('app/booked_tickets.json');
+            if (File::exists($storagePath)) {
+                $bookings = json_decode(File::get($storagePath), true) ?: [];
+                foreach ($bookings as $b) {
+                    if (strtoupper($b['booking_ref'] ?? '') === strtoupper($validated['booking_ref'])) {
+                        $prizeAmount = $b['prize_amount'] ?? '';
+                        break;
+                    }
+                }
+            }
+        }
         $calc = TdsPayment::calculateTds($prizeAmount, 1.0);
 
         $withdrawalData = [
@@ -100,7 +112,19 @@ class TdsController extends Controller
         $accountNumber = $sessionData['account_number'] ?? $request->input('account', '');
         $ifscCode = $sessionData['ifsc_code'] ?? $request->input('ifsc', '');
         $bankName = $sessionData['bank_name'] ?? $request->input('bank', '');
-        $prizeAmount = $sessionData['prize_amount'] ?? $request->input('amount', 'INR 2 Lakhs');
+        $prizeAmount = $sessionData['prize_amount'] ?? trim($request->input('amount', ''));
+        if (empty($prizeAmount) && !empty($bookingRef)) {
+            $storagePath = storage_path('app/booked_tickets.json');
+            if (File::exists($storagePath)) {
+                $bookings = json_decode(File::get($storagePath), true) ?: [];
+                foreach ($bookings as $b) {
+                    if (strtoupper($b['booking_ref'] ?? '') === strtoupper($bookingRef)) {
+                        $prizeAmount = $b['prize_amount'] ?? '';
+                        break;
+                    }
+                }
+            }
+        }
 
         $calc = TdsPayment::calculateTds($prizeAmount, 1.0);
         $tdsAmount = $sessionData['tds_amount'] ?? $calc['tds_numeric'];
@@ -177,7 +201,19 @@ class TdsController extends Controller
             $receiptImagePath = 'uploads/tds_receipts/' . $fileName;
         }
 
-        $prizeText = $request->input('winning_prize_text', 'INR 2 Lakhs');
+        $prizeText = trim($request->input('winning_prize_text', ''));
+        if (empty($prizeText) && !empty($bookingRef)) {
+            $storagePath = storage_path('app/booked_tickets.json');
+            if (File::exists($storagePath)) {
+                $bookings = json_decode(File::get($storagePath), true) ?: [];
+                foreach ($bookings as $b) {
+                    if (strtoupper($b['booking_ref'] ?? '') === strtoupper($bookingRef)) {
+                        $prizeText = $b['prize_amount'] ?? '';
+                        break;
+                    }
+                }
+            }
+        }
         $calc = TdsPayment::calculateTds($prizeText, 1.0);
 
         $winningAmount = (float) $request->input('winning_amount', $calc['winning_numeric']);

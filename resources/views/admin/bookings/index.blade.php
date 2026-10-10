@@ -242,20 +242,38 @@
 
                             <!-- 7. Result Status -->
                             <td class="py-4 px-4 align-top">
+                                @php
+                                    $resStatus = $b['result_status'] ?? 'Active in Live Draw';
+                                    $isWinnerBooking = !empty($b['prize_amount']) || str_contains(strtolower($resStatus), 'winner') || str_contains(strtolower($resStatus), 'prize');
+                                @endphp
                                 @if($b['status'] === 'Approved')
-                                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0B193E] border border-[#DFB755]/40 text-[#F3D068] font-bold text-xs">
-                                        <i class="fa-solid fa-trophy text-[10px]"></i>
-                                        <span>{{ $b['result_status'] ?? 'Active in Live Draw' }}</span>
-                                    </div>
-                                    @if(!empty($b['prize_amount']))
-                                        <div class="text-[11px] font-black text-emerald-400 mt-1">Prize: {{ $b['prize_amount'] }}</div>
+                                    @if($isWinnerBooking)
+                                        <button type="button" onclick="openAwardPrizeModal({{ json_encode($b) }})" 
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-[#DFB755]/20 via-[#F3D068]/20 to-[#DFB755]/20 border border-[#DFB755] text-[#F3D068] font-black text-xs hover:border-[#F3D068] hover:scale-105 transition shadow-sm text-left group" 
+                                            title="Click to change prize tier or reset">
+                                            <i class="fa-solid fa-trophy text-[#DFB755] text-[10px] group-hover:animate-bounce"></i>
+                                            <span>{{ $resStatus }}</span>
+                                        </button>
+                                        @if(!empty($b['prize_amount']))
+                                            <div class="text-[12px] font-mono font-black text-emerald-400 mt-1 flex items-center gap-1">
+                                                <i class="fa-solid fa-award text-[10px] text-[#DFB755]"></i>
+                                                <span>{{ $b['prize_amount'] }}</span>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <button type="button" onclick="openAwardPrizeModal({{ json_encode($b) }})" 
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0B193E] border border-white/10 text-stone-300 hover:text-white hover:border-[#DFB755]/40 text-xs font-medium transition text-left" 
+                                            title="Click to award prize to this booking">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                                            <span>{{ $resStatus }}</span>
+                                        </button>
                                     @endif
                                 @else
                                     <span class="text-stone-400 text-xs italic">Locked (Awaiting Approval)</span>
                                 @endif
                             </td>
 
-                            <!-- 8. Admin Actions (Approve, View Details & Receipt, Set Result, Reject, Delete) -->
+                            <!-- 8. Admin Actions (Approve, View Details & Receipt, Award Prize, Reject, Delete) -->
                             <td class="py-4 px-4 align-top text-right pr-6 whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-1.5">
                                     
@@ -281,23 +299,12 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
 
-                                    <!-- One-Click 3rd Prize Trophy Button with Uniform Confirmation Alert -->
-                                    @php
-                                        $isThirdPrize = ($b['result_status'] ?? '') === '3rd Prize Winner';
-                                    @endphp
-                                    <form action="{{ route('admin.bookings.award_third_prize', $b['booking_ref']) }}" method="POST" class="inline">
-                                        @csrf
-                                        <button type="submit" 
-                                            data-confirm="{{ $isThirdPrize ? 'Are you sure you want to reset 3rd prize winner status for booking <strong>'.$b['booking_ref'].'</strong> ('.$b['customer_name'].') back to normal active live draw?' : 'Are you sure you want to declare booking <strong>'.$b['booking_ref'].'</strong> ('.$b['customer_name'].') as <strong>3rd Prize Winner</strong>?' }}"
-                                            data-confirm-title="{{ $isThirdPrize ? 'Reset Winner Status' : 'Give 3rd Prize' }}"
-                                            data-confirm-type="{{ $isThirdPrize ? 'warning' : 'success' }}"
-                                            data-confirm-btn="{{ $isThirdPrize ? 'Reset Prize Status' : 'Give 3rd Prize' }}"
-                                            data-confirm-icon="fa-solid fa-trophy"
-                                            class="px-2.5 py-1.5 rounded-xl {{ $isThirdPrize ? 'bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] shadow-md border border-[#DFB755] font-black' : 'bg-white/5 hover:bg-[#DFB755]/20 text-[#DFB755] hover:text-[#F3D068] border border-[#DFB755]/30 hover:border-[#DFB755]' }} text-xs font-bold transition flex items-center justify-center gap-1" 
-                                            title="{{ $isThirdPrize ? '3rd Prize Awarded (Click to Reset)' : 'Give 3rd Prize (One-Click)' }}">
-                                            <i class="fa-solid fa-trophy text-[11px]"></i>
-                                        </button>
-                                    </form>
+                                    <!-- Dynamic Award Prize Button (1st, 2nd, 3rd Prize from Category Price Chart) -->
+                                    <button type="button" onclick="openAwardPrizeModal({{ json_encode($b) }})" 
+                                        class="px-2.5 py-1.5 rounded-xl {{ $isWinnerBooking ? 'bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] shadow-md border border-[#DFB755] font-black' : 'bg-white/5 hover:bg-[#DFB755]/20 text-[#DFB755] hover:text-[#F3D068] border border-[#DFB755]/30 hover:border-[#DFB755]' }} text-xs font-bold transition flex items-center justify-center gap-1" 
+                                        title="{{ $isWinnerBooking ? 'Prize Awarded ('.$resStatus.': '.$b['prize_amount'].') - Click to Change or Reset' : 'Award 1st, 2nd, 3rd Prize (Dynamic)' }}">
+                                        <i class="fa-solid fa-trophy text-[11px]"></i>
+                                    </button>
 
                                     @if($b['status'] !== 'Rejected')
                                         <!-- Reject Button -->
@@ -469,6 +476,97 @@
     <div class="max-w-4xl max-h-[92vh] w-full flex flex-col items-center justify-center">
         <img id="zoomed-image" src="" alt="Payment Receipt" class="max-w-full max-h-[82vh] rounded-2xl object-contain shadow-2xl border border-white/20">
         <p class="text-center text-xs text-stone-300 mt-3 font-medium bg-black/60 px-3 py-1 rounded-full border border-white/10">Click anywhere to close full preview</p>
+    </div>
+</div>
+
+<!-- 3. AWARD PRIZE MODAL (Dynamic 1st, 2nd, 3rd Prize from Category Price Chart) -->
+<div id="award-prize-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 no-scrollbar">
+    <div class="relative bg-gradient-to-b from-[#0B193E] via-[#071533] to-[#040A1A] border-2 border-[#DFB755]/50 rounded-2xl sm:rounded-3xl max-w-lg w-full text-white shadow-[0_0_50px_rgba(223,183,85,0.3)] overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-[#040A1A]/80">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#C59B27] via-[#F3D068] to-[#DFB755] text-[#071533] flex items-center justify-center text-lg shadow-md font-bold">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        Award Winning Prize
+                    </h3>
+                    <p class="text-xs text-stone-400 font-mono" id="prize-modal-subtitle">Booking Reference</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeAwardPrizeModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-stone-300 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <!-- Form Body -->
+        <form id="award-prize-form" method="POST" action="" class="p-4 sm:p-5 overflow-y-auto space-y-4">
+            @csrf
+            <input type="hidden" name="prize_amount" id="prize-modal-selected-amount" value="">
+
+            <!-- Booking Summary Card -->
+            <div class="bg-black/40 rounded-xl p-3 border border-white/10 space-y-1.5 text-xs">
+                <div class="flex items-center justify-between">
+                    <span class="text-stone-400">Customer:</span>
+                    <span class="font-bold text-white" id="prize-modal-customer">-</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-stone-400">Tickets:</span>
+                    <span class="font-mono text-[#F3D068] font-bold" id="prize-modal-tickets">-</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-stone-400">Category Scheme:</span>
+                    <span class="text-cyan-300 font-semibold" id="prize-modal-category">-</span>
+                </div>
+                <div class="flex items-center justify-between pt-1 border-t border-white/5">
+                    <span class="text-stone-400">Current Status:</span>
+                    <span class="font-bold" id="prize-modal-current-status">-</span>
+                </div>
+            </div>
+
+            <!-- Choose Prize Tier Header -->
+            <div>
+                <label class="block text-xs font-bold text-[#DFB755] uppercase tracking-wider mb-2">
+                    Select Winning Tier (Amounts Loaded from Ticket Price Chart)
+                </label>
+
+                <!-- Dynamic Tier Cards Container -->
+                <div id="prize-tier-cards" class="space-y-2">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Custom Prize Input (Collapsible / expandable if selected) -->
+            <div id="custom-prize-fields" class="hidden space-y-2 bg-white/5 p-3 rounded-xl border border-white/10">
+                <div>
+                    <label class="block text-[11px] font-bold text-stone-300 mb-1">Custom Prize Title</label>
+                    <input type="text" name="custom_title" id="custom-prize-title" placeholder="e.g. Special Bumper Prize" class="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/20 text-white text-xs focus:border-[#DFB755] focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-stone-300 mb-1">Custom Prize Amount</label>
+                    <input type="text" name="custom_amount" id="custom-prize-amount" placeholder="e.g. INR 10 Lakhs or ₹5,00,000" class="w-full px-3 py-2 rounded-lg bg-black/50 border border-white/20 text-white text-xs focus:border-[#DFB755] focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Note -->
+            <p class="text-[11px] text-stone-400 italic">
+                <i class="fa-solid fa-circle-info text-[#DFB755] mr-1"></i>
+                Frontend result verification and 1% TDS withdrawal calculation will automatically update based on the awarded prize amount.
+            </p>
+
+            <!-- Footer Action Buttons -->
+            <div class="pt-3 border-t border-white/10 flex items-center justify-end gap-2">
+                <button type="button" onclick="closeAwardPrizeModal()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-stone-300 text-xs font-bold transition">
+                    Cancel
+                </button>
+                <button type="submit" id="prize-submit-btn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] text-xs font-black hover:opacity-90 transition shadow-lg flex items-center gap-1.5">
+                    <i class="fa-solid fa-crown"></i> Confirm & Award Prize
+                </button>
+            </div>
+        </form>
+
     </div>
 </div>
 
@@ -839,6 +937,214 @@
         const modal = document.getElementById('image-zoom-modal');
         modal.classList.add('hidden');
         modal.classList.remove('flex');
+    }
+
+    // Award Prize Dynamic Modal Logic
+    function openAwardPrizeModal(booking) {
+        const modal = document.getElementById('award-prize-modal');
+        const form = document.getElementById('award-prize-form');
+        form.action = "{{ url('/admin/bookings') }}/" + booking.booking_ref + "/award-prize";
+
+        document.getElementById('prize-modal-subtitle').innerText = "Booking Ref: " + booking.booking_ref;
+        document.getElementById('prize-modal-customer').innerText = (booking.customer_name || 'Customer') + " (" + (booking.customer_mobile || 'N/A') + ")";
+        document.getElementById('prize-modal-tickets').innerText = (booking.tickets || []).join(', ');
+
+        const category = booking.matched_category || {};
+        const catName = category.name || 'Maharaja 500';
+        const catSeries = category.series || 'MH';
+        document.getElementById('prize-modal-category').innerText = catName + " (Series " + catSeries + ")";
+        
+        const curStatus = booking.result_status || 'Active in Live Draw';
+        const curPrize = booking.prize_amount ? " • Prize: " + booking.prize_amount : "";
+        document.getElementById('prize-modal-current-status').innerHTML = `<span class="text-[#F3D068] font-bold">${curStatus}${curPrize}</span>`;
+
+        // Dynamic Prize Tiers loaded strictly from the matched ticket price chart
+        const prizes = (category && Array.isArray(category.prizes)) ? category.prizes : [];
+
+        const container = document.getElementById('prize-tier-cards');
+        container.innerHTML = '';
+
+        if (prizes.length === 0) {
+            container.innerHTML = `
+                <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs text-center space-y-1">
+                    <div class="font-bold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> No Prize Tiers Configured</div>
+                    <div class="text-[11px] text-stone-300">Please configure prize tiers for this lottery scheme in <a href="{{ route('admin.tickets.index') }}" class="underline text-[#DFB755] font-bold">Ticket Price Chart</a>.</div>
+                </div>
+            `;
+        }
+
+        const medals = { '1st': '🥇', '2nd': '🥈', '3rd': '🥉', '4th': '🏅' };
+        const curStatusLower = curStatus.toLowerCase();
+
+        let anyChecked = false;
+
+        // Render configured tiers
+        prizes.forEach((p, idx) => {
+            const pLabel = p.label || ((idx + 1) + 'th');
+            const pAmount = p.amount || '';
+            const medal = medals[pLabel] || '🏆';
+            const isMatch = curStatusLower.includes(pLabel.toLowerCase()) && curStatusLower.includes('winner');
+            const isSelected = isMatch || (!anyChecked && idx === (prizes.length > 2 ? 2 : 0) && !curStatusLower.includes('winner'));
+            if (isSelected) anyChecked = true;
+
+            const card = document.createElement('label');
+            card.className = `flex items-center justify-between p-3 rounded-xl border cursor-pointer transition ${isSelected ? 'bg-[#DFB755]/15 border-[#DFB755] shadow-[0_0_15px_rgba(223,183,85,0.2)]' : 'bg-black/30 border-white/10 hover:border-white/30'}`;
+            card.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <input type="radio" name="tier" value="${pLabel}" data-amount="${pAmount}" ${isSelected ? 'checked' : ''} onchange="onPrizeTierChange(this.value, this.dataset.amount)" class="accent-[#DFB755] w-4 h-4 cursor-pointer">
+                    <div>
+                        <div class="text-xs font-black text-white flex items-center gap-1.5">
+                            <span>${medal}</span>
+                            <span>${pLabel} Prize Winner</span>
+                        </div>
+                        <div class="text-[11px] text-stone-400">${p.winners || 'Configured in Ticket Chart'}</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-mono font-black text-emerald-400">${pAmount}</div>
+                    <div class="text-[10px] text-cyan-300 font-mono">1% TDS: ≈ ₹${Math.round(parsePrizeApprox(pAmount) * 0.01).toLocaleString()}</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Option for Custom Prize
+        const isCustom = curStatusLower.includes('winner') && !prizes.some(p => curStatusLower.includes((p.label || '').toLowerCase()));
+        const customCard = document.createElement('label');
+        customCard.className = `flex items-center justify-between p-3 rounded-xl border cursor-pointer transition ${isCustom ? 'bg-[#DFB755]/15 border-[#DFB755]' : 'bg-black/30 border-white/10 hover:border-white/30'}`;
+        customCard.innerHTML = `
+            <div class="flex items-center gap-3">
+                <input type="radio" name="tier" value="custom" ${isCustom ? 'checked' : ''} onchange="onPrizeTierChange(this.value, document.getElementById('custom-prize-amount').value)" class="accent-[#DFB755] w-4 h-4 cursor-pointer">
+                <div>
+                    <div class="text-xs font-black text-white flex items-center gap-1.5">
+                        <span>✏️</span>
+                        <span>Custom Prize Amount</span>
+                    </div>
+                    <div class="text-[11px] text-stone-400">Enter custom title and amount</div>
+                </div>
+            </div>
+            <div class="text-xs text-stone-400 italic">Custom</div>
+        `;
+        container.appendChild(customCard);
+
+        if (isCustom) {
+            document.getElementById('custom-prize-title').value = booking.result_status || '';
+            document.getElementById('custom-prize-amount').value = booking.prize_amount || '';
+        }
+
+        // Option to Reset to normal (Active in Live Draw)
+        const isAlreadyWinner = curStatusLower.includes('winner') || curStatusLower.includes('prize');
+        if (isAlreadyWinner) {
+            const resetCard = document.createElement('label');
+            resetCard.className = `flex items-center justify-between p-3 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 cursor-pointer transition`;
+            resetCard.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <input type="radio" name="tier" value="reset" onchange="onPrizeTierChange(this.value, '')" class="accent-rose-500 w-4 h-4 cursor-pointer">
+                    <div>
+                        <div class="text-xs font-black text-rose-300 flex items-center gap-1.5">
+                            <span>🔄</span>
+                            <span>Reset / Remove Winner Status</span>
+                        </div>
+                        <div class="text-[11px] text-rose-400/80">Set back to 'Active in Live Draw' with no prize</div>
+                    </div>
+                </div>
+                <div class="text-xs text-rose-300 font-bold">Reset</div>
+            `;
+            container.appendChild(resetCard);
+        }
+
+        const selectedRadio = container.querySelector('input[name="tier"]:checked');
+        const initAmount = selectedRadio ? (selectedRadio.dataset.amount || '') : (isCustom ? (booking.prize_amount || '') : '');
+        onPrizeTierChange(selectedRadio ? selectedRadio.value : (isCustom ? 'custom' : ''), initAmount);
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function onPrizeTierChange(val, prizeAmount) {
+        // Set dynamic prize_amount hidden input
+        const hiddenAmount = document.getElementById('prize-modal-selected-amount');
+        if (hiddenAmount) {
+            if (val === 'custom') {
+                hiddenAmount.value = document.getElementById('custom-prize-amount').value;
+            } else if (val === 'reset') {
+                hiddenAmount.value = '';
+            } else {
+                hiddenAmount.value = prizeAmount || '';
+            }
+        }
+
+        // Highlight active radio parent card
+        const container = document.getElementById('prize-tier-cards');
+        if (container) {
+            container.querySelectorAll('label').forEach(lbl => {
+                const radio = lbl.querySelector('input[type="radio"]');
+                if (radio && radio.checked) {
+                    lbl.classList.remove('bg-black/30', 'border-white/10');
+                    if (radio.value === 'reset') {
+                        lbl.classList.add('bg-rose-500/20', 'border-rose-400');
+                    } else {
+                        lbl.classList.add('bg-[#DFB755]/15', 'border-[#DFB755]');
+                    }
+                } else {
+                    lbl.classList.remove('bg-[#DFB755]/15', 'border-[#DFB755]', 'bg-rose-500/20', 'border-rose-400');
+                    if (radio && radio.value === 'reset') {
+                        lbl.classList.add('bg-rose-500/10', 'border-rose-500/30');
+                    } else {
+                        lbl.classList.add('bg-black/30', 'border-white/10');
+                    }
+                }
+            });
+        }
+
+        const customFields = document.getElementById('custom-prize-fields');
+        if (val === 'custom') {
+            customFields.classList.remove('hidden');
+            const customInput = document.getElementById('custom-prize-amount');
+            if (customInput) {
+                customInput.oninput = function() {
+                    if (hiddenAmount) hiddenAmount.value = this.value;
+                };
+            }
+        } else {
+            customFields.classList.add('hidden');
+        }
+
+        const submitBtn = document.getElementById('prize-submit-btn');
+        if (val === 'reset') {
+            submitBtn.className = "px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md";
+            submitBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i> Confirm Reset to Active';
+        } else {
+            submitBtn.className = "px-5 py-2 rounded-xl bg-gradient-to-r from-[#DFB755] via-[#F3D068] to-[#DFB755] text-[#071533] text-xs font-black hover:opacity-90 transition shadow-lg flex items-center gap-1.5";
+            submitBtn.innerHTML = '<i class="fa-solid fa-crown"></i> Confirm & Award Prize';
+        }
+    }
+
+    function closeAwardPrizeModal() {
+        const modal = document.getElementById('award-prize-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+
+    function parsePrizeApprox(prizeStr) {
+        if (!prizeStr) return 0;
+        const s = String(prizeStr).toUpperCase();
+        if (s.includes('CR')) {
+            const m = s.match(/([\d\.]+)/);
+            return m ? parseFloat(m[1]) * 10000000 : 0;
+        }
+        if (s.includes('LAKH') || s.includes('LAC')) {
+            const m = s.match(/([\d\.]+)/);
+            return m ? parseFloat(m[1]) * 100000 : 0;
+        }
+        if (s.includes('THOUSAND') || s.includes('K')) {
+            const m = s.match(/([\d\.]+)/);
+            return m ? parseFloat(m[1]) * 1000 : 0;
+        }
+        const clean = s.replace(/[^\d\.]/g, '');
+        return clean ? parseFloat(clean) : 0;
     }
 </script>
 <canvas id="admin-ticket-render-canvas" width="1024" height="682" class="hidden"></canvas>

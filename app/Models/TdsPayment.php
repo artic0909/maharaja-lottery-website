@@ -43,7 +43,7 @@ class TdsPayment extends Model
 
         $str = strtoupper(trim((string)$prize));
         if (empty($str)) {
-            return 200000.0; // fallback default 2 Lakhs
+            return 0.0;
         }
 
         // Check for Crores / Cr
@@ -67,7 +67,7 @@ class TdsPayment extends Model
             return (float)$cleaned;
         }
 
-        return 200000.0;
+        return 0.0;
     }
 
     /**

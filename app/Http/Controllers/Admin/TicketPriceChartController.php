@@ -166,13 +166,6 @@ class TicketPriceChartController extends Controller
             }
         }
 
-        if (empty($prizes)) {
-            $prizes = [
-                ['label' => '1st', 'amount' => 'INR 50 Lakhs', 'winners' => '1 Lucky Ticket'],
-                ['label' => '2nd', 'amount' => 'INR 10 Lakhs', 'winners' => '5 winners'],
-                ['label' => '3rd', 'amount' => 'INR 2 Lakhs', 'winners' => '10 winners'],
-            ];
-        }
 
         $chartData = [
             'id' => $id ? (int)$id : (count($charts) > 0 ? max(array_column($charts, 'id')) + 1 : 1),

@@ -378,15 +378,7 @@ class BookingController extends Controller
         $upiNote = 'Booking ' . $bookingRef;
         $upiUrl = "upi://pay?pa={$upiId}&pn=" . urlencode($payeeName) . "&am={$totalAmount}&cu=INR&tn=" . urlencode($upiNote);
 
-        $matchedCategory = !empty($categories) ? $categories[0] : [
-            'name' => 'Maharaja 500',
-            'price' => 'Rs. 40',
-            'prizes' => [
-                ['label' => '1st', 'amount' => 'INR 50 Lakhs'],
-                ['label' => '2nd', 'amount' => 'INR 25 Lakhs'],
-                ['label' => '3rd', 'amount' => 'INR 15 Lakhs'],
-            ]
-        ];
+        $matchedCategory = !empty($categories) ? $categories[0] : [];
 
         if (!empty($selectedTickets)) {
             $firstTicket = $selectedTickets[0];

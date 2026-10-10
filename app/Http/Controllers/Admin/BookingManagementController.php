@@ -54,7 +54,7 @@ class BookingManagementController extends Controller
             $prizeAmount = $item['prize_amount'] ?? '';
             $bookedAt = $item['booked_at'] ?? ($item['created_at'] ?? date('Y-m-d H:i:s'));
 
-            $normalized[] = [
+            $bookingRecord = [
                 'id' => $bookingRef,
                 'booking_ref' => $bookingRef,
                 'customer_name' => $customerName,
@@ -76,6 +76,8 @@ class BookingManagementController extends Controller
                 'booked_at' => $bookedAt,
                 'approved_at' => $item['approved_at'] ?? null,
             ];
+            $bookingRecord['matched_category'] = self::resolveCategoryForBooking($bookingRecord);
+            $normalized[] = $bookingRecord;
         }
 
         // Sort latest first
@@ -84,6 +86,41 @@ class BookingManagementController extends Controller
         });
 
         return $normalized;
+    }
+
+    /**
+     * Resolve the active ticket category & dynamic prize chart for a given booking.
+     */
+    public static function resolveCategoryForBooking(array $booking): array
+    {
+        $chartsController = new TicketPriceChartController();
+        $charts = $chartsController->getCharts();
+
+        $tickets = $booking['tickets'] ?? [];
+        $firstTicket = $tickets[0] ?? '';
+        $series = '';
+        if (preg_match('/^[A-Za-z]+/', $firstTicket, $matches)) {
+            $series = strtoupper($matches[0]);
+        }
+
+        if (!empty($series)) {
+            foreach ($charts as $chart) {
+                $chartSeries = strtoupper(trim($chart['series'] ?? ''));
+                $seriesList = array_map('trim', explode(',', $chartSeries));
+                if (in_array($series, $seriesList) || str_starts_with(strtoupper($chart['code'] ?? ''), $series)) {
+                    return $chart;
+                }
+            }
+        }
+
+        // Fallback to active category or first category
+        foreach ($charts as $chart) {
+            if (($chart['status'] ?? '') === 'Active') {
+                return $chart;
+            }
+        }
+
+        return $charts[0] ?? ['id' => 1, 'name' => 'General', 'series' => '', 'prizes' => []];
     }
 
     /**
@@ -96,7 +133,11 @@ class BookingManagementController extends Controller
         if (!File::exists($dir)) {
             File::makeDirectory($dir, 0755, true);
         }
-        File::put($path, json_encode(array_values($bookings), JSON_PRETTY_PRINT));
+        $cleaned = array_map(function($b) {
+            unset($b['matched_category']);
+            return $b;
+        }, array_values($bookings));
+        File::put($path, json_encode($cleaned, JSON_PRETTY_PRINT));
     }
 
     /**
@@ -134,7 +175,9 @@ class BookingManagementController extends Controller
             'total_tickets' => array_sum(array_column($allRaw, 'ticket_count')),
         ];
 
-        return view('admin.bookings.index', compact('bookings', 'stats', 'statusFilter', 'search'));
+        $ticketCharts = (new TicketPriceChartController())->getCharts();
+
+        return view('admin.bookings.index', compact('bookings', 'stats', 'statusFilter', 'search', 'ticketCharts'));
     }
 
     /**
@@ -194,44 +237,79 @@ class BookingManagementController extends Controller
     }
 
     /**
-     * Award 3rd prize directly with one click (no modal required).
+     * Award dynamic winning prize (1st, 2nd, 3rd, custom, or reset) to a booking.
+     * All amounts are dynamically resolved from the admin ticket price charts.
      */
-    public function awardThirdPrize(Request $request, $ref)
+    public function awardPrize(Request $request, $ref)
     {
         $bookings = self::getAllBookings();
         $found = false;
         $awarded = false;
         $prizeText = '';
+        $statusText = '';
+
+        $tier = trim((string)$request->input('tier', ''));
+        $inputAmount = trim((string)$request->input('prize_amount', ''));
 
         foreach ($bookings as &$b) {
             if ($b['booking_ref'] === $ref || $b['id'] === $ref) {
-                // Determine 3rd prize amount based on ticket series
-                $firstTicket = $b['tickets'][0] ?? '';
-                $series = strtoupper(substr($firstTicket, 0, 2));
-                $amount = 'INR 2 Lakhs';
-                if ($series === 'RM') {
-                    $amount = 'INR 1 Lakh';
-                } elseif ($series === 'VM') {
-                    $amount = 'INR 50,000';
-                }
-
-                if (($b['result_status'] ?? '') === '3rd Prize Winner') {
-                    // Toggle back to Active in Live Draw if clicked again
+                if ($tier === 'reset') {
                     $b['result_status'] = 'Active in Live Draw';
                     $b['prize_amount'] = '';
                     $awarded = false;
-                } else {
-                    $b['result_status'] = '3rd Prize Winner';
-                    $b['prize_amount'] = $amount;
-                    // Also ensure booking is approved so winner result is visible
+                } elseif ($tier === 'custom') {
+                    $statusText = trim($request->input('custom_title', 'Special Prize Winner')) ?: 'Special Prize Winner';
+                    $prizeText = trim($request->input('custom_amount', '')) ?: $inputAmount;
+                    $b['result_status'] = $statusText;
+                    $b['prize_amount'] = $prizeText;
                     if ($b['status'] !== 'Approved') {
                         $b['status'] = 'Approved';
                         $b['payment_status'] = 'Received';
                         $b['approved_at'] = date('Y-m-d H:i:s');
                     }
                     $awarded = true;
-                    $prizeText = $amount;
+                } else {
+                    $category = self::resolveCategoryForBooking($b);
+                    $prizes = $category['prizes'] ?? [];
+
+                    $matchedPrize = null;
+                    $tierDigits = preg_replace('/[^\d]/', '', $tier);
+
+                    foreach ($prizes as $idx => $p) {
+                        $pLabel = strtolower(trim($p['label'] ?? ''));
+                        $pDigits = preg_replace('/[^\d]/', '', $pLabel);
+                        if (strtolower($tier) === $pLabel || ($tierDigits !== '' && $tierDigits === $pDigits)) {
+                            $matchedPrize = $p;
+                            break;
+                        }
+                    }
+
+                    // Index fallback if not matched by label
+                    if (!$matchedPrize && $tierDigits !== '') {
+                        $idx = (int)$tierDigits - 1;
+                        if (isset($prizes[$idx])) {
+                            $matchedPrize = $prizes[$idx];
+                        }
+                    }
+
+                    $label = $matchedPrize['label'] ?? $tier;
+                    $statusText = $label . ' Prize Winner';
+                    // Use strictly the passed dynamic inputAmount or the exact amount in that tier from chart
+                    $prizeText = !empty($inputAmount) ? $inputAmount : ($matchedPrize['amount'] ?? '');
+
+                    $b['result_status'] = $statusText;
+                    $b['prize_amount'] = $prizeText;
+
+                    // Automatically approve booking so winner result & withdrawal are accessible
+                    if ($b['status'] !== 'Approved') {
+                        $b['status'] = 'Approved';
+                        $b['payment_status'] = 'Received';
+                        $b['approved_at'] = date('Y-m-d H:i:s');
+                    }
+
+                    $awarded = true;
                 }
+
                 $found = true;
                 break;
             }
@@ -240,13 +318,38 @@ class BookingManagementController extends Controller
         if ($found) {
             self::saveBookings($bookings);
             if ($awarded) {
-                return redirect()->back()->with('success', "★ 3rd Prize ({$prizeText}) successfully awarded to booking {$ref}!");
+                return redirect()->back()->with('success', "★ {$statusText} ({$prizeText}) successfully awarded to booking {$ref}!");
             } else {
                 return redirect()->back()->with('success', "Booking {$ref} result reset to Active in Live Draw.");
             }
         }
 
         return redirect()->back()->with('error', "Booking reference {$ref} not found.");
+    }
+
+    /**
+     * Award 3rd prize directly with one click using dynamic chart values.
+     */
+    public function awardThirdPrize(Request $request, $ref)
+    {
+        $bookings = self::getAllBookings();
+        $isAlreadyThird = false;
+        foreach ($bookings as $b) {
+            if ($b['booking_ref'] === $ref || $b['id'] === $ref) {
+                if (($b['result_status'] ?? '') === '3rd Prize Winner') {
+                    $isAlreadyThird = true;
+                }
+                break;
+            }
+        }
+
+        if ($isAlreadyThird) {
+            $request->merge(['tier' => 'reset']);
+        } else {
+            $request->merge(['tier' => '3rd']);
+        }
+
+        return $this->awardPrize($request, $ref);
     }
 
     /**
@@ -262,6 +365,11 @@ class BookingManagementController extends Controller
                 $b['result_status'] = $request->input('result_status', 'Active in Live Draw');
                 $b['prize_amount'] = $request->input('prize_amount', '');
                 $b['admin_notes'] = $request->input('admin_notes', $b['admin_notes'] ?? '');
+                if (!empty($b['prize_amount']) && $b['status'] !== 'Approved') {
+                    $b['status'] = 'Approved';
+                    $b['payment_status'] = 'Received';
+                    $b['approved_at'] = date('Y-m-d H:i:s');
+                }
                 $found = true;
                 break;
             }
