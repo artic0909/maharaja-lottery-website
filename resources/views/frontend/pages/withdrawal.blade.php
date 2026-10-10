@@ -128,67 +128,28 @@
                 @enderror
             </div>
 
-            <!-- Confirm Account Number -->
+            <!-- IFSC Code -->
             <div class="space-y-1.5">
-                <label for="confirm_account_number" class="block text-xs font-bold text-stone-300 uppercase tracking-wider">
-                    Confirm Account Number <span class="text-rose-400">*</span>
+                <label for="ifsc_code" class="block text-xs font-bold text-stone-300 uppercase tracking-wider">
+                    IFSC Code <span class="text-rose-400">*</span>
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                        <i class="fa-solid fa-check-double text-xs"></i>
+                        <i class="fa-solid fa-hashtag text-xs"></i>
                     </div>
                     <input type="text" 
-                        name="confirm_account_number" 
-                        id="confirm_account_number" 
+                        name="ifsc_code" 
+                        id="ifsc_code" 
                         required
-                        placeholder="Re-enter account number"
-                        autocomplete="off"
+                        maxlength="15"
+                        value="{{ old('ifsc_code') }}" 
+                        placeholder="e.g. HDFC0001234 / SBIN0001234"
+                        style="text-transform: uppercase;"
                         class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-stone-500 text-sm font-mono tracking-wider focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
                 </div>
-                <p id="account-match-error" class="text-rose-400 text-xs mt-1 hidden">Account numbers do not match.</p>
-            </div>
-
-            <!-- IFSC Code & Bank Name in Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div class="space-y-1.5">
-                    <label for="ifsc_code" class="block text-xs font-bold text-stone-300 uppercase tracking-wider">
-                        IFSC Code <span class="text-rose-400">*</span>
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                            <i class="fa-solid fa-hashtag text-xs"></i>
-                        </div>
-                        <input type="text" 
-                            name="ifsc_code" 
-                            id="ifsc_code" 
-                            required
-                            maxlength="15"
-                            value="{{ old('ifsc_code') }}" 
-                            placeholder="e.g. HDFC0001234"
-                            style="text-transform: uppercase;"
-                            class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-stone-500 text-sm font-mono tracking-wider focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
-                    </div>
-                    @error('ifsc_code')
-                        <p class="text-rose-400 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label for="bank_name" class="block text-xs font-bold text-stone-300 uppercase tracking-wider">
-                        Bank Name (Optional)
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                            <i class="fa-solid fa-landmark text-xs"></i>
-                        </div>
-                        <input type="text" 
-                            name="bank_name" 
-                            id="bank_name" 
-                            value="{{ old('bank_name') }}" 
-                            placeholder="e.g. SBI, HDFC"
-                            class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-stone-500 text-sm focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
-                    </div>
-                </div>
+                @error('ifsc_code')
+                    <p class="text-rose-400 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Trust Badges -->
@@ -221,21 +182,6 @@
 
 @push('scripts')
 <script>
-    document.getElementById('withdrawal-form').addEventListener('submit', function(e) {
-        const acc = document.getElementById('account_number').value.trim();
-        const conf = document.getElementById('confirm_account_number').value.trim();
-        const errorEl = document.getElementById('account-match-error');
-
-        if (acc !== conf) {
-            e.preventDefault();
-            errorEl.classList.remove('hidden');
-            document.getElementById('confirm_account_number').focus();
-            return false;
-        } else {
-            errorEl.classList.add('hidden');
-        }
-    });
-
     document.getElementById('ifsc_code').addEventListener('input', function(e) {
         this.value = this.value.toUpperCase();
     });
