@@ -274,77 +274,6 @@
                             </div>
                         </div>
 
-                        <!-- TDS 1% Clearance & Withdrawal Instruction Modal -->
-                        <div id="tds-withdrawal-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 transition-all duration-300">
-                            <!-- Background Ambient Glow -->
-                            <div class="absolute w-96 h-96 bg-[#DFB755]/20 rounded-full blur-3xl pointer-events-none"></div>
-
-                            <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-2 border-[#DFB755] rounded-3xl p-5 sm:p-7 max-w-lg w-full text-white shadow-[0_0_60px_rgba(223,183,85,0.35)] overflow-hidden space-y-4 animate-in zoom-in-95 duration-200">
-                                <!-- Close Button -->
-                                <button type="button" onclick="closeTdsWithdrawalModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white flex items-center justify-center text-xs transition z-20 cursor-pointer">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-
-                                <!-- Header Badge -->
-                                <div class="text-center space-y-1.5">
-                                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-[#DFB755]/20 text-[#F3D068] border border-[#DFB755]/40">
-                                        <i class="fa-solid fa-crown text-[11px]"></i>
-                                        <span>TDS Tax Clearance Notice</span>
-                                        <i class="fa-solid fa-shield-halved text-[11px]"></i>
-                                    </div>
-                                    
-                                    <h3 class="text-lg sm:text-2xl font-serif font-black text-white">
-                                        Prize Withdrawal Verification
-                                    </h3>
-                                </div>
-
-                                <!-- 1% TDS Notice Explanation -->
-                                <div class="bg-black/50 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 space-y-3.5">
-                                    <div class="flex items-start gap-3">
-                                        <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-400/40 text-[#F3D068] flex items-center justify-center text-sm shrink-0 mt-0.5">
-                                            <i class="fa-solid fa-file-invoice-dollar"></i>
-                                        </div>
-                                        <div class="text-xs sm:text-sm text-stone-200 leading-relaxed">
-                                            <span class="font-bold text-amber-300 block mb-1 text-sm">You need to pay 1% TDS:</span>
-                                            Before withdrawing your prize money from Maharaja Lottery, as per government tax regulations, you must pay a <strong class="text-[#F3D068]">1% TDS fee</strong> on the total prize amount (<strong class="text-white">{{ $prizeString }}</strong>) to Maharaja Lottery.
-                                        </div>
-                                    </div>
-
-                                    <!-- Dynamic Financial Summary -->
-                                    <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-white/10">
-                                        <div class="bg-white/5 rounded-xl p-3 border border-white/10">
-                                            <span class="block text-[10px] uppercase font-bold text-stone-400 tracking-wider">Total Prize Won</span>
-                                            <span class="text-sm sm:text-base font-mono font-black text-emerald-400 block mt-0.5">{{ $prizeString }}</span>
-                                            <span class="text-[10px] text-stone-400 font-mono">({{ $tdsCalc['winning_formatted'] }})</span>
-                                        </div>
-                                        <div class="bg-amber-500/10 rounded-xl p-3 border border-[#DFB755]/40">
-                                            <span class="block text-[10px] uppercase font-bold text-amber-300 tracking-wider">1% TDS to Pay</span>
-                                            <span class="text-base sm:text-xl font-mono font-black text-[#F3D068] block mt-0.5 drop-shadow-[0_0_8px_rgba(243,208,104,0.5)]">{{ $tdsCalc['tds_formatted'] }}</span>
-                                            <span class="text-[10px] text-amber-200/80 font-mono">1% of Prize</span>
-                                        </div>
-                                    </div>
-
-                                    <p class="text-[11px] text-stone-400 leading-normal italic">
-                                        * Note: As per Directorate rules, 1% TDS ({{ $tdsCalc['tds_formatted'] }}) must be deposited to Maharaja Lottery before releasing {{ $prizeString }} to your bank account.
-                                    </p>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="space-y-2 pt-1">
-                                    <a href="{{ route('withdrawal', ['ref' => $searchResult['booking_ref'] ?? '', 'amount' => $prizeString, 'name' => $searchResult['customer_name'] ?? '', 'phone' => $searchResult['customer_mobile'] ?? '']) }}" 
-                                        class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/60 hover:scale-[1.02] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
-                                        <i class="fa-solid fa-building-columns text-sm text-yellow-300"></i>
-                                        <span>Withdrawal</span>
-                                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                                    </a>
-
-                                    <button type="button" onclick="closeTdsWithdrawalModal()" class="w-full py-2 text-stone-400 hover:text-white text-xs font-semibold transition cursor-pointer">
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Official Winner Certificate Preview Container -->
                         <div class="bg-gradient-to-br from-[#071533] via-[#0B193E] to-[#040A1A] rounded-3xl border-2 border-[#DFB755]/50 p-4 sm:p-8 text-white shadow-2xl space-y-6">
                             
@@ -647,6 +576,82 @@
     </div>
 </section>
 
+@if(isset($searchResult) && ($isWinner ?? false))
+<!-- TDS 1% Clearance & Withdrawal Instruction Modal -->
+<div id="tds-withdrawal-modal" 
+    class="fixed inset-0 z-[99999] hidden items-center justify-center p-3 sm:p-5 transition-all duration-300"
+    style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background-color: rgba(4, 10, 26, 0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 999999; margin: 0; padding: 1rem; overflow-y: auto;">
+    
+    <!-- Ambient Glow Behind Modal Box -->
+    <div class="fixed w-96 h-96 bg-[#DFB755]/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+    <div class="relative bg-gradient-to-b from-[#071533] via-[#0B193E] to-[#040A1A] border-2 border-[#DFB755] rounded-3xl p-5 sm:p-7 max-w-lg w-full text-white shadow-[0_0_80px_rgba(223,183,85,0.4)] overflow-hidden space-y-4 animate-in zoom-in-95 duration-200 my-auto">
+        <!-- Close Button -->
+        <button type="button" onclick="closeTdsWithdrawalModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white flex items-center justify-center text-xs transition z-20 cursor-pointer">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- Header Badge -->
+        <div class="text-center space-y-1.5">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider bg-[#DFB755]/20 text-[#F3D068] border border-[#DFB755]/40">
+                <i class="fa-solid fa-crown text-[11px]"></i>
+                <span>TDS Tax Clearance Notice</span>
+                <i class="fa-solid fa-shield-halved text-[11px]"></i>
+            </div>
+            
+            <h3 class="text-lg sm:text-2xl font-serif font-black text-white">
+                Prize Withdrawal Verification
+            </h3>
+        </div>
+
+        <!-- 1% TDS Notice Explanation in English -->
+        <div class="bg-black/60 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 space-y-3.5">
+            <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-400/40 text-[#F3D068] flex items-center justify-center text-sm shrink-0 mt-0.5">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <div class="text-xs sm:text-sm text-stone-200 leading-relaxed">
+                    <span class="font-bold text-amber-300 block mb-1 text-sm">You need to pay 1% TDS:</span>
+                    Before withdrawing your prize money from Maharaja Lottery, as per government tax regulations, you must pay a <strong class="text-[#F3D068]">1% TDS fee</strong> on the total prize amount (<strong class="text-white">{{ $prizeString }}</strong>) to Maharaja Lottery.
+                </div>
+            </div>
+
+            <!-- Dynamic Financial Summary -->
+            <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-white/10">
+                <div class="bg-white/5 rounded-xl p-3 border border-white/10">
+                    <span class="block text-[10px] uppercase font-bold text-stone-400 tracking-wider">Total Prize Won</span>
+                    <span class="text-sm sm:text-base font-mono font-black text-emerald-400 block mt-0.5">{{ $prizeString }}</span>
+                    <span class="text-[10px] text-stone-400 font-mono">({{ $tdsCalc['winning_formatted'] }})</span>
+                </div>
+                <div class="bg-amber-500/10 rounded-xl p-3 border border-[#DFB755]/40">
+                    <span class="block text-[10px] uppercase font-bold text-amber-300 tracking-wider">1% TDS to Pay</span>
+                    <span class="text-base sm:text-xl font-mono font-black text-[#F3D068] block mt-0.5 drop-shadow-[0_0_8px_rgba(243,208,104,0.5)]">{{ $tdsCalc['tds_formatted'] }}</span>
+                    <span class="text-[10px] text-amber-200/80 font-mono">1% of Prize</span>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-stone-400 leading-normal italic">
+                * Note: As per Directorate rules, 1% TDS ({{ $tdsCalc['tds_formatted'] }}) must be deposited to Maharaja Lottery before releasing {{ $prizeString }} to your bank account.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2 pt-1">
+            <a href="{{ route('withdrawal', ['ref' => $searchResult['booking_ref'] ?? '', 'amount' => $prizeString, 'name' => $searchResult['customer_name'] ?? '', 'phone' => $searchResult['customer_mobile'] ?? '']) }}" 
+                class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/60 hover:scale-[1.02] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
+                <i class="fa-solid fa-building-columns text-sm text-yellow-300"></i>
+                <span>Withdrawal</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+
+            <button type="button" onclick="closeTdsWithdrawalModal()" class="w-full py-2 text-stone-400 hover:text-white text-xs font-semibold transition cursor-pointer">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+@endif
+
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
@@ -883,8 +888,12 @@
     function openTdsWithdrawalModal() {
         const modal = document.getElementById('tds-withdrawal-modal');
         if (modal) {
+            if (modal.parentElement !== document.body) {
+                document.body.appendChild(modal);
+            }
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
             triggerWinnerConfettiBoom();
         }
     }
@@ -894,8 +903,24 @@
         if (modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+            document.body.style.overflow = '';
         }
     }
+
+    // Close on backdrop click
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('tds-withdrawal-modal');
+        if (modal && !modal.classList.contains('hidden') && e.target === modal) {
+            closeTdsWithdrawalModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeTdsWithdrawalModal();
+        }
+    });
 
     // Auto-initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
