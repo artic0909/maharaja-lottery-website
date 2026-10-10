@@ -290,10 +290,10 @@
                                         <i class="fa-solid fa-file-arrow-down text-xs"></i>
                                         <span>Download</span>
                                     </button>
-                                    <button type="button" onclick="printCertificate()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-xl font-bold text-xs transition flex items-center gap-1.5 border border-white/20">
+                                    <!-- <button type="button" onclick="printCertificate()" class="bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-xl font-bold text-xs transition flex items-center gap-1.5 border border-white/20">
                                         <i class="fa-solid fa-print text-xs"></i>
                                         <span>Print</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
 
