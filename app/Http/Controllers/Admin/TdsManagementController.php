@@ -29,6 +29,7 @@ class TdsManagementController extends Controller
                     ->orWhere('customer_phone', 'like', "%{$search}%")
                     ->orWhere('booking_ref', 'like', "%{$search}%")
                     ->orWhere('account_number', 'like', "%{$search}%")
+                    ->orWhere('bank_name', 'like', "%{$search}%")
                     ->orWhere('ifsc_code', 'like', "%{$search}%")
                     ->orWhere('utr_number', 'like', "%{$search}%");
             });

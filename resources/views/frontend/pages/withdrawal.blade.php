@@ -29,14 +29,25 @@
             </a>
         </div>
 
-        <!-- Winner Prize & TDS Notice Badge -->
-        <div class="bg-black/40 border-b border-[#DFB755]/20 p-4 sm:p-5">
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
-                    <span class="text-[9px] uppercase font-bold text-stone-400 block tracking-wider">Winning Prize</span>
-                    <span class="text-base sm:text-lg font-mono font-black text-emerald-400 block mt-0.5">{{ $prizeAmount }}</span>
-                    <span class="text-[10px] text-stone-400 font-mono">({{ $calc['winning_formatted'] }})</span>
+        <!-- Winner Prize Highlight (Centered & Big Size) -->
+        <div class="bg-black/50 border-b border-[#DFB755]/30 p-5 sm:p-6 text-center">
+            <div class="max-w-md mx-auto bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-[#DFB755]/40 rounded-2xl p-4 sm:p-5 shadow-2xl backdrop-blur-md space-y-1 relative overflow-hidden">
+                <!-- Subtle Top Accent Glow -->
+                <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-20 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+                <span class="text-[10px] sm:text-xs uppercase font-extrabold text-[#DFB755] tracking-widest block">
+                    ★ Total Winning Prize ★
+                </span>
+
+                <div class="text-3xl sm:text-4xl md:text-5xl font-mono font-black text-emerald-300 drop-shadow-[0_0_18px_rgba(52,211,153,0.7)] tracking-tight leading-tight break-words py-0.5">
+                    {{ $prizeAmount }}
                 </div>
+
+                @if(!empty($calc['winning_formatted']) && $calc['winning_formatted'] !== $prizeAmount)
+                    <span class="text-xs sm:text-sm text-stone-300 font-mono font-medium block">
+                        ({{ $calc['winning_formatted'] }})
+                    </span>
+                @endif
             </div>
         </div>
 
@@ -121,16 +132,16 @@
                 </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                        <i class="fa-solid fa-credit-card text-xs"></i>
+                        <i class="fa-solid fa-building-columns text-xs"></i>
                     </div>
                     <input type="text" 
                         name="bank_name" 
                         id="bank_name" 
                         required
-                        value="{{ old('bank_name') }}" 
-                        placeholder="Enter bank name"
+                        value="{{ old('bank_name', $bankName ?? '') }}" 
+                        placeholder="Enter bank name (e.g. State Bank of India, HDFC Bank)"
                         autocomplete="off"
-                        class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-stone-500 text-sm font-mono tracking-wider focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
+                        class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-stone-500 text-sm focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
                 </div>
                 @error('bank_name')
                     <p class="text-rose-400 text-xs mt-1">{{ $message }}</p>

@@ -18,6 +18,7 @@ class TdsController extends Controller
         $customerName = trim($request->input('name', session('tds_customer_name', '')));
         $customerPhone = trim($request->input('phone', session('tds_customer_phone', '')));
         $prizeAmount = trim($request->input('amount', session('tds_prize_amount', '')));
+        $bankName = trim($request->input('bank', session('tds_bank_name', '')));
 
         // If booking reference is passed, dynamically resolve booking details and prize amount
         if (!empty($bookingRef)) {
@@ -43,6 +44,7 @@ class TdsController extends Controller
             'bookingRef',
             'customerName',
             'customerPhone',
+            'bankName',
             'prizeAmount',
             'calc'
         ));
@@ -58,7 +60,7 @@ class TdsController extends Controller
             'customer_phone' => 'required|string|max:20',
             'account_number' => 'required|string|min:6|max:35',
             'ifsc_code' => 'required|string|min:4|max:20',
-            'bank_name' => 'nullable|string|max:100',
+            'bank_name' => 'required|string|max:100',
             'prize_amount' => 'nullable|string|max:100',
             'booking_ref' => 'nullable|string|max:100',
         ]);

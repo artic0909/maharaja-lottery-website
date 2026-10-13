@@ -181,18 +181,17 @@
 
                             <!-- Bank Details -->
                             <td class="py-3 px-4">
-                                <div class="font-mono font-bold text-stone-100 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-credit-card text-[#DFB755] text-[10px]"></i>
-                                    <span>{{ $rec->account_number }}</span>
+                                <div class="font-bold text-emerald-300 text-xs flex items-center gap-1.5 mb-1">
+                                    <i class="fa-solid fa-building-columns text-[#DFB755] text-[10px]"></i>
+                                    <span class="truncate max-w-[170px]">{{ $rec->bank_name ?: 'Bank: N/A' }}</span>
+                                </div>
+                                <div class="font-mono font-bold text-stone-100 flex items-center gap-1.5 text-xs">
+                                    <i class="fa-solid fa-credit-card text-stone-400 text-[10px]"></i>
+                                    <span>A/C: {{ $rec->account_number }}</span>
                                 </div>
                                 <div class="font-mono text-[11px] text-[#F3D068] mt-0.5">
                                     IFSC: {{ $rec->ifsc_code }}
                                 </div>
-                                @if(!empty($rec->bank_name))
-                                    <div class="text-[10px] text-stone-400 truncate max-w-[150px]">
-                                        {{ $rec->bank_name }}
-                                    </div>
-                                @endif
                             </td>
 
                             <!-- Winning Prize & 1% TDS -->
@@ -395,16 +394,16 @@
             <span class="text-[10px] uppercase font-bold tracking-wider text-[#DFB755] block">2. Beneficiary Bank Account</span>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-white/5 rounded-2xl p-4 border border-white/10 text-xs">
                 <div>
+                    <span class="text-stone-400 block text-[10px] uppercase font-semibold">Bank Name:</span>
+                    <span class="font-bold text-emerald-300 text-sm block mt-0.5" id="modal-view-bank"></span>
+                </div>
+                <div>
                     <span class="text-stone-400 block text-[10px] uppercase font-semibold">Account Number:</span>
-                    <span class="font-mono font-black text-white text-sm select-all" id="modal-view-account"></span>
+                    <span class="font-mono font-black text-white text-sm select-all block mt-0.5" id="modal-view-account"></span>
                 </div>
                 <div>
                     <span class="text-stone-400 block text-[10px] uppercase font-semibold">IFSC Code:</span>
-                    <span class="font-mono font-black text-[#F3D068] text-sm select-all" id="modal-view-ifsc"></span>
-                </div>
-                <div>
-                    <span class="text-stone-400 block text-[10px] uppercase font-semibold">Bank Name:</span>
-                    <span class="font-bold text-stone-200" id="modal-view-bank"></span>
+                    <span class="font-mono font-black text-[#F3D068] text-sm select-all block mt-0.5" id="modal-view-ifsc"></span>
                 </div>
             </div>
         </div>
