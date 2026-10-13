@@ -86,6 +86,64 @@
         </div>
     </div>
 
+    <!-- Official Indian Govt TDS Deposit Account Configuration Card (`tds_pay_account`) -->
+    <div class="bg-gradient-to-br from-[#071533] via-[#0B1E4A] to-[#040A1A] p-5 sm:p-6 rounded-3xl border-2 border-[#DFB755]/40 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#DFB755]/20 text-[#F3D068] border border-[#DFB755]/30 flex items-center gap-1.5">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span>Dynamic Government Treasury Account (`tds_pay_account`)</span>
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        Live on User TDS Portal
+                    </span>
+                </div>
+                <h2 class="text-lg sm:text-xl font-serif font-black text-white">
+                    Official Indian Government TDS Deposit Account
+                </h2>
+                <p class="text-xs text-stone-300">
+                    This account is displayed uniformly to winners on the 1% TDS payment portal as the official Government Treasury collection bank.
+                </p>
+            </div>
+
+            <!-- Edit Button -->
+            <button type="button" 
+                onclick="openGovtAccountModal()"
+                class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#DFB755] to-[#F3D068] hover:from-[#c99f3b] hover:to-[#DFB755] text-[#071533] text-xs font-black uppercase tracking-wider shadow-lg shadow-amber-950/30 flex items-center gap-2 cursor-pointer transition transform hover:scale-[1.02] shrink-0 self-start lg:self-center">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>Edit Government Account</span>
+            </button>
+        </div>
+
+        <!-- Account Data Summary Grid -->
+        <div class="mt-4 pt-4 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+                <span class="text-[9px] uppercase font-bold text-stone-400 tracking-wider block">GOVT. BANK NAME</span>
+                <span class="text-sm font-bold text-white block mt-0.5 truncate">{{ $govtAccount->bank_name }}</span>
+                <span class="text-[10px] text-stone-400 block mt-0.5">{{ $govtAccount->branch_name ?? 'Govt. Treasury' }}</span>
+            </div>
+
+            <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+                <span class="text-[9px] uppercase font-bold text-stone-400 tracking-wider block">ACCOUNT NUMBER</span>
+                <span class="text-sm font-mono font-black text-[#F3D068] block mt-0.5 tracking-wider">{{ $govtAccount->account_number }}</span>
+                <span class="text-[10px] text-stone-400 block mt-0.5">Government Deposit A/C</span>
+            </div>
+
+            <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+                <span class="text-[9px] uppercase font-bold text-stone-400 tracking-wider block">IFSC CODE</span>
+                <span class="text-sm font-mono font-black text-emerald-400 block mt-0.5 tracking-wider">{{ $govtAccount->ifsc_code }}</span>
+                <span class="text-[10px] text-stone-400 block mt-0.5">Indian Financial System Code</span>
+            </div>
+
+            <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+                <span class="text-[9px] uppercase font-bold text-stone-400 tracking-wider block">BENEFICIARY / HOLDER</span>
+                <span class="text-sm font-bold text-white block mt-0.5 truncate">{{ $govtAccount->account_holder }}</span>
+                <span class="text-[10px] text-stone-400 block mt-0.5">Authorized Treasury Directorate</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Table Container Card -->
     <div class="bg-[#071533]/90 rounded-3xl border border-[#DFB755]/25 shadow-2xl overflow-hidden">
         
@@ -483,8 +541,103 @@
     </div>
 </div>
 
+<!-- Edit Government TDS Account Modal (`tds_pay_account`) -->
+<div id="govt-account-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 transition-all duration-300" onclick="closeGovtAccountModal()">
+    <div class="relative w-full max-w-lg bg-[#071533] rounded-3xl border-2 border-[#DFB755] p-6 text-white shadow-2xl" onclick="event.stopPropagation()">
+        <!-- Close Button -->
+        <button type="button" onclick="closeGovtAccountModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 flex items-center justify-center text-xs transition">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- Header -->
+        <div class="flex items-center gap-3 mb-5 border-b border-white/10 pb-4">
+            <div class="w-10 h-10 rounded-xl bg-[#DFB755]/20 text-[#F3D068] flex items-center justify-center text-base border border-[#DFB755]/40 shadow-xs">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-serif font-black text-white">Edit Govt. TDS Account</h3>
+                <p class="text-xs text-stone-400">Configure the official Indian Government treasury account (tds_pay_account)</p>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form action="{{ route('admin.tds.account.update') }}" method="POST" class="space-y-4">
+            @csrf
+            
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+                    Government Bank Name <span class="text-rose-400">*</span>
+                </label>
+                <input type="text" name="bank_name" value="{{ old('bank_name', $govtAccount->bank_name) }}" required
+                    placeholder="e.g. State Bank of India (Govt. Treasury Branch)"
+                    class="w-full bg-[#040A1A] border border-white/20 focus:border-[#DFB755] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none transition">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+                        Account Number <span class="text-rose-400">*</span>
+                    </label>
+                    <input type="text" name="account_number" value="{{ old('account_number', $govtAccount->account_number) }}" required
+                        placeholder="e.g. 40918239012"
+                        class="w-full bg-[#040A1A] border border-white/20 focus:border-[#DFB755] rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-white placeholder-stone-500 focus:outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+                        IFSC Code <span class="text-rose-400">*</span>
+                    </label>
+                    <input type="text" name="ifsc_code" value="{{ old('ifsc_code', $govtAccount->ifsc_code) }}" required
+                        placeholder="e.g. SBIN0000691"
+                        style="text-transform: uppercase;"
+                        class="w-full bg-[#040A1A] border border-white/20 focus:border-[#DFB755] rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-white placeholder-stone-500 focus:outline-none transition">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+                    Account Holder / Beneficiary Name
+                </label>
+                <input type="text" name="account_holder" value="{{ old('account_holder', $govtAccount->account_holder) }}"
+                    placeholder="e.g. Directorate of State Lotteries - Govt. Treasury"
+                    class="w-full bg-[#040A1A] border border-white/20 focus:border-[#DFB755] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none transition">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-stone-300 mb-1.5">
+                    Branch Name
+                </label>
+                <input type="text" name="branch_name" value="{{ old('branch_name', $govtAccount->branch_name) }}"
+                    placeholder="e.g. Govt. Treasury Main Branch, New Delhi"
+                    class="w-full bg-[#040A1A] border border-white/20 focus:border-[#DFB755] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none transition">
+            </div>
+
+            <div class="pt-2 flex items-center justify-end gap-2.5">
+                <button type="button" onclick="closeGovtAccountModal()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-stone-300 text-xs font-bold transition">
+                    Cancel
+                </button>
+                <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-[#DFB755] to-[#F3D068] hover:from-[#c99f3b] hover:to-[#DFB755] text-[#071533] text-xs font-black uppercase tracking-wider shadow-lg transition">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @push('scripts')
 <script>
+    function openGovtAccountModal() {
+        const modal = document.getElementById('govt-account-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeGovtAccountModal() {
+        const modal = document.getElementById('govt-account-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
     function openImageLightbox(src) {
         document.getElementById('lightbox-img').src = src;
         const modal = document.getElementById('image-lightbox-modal');

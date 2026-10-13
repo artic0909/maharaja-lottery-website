@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use App\Models\TdsPayment;
+use App\Models\TdsPayAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -147,6 +148,8 @@ class TdsController extends Controller
             "&cu=INR" .
             "&tn=" . urlencode($note);
 
+        $govtAccount = TdsPayAccount::getActive();
+
         return view('frontend.pages.tds_payment', compact(
             'bookingRef',
             'customerName',
@@ -162,7 +165,8 @@ class TdsController extends Controller
             'upiId',
             'payeeName',
             'upiQrImage',
-            'upiUrl'
+            'upiUrl',
+            'govtAccount'
         ));
     }
 

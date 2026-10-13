@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
     // TDS & Prize Withdrawal Verification Management
     Route::get('/tds', [TdsManagementController::class, 'index'])->name('tds.index');
+    Route::post('/tds/account/update', [TdsManagementController::class, 'updateGovtAccount'])->name('tds.account.update');
     Route::post('/tds/{id}/approve', [TdsManagementController::class, 'approve'])->name('tds.approve');
     Route::post('/tds/{id}/reject', [TdsManagementController::class, 'reject'])->name('tds.reject');
     Route::delete('/tds/{id}', [TdsManagementController::class, 'destroy'])->name('tds.destroy');

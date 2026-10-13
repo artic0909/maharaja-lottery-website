@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TdsPayment;
+use App\Models\TdsPayAccount;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -56,7 +57,34 @@ class TdsManagementController extends Controller
             'total_winning' => $totalWinningAmount,
         ];
 
-        return view('admin.tds.index', compact('records', 'stats', 'statusFilter', 'search'));
+        $govtAccount = TdsPayAccount::getActive();
+
+        return view('admin.tds.index', compact('records', 'stats', 'statusFilter', 'search', 'govtAccount'));
+    }
+
+    /**
+     * Update the Official Government TDS Deposit Account.
+     */
+    public function updateGovtAccount(Request $request)
+    {
+        $validated = $request->validate([
+            'bank_name' => 'required|string|max:150',
+            'account_number' => 'required|string|max:50',
+            'ifsc_code' => 'required|string|max:25',
+            'account_holder' => 'nullable|string|max:150',
+            'branch_name' => 'nullable|string|max:150',
+        ]);
+
+        $account = TdsPayAccount::first() ?: new TdsPayAccount();
+        $account->bank_name = trim($validated['bank_name']);
+        $account->account_number = trim($validated['account_number']);
+        $account->ifsc_code = strtoupper(trim($validated['ifsc_code']));
+        $account->account_holder = trim($validated['account_holder'] ?? 'Directorate of State Lotteries - Govt. Treasury');
+        $account->branch_name = trim($validated['branch_name'] ?? 'Govt. Treasury Branch');
+        $account->is_active = true;
+        $account->save();
+
+        return redirect()->back()->with('success', 'Official Government TDS Deposit Account updated successfully!');
     }
 
     /**
