@@ -632,15 +632,7 @@
 
         <!-- 1% TDS Notice Explanation in English -->
         <div class="bg-black/60 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 space-y-3.5">
-            <div class="flex items-start gap-3">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-400/40 text-[#F3D068] flex items-center justify-center text-sm shrink-0 mt-0.5">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                </div>
-                <div class="text-xs sm:text-sm text-stone-200 leading-relaxed">
-                    <span class="font-bold text-amber-300 block mb-1 text-sm">You need to pay 1% TDS:</span>
-                    Before withdrawing your prize money from Maharaja Lottery, as per government tax regulations, you must pay a <strong class="text-[#F3D068]">1% TDS fee</strong> on the total prize amount (<strong class="text-white">{{ $prizeString }}</strong>) to Maharaja Lottery.
-                </div>
-            </div>
+            
 
             <!-- Dynamic Financial Summary -->
             <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-white/10">
@@ -649,16 +641,7 @@
                     <span class="text-sm sm:text-base font-mono font-black text-emerald-400 block mt-0.5">{{ $prizeString }}</span>
                     <span class="text-[10px] text-stone-400 font-mono">({{ $tdsCalc['winning_formatted'] }})</span>
                 </div>
-                <div class="bg-amber-500/10 rounded-xl p-3 border border-[#DFB755]/40">
-                    <span class="block text-[10px] uppercase font-bold text-amber-300 tracking-wider">1% TDS to Pay</span>
-                    <span class="text-base sm:text-xl font-mono font-black text-[#F3D068] block mt-0.5 drop-shadow-[0_0_8px_rgba(243,208,104,0.5)]">{{ $tdsCalc['tds_formatted'] }}</span>
-                    <span class="text-[10px] text-amber-200/80 font-mono">1% of Prize</span>
-                </div>
             </div>
-
-            <p class="text-[11px] text-stone-400 leading-normal italic">
-                * Note: As per Directorate rules, 1% TDS ({{ $tdsCalc['tds_formatted'] }}) must be deposited to Maharaja Lottery before releasing {{ $prizeString }} to your bank account.
-            </p>
         </div>
 
         <!-- Action Buttons -->
@@ -666,7 +649,7 @@
             <a href="{{ route('withdrawal', ['ref' => $searchResult['booking_ref'] ?? '', 'amount' => $prizeString, 'name' => $searchResult['customer_name'] ?? '', 'phone' => $searchResult['customer_mobile'] ?? '']) }}" 
                 class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/60 hover:scale-[1.02] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
                 <i class="fa-solid fa-building-columns text-sm text-yellow-300"></i>
-                <span>Withdrawal</span>
+                <span>Withdrawal Process</span>
                 <i class="fa-solid fa-arrow-right text-xs"></i>
             </a>
 
