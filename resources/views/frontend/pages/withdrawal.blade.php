@@ -37,20 +37,6 @@
                     <span class="text-base sm:text-lg font-mono font-black text-emerald-400 block mt-0.5">{{ $prizeAmount }}</span>
                     <span class="text-[10px] text-stone-400 font-mono">({{ $calc['winning_formatted'] }})</span>
                 </div>
-
-                <div class="bg-amber-500/10 rounded-2xl p-3 border border-[#DFB755]/40">
-                    <span class="text-[9px] uppercase font-bold text-amber-300 block tracking-wider">Required 1% TDS</span>
-                    <span class="text-base sm:text-lg font-mono font-black text-[#F3D068] block mt-0.5">{{ $calc['tds_formatted'] }}</span>
-                    <span class="text-[10px] text-amber-200/80 font-mono">1% of Prize Amount</span>
-                </div>
-            </div>
-
-            <!-- Directive Note -->
-            <div class="flex items-start gap-2.5 bg-amber-500/10 border border-[#DFB755]/30 rounded-xl p-2.5 text-xs text-stone-200">
-                <i class="fa-solid fa-circle-info text-[#F3D068] text-sm mt-0.5 shrink-0"></i>
-                <div class="leading-relaxed">
-                    <strong class="text-white">Provide Bank Details:</strong> After confirming your bank account details, proceed to the next step to pay the 1% TDS ({{ $calc['tds_formatted'] }}) and submit the payment receipt.
-                </div>
             </div>
         </div>
 
@@ -128,6 +114,29 @@
                 @enderror
             </div>
 
+            <!-- Bank Name -->
+            <div class="space-y-1.5">
+                <label for="bank_name" class="block text-xs font-bold text-stone-300 uppercase tracking-wider">
+                    Bank Name <span class="text-rose-400">*</span>
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                        <i class="fa-solid fa-credit-card text-xs"></i>
+                    </div>
+                    <input type="text" 
+                        name="bank_name" 
+                        id="bank_name" 
+                        required
+                        value="{{ old('bank_name') }}" 
+                        placeholder="Enter bank name"
+                        autocomplete="off"
+                        class="w-full pl-10 pr-4 py-2.5 bg-white/5 border border-white/20 rounded-xl text-white placeholder-stone-500 text-sm font-mono tracking-wider focus:outline-none focus:border-[#DFB755] focus:ring-1 focus:ring-[#DFB755] transition">
+                </div>
+                @error('bank_name')
+                    <p class="text-rose-400 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- IFSC Code -->
             <div class="space-y-1.5">
                 <label for="ifsc_code" class="block text-xs font-bold text-stone-300 uppercase tracking-wider">
@@ -152,26 +161,13 @@
                 @enderror
             </div>
 
-            <!-- Trust Badges -->
-            <div class="pt-2 flex items-center justify-between text-[11px] text-stone-400 border-t border-white/10">
-                <span class="flex items-center gap-1.5">
-                    <i class="fa-solid fa-lock text-emerald-400"></i>
-                    256-Bit SSL Encrypted
-                </span>
-                <span class="flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-halved text-[#DFB755]"></i>
-                    RBI IMPS/NEFT Verified
-                </span>
-            </div>
-
             <!-- Submit Button -->
             <div class="pt-2">
                 <button type="submit" 
                     id="submit-withdrawal-btn"
                     class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-emerald-950/60 hover:scale-[1.02] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
                     <i class="fa-solid fa-arrow-right-to-bracket text-sm text-yellow-300"></i>
-                    <span>Proceed to 1% TDS Payment</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                    <span>Withdrawal Process</span>
                 </button>
             </div>
 
