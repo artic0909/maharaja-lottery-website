@@ -539,23 +539,23 @@
             const tickets = {!! json_encode(array_values($selectedTickets)) !!};
             ctx.fillStyle = '#071533';
             
-            let dateTopY = 285;
+            let liveTopY = 300;
             
             if (tickets.length === 1) {
                 ctx.font = '900 26px monospace';
                 ctx.fillText(tickets[0], rightCenterX, 222);
-                dateTopY = 270;
+                liveTopY = 300;
             } else if (tickets.length === 2) {
                 ctx.font = '900 21px monospace';
                 ctx.fillText(tickets[0], rightCenterX, 216);
                 ctx.fillText(tickets[1], rightCenterX, 240);
-                dateTopY = 282;
+                liveTopY = 312;
             } else if (tickets.length === 3) {
                 ctx.font = '900 18px monospace';
                 ctx.fillText(tickets[0], rightCenterX, 212);
                 ctx.fillText(tickets[1], rightCenterX, 234);
                 ctx.fillText(tickets[2], rightCenterX, 256);
-                dateTopY = 292;
+                liveTopY = 325;
             } else if (tickets.length <= 5) {
                 ctx.font = '900 15px monospace';
                 let tY = 210;
@@ -563,7 +563,7 @@
                     ctx.fillText(ticket, rightCenterX, tY);
                     tY += 17;
                 });
-                dateTopY = Math.max(298, tY + 6);
+                liveTopY = Math.max(330, tY + 28);
             } else {
                 // > 5 tickets: 2 columns
                 ctx.font = '900 13px monospace';
@@ -578,39 +578,21 @@
                     ctx.fillText(tickets[i], rightCenterX + 55, tY2);
                     tY2 += 15;
                 }
-                dateTopY = Math.max(290, Math.max(tY1, tY2) + 6);
+                liveTopY = Math.max(320, Math.max(tY1, tY2) + 26);
             }
 
-            // 4. DATE Box (Highlighted Pill)
-            ctx.fillStyle = '#4B5563';
-            ctx.font = '800 11px sans-serif';
-            ctx.fillText('DATE', rightCenterX, dateTopY);
-
-            ctx.fillStyle = '#FFF5F6';
-            ctx.beginPath();
-            ctx.roundRect(710, dateTopY + 6, 240, 36, 10);
-            ctx.fill();
-            ctx.lineWidth = 2.5;
-            ctx.strokeStyle = '#BE123C';
-            ctx.stroke();
-
-            ctx.fillStyle = '#BE123C';
-            ctx.font = '900 18px monospace';
-            ctx.fillText('{{ date("d/M/Y") }}', rightCenterX, dateTopY + 30);
-
-            // 5. TODAY LIVE (Green Bold Badge - High-Contrast)
-            const liveTopY = dateTopY + 52;
+            // 4. TODAY LIVE (Green Bold Badge - High-Contrast)
             ctx.fillStyle = '#ECFDF5';
             ctx.beginPath();
-            ctx.roundRect(710, liveTopY, 240, 52, 12);
+            ctx.roundRect(705, liveTopY, 250, 56, 14);
             ctx.fill();
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 3.5;
             ctx.strokeStyle = '#059669';
             ctx.stroke();
 
             ctx.fillStyle = '#047857';
-            ctx.font = '900 23px sans-serif';
-            ctx.fillText('★ TODAY LIVE ★', rightCenterX, liveTopY + 34);
+            ctx.font = '900 29px sans-serif';
+            ctx.fillText('★ TODAY LIVE ★', rightCenterX, liveTopY + 39);
 
             // Update live preview image with rendered canvas
             const imgData = canvas.toDataURL('image/png');
