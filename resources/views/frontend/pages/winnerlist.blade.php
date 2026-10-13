@@ -197,21 +197,33 @@
                                 </h3>
                             </div>
 
-                            <!-- Refined Winner Announcement Note -->
-                            <div class="relative z-10 bg-black/40 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 text-left space-y-3">
-                                <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                                    <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">Winning Position</span>
-                                    <span class="text-sm font-black text-[#F3D068] font-serif">{{ $searchResult['result_status'] ?? '3rd Prize' }}</span>
+                            <!-- Refined Winner Announcement Note (Centered & Big Size) -->
+                            <div class="relative z-10 bg-black/50 border border-[#DFB755]/40 rounded-2xl p-4 sm:p-6 text-center space-y-3 sm:space-y-4 backdrop-blur-md shadow-2xl">
+                                
+                                <!-- Winning Position -->
+                                <div class="space-y-1">
+                                    <span class="text-[10px] sm:text-xs uppercase tracking-widest font-extrabold text-stone-400 block">
+                                        Winning Position
+                                    </span>
+                                    <div class="text-xl sm:text-2xl md:text-3xl font-serif font-black text-[#F3D068] tracking-wide flex items-center justify-center gap-2 drop-shadow-md">
+                                        <i class="fa-solid fa-award text-amber-400 text-base sm:text-2xl shrink-0"></i>
+                                        <span>{{ $searchResult['result_status'] ?? '3rd Prize' }}</span>
+                                    </div>
                                 </div>
 
-                                <div class="flex items-center justify-between pb-2 border-b border-white/10">
-                                    <span class="text-[11px] uppercase tracking-wider font-bold text-stone-400">Winning Prize Amount</span>
-                                    <span class="text-base sm:text-lg font-mono font-black text-emerald-300 drop-shadow-[0_0_8px_rgba(52,211,153,0.6)]">{{ $prizeString }}</span>
+                                <!-- Elegant Gold Gradient Divider -->
+                                <div class="h-px w-3/4 max-w-xs mx-auto bg-gradient-to-r from-transparent via-[#DFB755]/50 to-transparent"></div>
+
+                                <!-- Winning Prize Amount -->
+                                <div class="space-y-1">
+                                    <span class="text-[10px] sm:text-xs uppercase tracking-widest font-extrabold text-stone-400 block">
+                                        Winning Prize Amount
+                                    </span>
+                                    <div class="text-2xl sm:text-4xl md:text-5xl font-mono font-black text-emerald-300 drop-shadow-[0_0_18px_rgba(52,211,153,0.7)] tracking-tight leading-tight break-words">
+                                        {{ $prizeString }}
+                                    </div>
                                 </div>
 
-                                <p class="text-xs text-stone-300 leading-relaxed font-normal pt-1">
-                                    You have won <strong class="text-[#F3D068] font-bold">{{ $prizeString }} ({{ $searchResult['result_status'] ?? '3rd Prize' }})</strong> in <strong>Maharaja Lottery</strong>. As per directorate claim regulations, a <strong class="text-amber-300 font-bold">1% TDS fee ({{ $tdsCalc['tds_formatted'] }})</strong> is required to be cleared with Maharaja Lottery before the prize balance is disbursed to your account.
-                                </p>
                             </div>
 
                             <!-- Progress Bar & Auto-close Timer -->
