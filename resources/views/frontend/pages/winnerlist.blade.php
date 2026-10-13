@@ -630,32 +630,63 @@
             </h3>
         </div>
 
-        <!-- 1% TDS Notice Explanation in English -->
-        <div class="bg-black/60 border border-[#DFB755]/30 rounded-2xl p-4 sm:p-5 space-y-3.5">
-            
+        <!-- Winner Verification Details -->
+        <div class="bg-black/60 border border-[#DFB755]/30 rounded-2xl p-3.5 sm:p-5 space-y-3">
+            <div class="grid grid-cols-2 gap-2 sm:gap-2.5">
+                <!-- Name -->
+                <div class="bg-white/5 rounded-xl p-2.5 sm:p-3 border border-white/10 text-left">
+                    <span class="block text-[10px] uppercase font-bold text-stone-400 tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-user text-[#DFB755] text-[10px]"></i>
+                        <span>Name</span>
+                    </span>
+                    <span class="text-xs sm:text-base font-serif font-black text-[#F3D068] block mt-1 truncate" title="{{ $searchResult['customer_name'] ?? 'Winner' }}">
+                        {{ $searchResult['customer_name'] ?? 'Winner' }}
+                    </span>
+                </div>
 
-            <!-- Dynamic Financial Summary -->
-            <div class="grid grid-cols-2 gap-2.5 pt-2 border-t border-white/10">
-                <div class="bg-white/5 rounded-xl p-3 border border-white/10">
-                    <span class="block text-[10px] uppercase font-bold text-stone-400 tracking-wider">Total Prize Won</span>
-                    <span class="text-sm sm:text-base font-mono font-black text-emerald-400 block mt-0.5">{{ $prizeString }}</span>
-                    <span class="text-[10px] text-stone-400 font-mono">({{ $tdsCalc['winning_formatted'] }})</span>
+                <!-- Phone Number -->
+                <div class="bg-white/5 rounded-xl p-2.5 sm:p-3 border border-white/10 text-left">
+                    <span class="block text-[10px] uppercase font-bold text-stone-400 tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-phone text-[#DFB755] text-[10px]"></i>
+                        <span>Phone Number</span>
+                    </span>
+                    <span class="text-xs sm:text-base font-mono font-bold text-stone-200 block mt-1 truncate" title="{{ $searchResult['customer_mobile'] ?? 'N/A' }}">
+                        {{ $searchResult['customer_mobile'] ?? 'N/A' }}
+                    </span>
+                </div>
+
+                <!-- Ticket Number -->
+                <div class="bg-white/5 rounded-xl p-2.5 sm:p-3 border border-white/10 text-left">
+                    <span class="block text-[10px] uppercase font-bold text-stone-400 tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-ticket text-[#DFB755] text-[10px]"></i>
+                        <span>Ticket Number</span>
+                    </span>
+                    <span class="text-xs sm:text-base font-mono font-black text-[#F5D77F] block mt-1 truncate" title="{{ !empty($ticketListStr) ? $ticketListStr : ($primaryTicket ?? 'N/A') }}">
+                        {{ !empty($ticketListStr) ? $ticketListStr : ($primaryTicket ?? 'N/A') }}
+                    </span>
+                </div>
+
+                <!-- Prize Amount -->
+                <div class="bg-emerald-500/10 rounded-xl p-2.5 sm:p-3 border border-emerald-500/30 text-left">
+                    <span class="block text-[10px] uppercase font-bold text-emerald-400 tracking-wider flex items-center gap-1">
+                        <i class="fa-solid fa-trophy text-emerald-400 text-[10px]"></i>
+                        <span>Prize Amount</span>
+                    </span>
+                    <span class="text-xs sm:text-base font-mono font-black text-emerald-300 block mt-1 drop-shadow-[0_0_8px_rgba(52,211,153,0.6)] truncate" title="{{ $prizeString }}">
+                        {{ $prizeString }}
+                    </span>
                 </div>
             </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="space-y-2 pt-1">
+        <div class="pt-1">
             <a href="{{ route('withdrawal', ['ref' => $searchResult['booking_ref'] ?? '', 'amount' => $prizeString, 'name' => $searchResult['customer_name'] ?? '', 'phone' => $searchResult['customer_mobile'] ?? '']) }}" 
                 class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#16A34A] via-[#22C55E] to-[#15803D] hover:from-[#15803D] hover:to-[#16A34A] text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-950/60 hover:scale-[1.02] transform transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-300/40">
                 <i class="fa-solid fa-building-columns text-sm text-yellow-300"></i>
-                <span>Withdrawal Process</span>
+                <span>Withdrawal</span>
                 <i class="fa-solid fa-arrow-right text-xs"></i>
             </a>
-
-            <button type="button" onclick="closeTdsWithdrawalModal()" class="w-full py-2 text-stone-400 hover:text-white text-xs font-semibold transition cursor-pointer">
-                Cancel
-            </button>
         </div>
     </div>
 </div>
