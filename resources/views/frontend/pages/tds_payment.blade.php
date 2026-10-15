@@ -71,7 +71,7 @@
                         </span>
                     </div>
                     <p class="text-xs sm:text-sm text-stone-800 font-medium leading-relaxed">
-                        Under Directorate regulations and Income Tax statutory guidelines, you must first deposit the mandatory <strong class="text-amber-900 font-black">1% TDS ({{ $tdsFormatted }})</strong> into the official Government Treasury account. Once your 1% TDS payment is verified, your full winning prize amount of <strong class="text-emerald-800 font-black">{{ $prizeAmount }} ({{ $winningFormatted }})</strong> will be immediately released and transferred directly into your registered bank account.
+                        Under Directorate regulations and Income Tax statutory guidelines, you must first deposit the mandatory <strong class="text-amber-900 font-black">1% TDS ({{ $tdsFormatted }})</strong> into the official Government Treasury account. Once your 1% TDS payment is verified, your full winning prize amount of <strong class="text-emerald-800 font-black">{{ $prizeAmount }}</strong> will be immediately released and transferred directly into your registered bank account.
                     </p>
                 </div>
             </div>
