@@ -42,12 +42,6 @@
                 <div class="text-3xl sm:text-4xl md:text-5xl font-mono font-black text-emerald-300 drop-shadow-[0_0_18px_rgba(52,211,153,0.7)] tracking-tight leading-tight break-words py-0.5">
                     {{ $prizeAmount }}
                 </div>
-
-                @if(!empty($calc['winning_formatted']) && $calc['winning_formatted'] !== $prizeAmount)
-                    <span class="text-xs sm:text-sm text-stone-300 font-mono font-medium block">
-                        ({{ $calc['winning_formatted'] }})
-                    </span>
-                @endif
             </div>
         </div>
 
