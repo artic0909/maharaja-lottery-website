@@ -40,10 +40,6 @@
             <div class="text-3xl sm:text-4xl font-mono font-black text-[#0B193E] tracking-tight drop-shadow-xs">
                 {{ $tdsFormatted }}
             </div>
-            <div class="inline-flex items-center gap-2 mt-1.5 px-3 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
-                <i class="fa-solid fa-trophy text-amber-500 text-[10px]"></i>
-                <span>Winning Prize: {{ $prizeAmount }} ({{ $winningFormatted }})</span>
-            </div>
         </div>
 
         <!-- Clean 1-Line Beneficiary Summary Bar -->
